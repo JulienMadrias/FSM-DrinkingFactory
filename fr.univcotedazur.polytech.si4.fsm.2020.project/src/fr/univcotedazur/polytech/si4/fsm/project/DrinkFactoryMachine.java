@@ -237,7 +237,7 @@ public class DrinkFactoryMachine extends JFrame {
 
 		BufferedImage myPicture = null;
 		try {
-			myPicture = ImageIO.read(new File("./picts/vide2.jpg"));
+			myPicture = ImageIO.read(new File("./fr.univcotedazur.polytech.si4.fsm.2020.project/picts/vide2.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -261,7 +261,7 @@ public class DrinkFactoryMachine extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				BufferedImage myPicture = null;
 				try {
-					myPicture = ImageIO.read(new File("./picts/ownCup.jpg"));
+					myPicture = ImageIO.read(new File("./fr.univcotedazur.polytech.si4.fsm.2020.project/picts/ownCup.jpg"));
 				} catch (IOException ee) {
 					ee.printStackTrace();
 				}
