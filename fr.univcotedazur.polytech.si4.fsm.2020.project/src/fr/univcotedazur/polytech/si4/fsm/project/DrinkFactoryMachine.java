@@ -37,11 +37,33 @@ public class DrinkFactoryMachine extends JFrame {
 	private static final long serialVersionUID = 2030629304432075314L;
 	private JPanel contentPane;
 	protected DrinkingFactoryStatemachine theFSM;
+	private boolean cbDataRegistered = false;
+	private int cashValue = 0;
+	private int coin = 0;
+	
 	/**
 	 * @wbp.nonvisual location=311,475
 	 */
 	private final ImageIcon imageIcon = new ImageIcon();
 
+	protected void cancelOrder() {}
+	
+	protected void startSystem() {}
+	
+	protected void payInCB() {
+		cbDataRegistered = true;
+	}
+	
+	protected void addCash() {
+		cashValue += coin;
+		coin = 0;
+	}
+	
+	protected void hotDrinkSelected() {}
+	
+	
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -218,16 +240,37 @@ public class DrinkFactoryMachine extends JFrame {
 		JButton money50centsButton = new JButton("0.50 €");
 		money50centsButton.setForeground(Color.WHITE);
 		money50centsButton.setBackground(Color.DARK_GRAY);
+		money50centsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				theFSM.raiseAddCash();
+				coin = 50;
+			}
+		});
 		panel.add(money50centsButton);
 
 		JButton money25centsButton = new JButton("0.25 €");
 		money25centsButton.setForeground(Color.WHITE);
 		money25centsButton.setBackground(Color.DARK_GRAY);
+		money25centsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				theFSM.raiseAddCash();
+				coin = 25;
+			}
+		});
 		panel.add(money25centsButton);
 
 		JButton money10centsButton = new JButton("0.10 €");
 		money10centsButton.setForeground(Color.WHITE);
 		money10centsButton.setBackground(Color.DARK_GRAY);
+		money10centsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				theFSM.raiseAddCash();
+				coin = 10;
+			}
+		});
 		panel.add(money10centsButton);
 
 		JPanel panel_1 = new JPanel();

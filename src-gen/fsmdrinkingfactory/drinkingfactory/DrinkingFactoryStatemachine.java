@@ -471,7 +471,7 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	
 	private ITimer timer;
 	
-	private final boolean[] timeEvents = new boolean[2];
+	private final boolean[] timeEvents = new boolean[3];
 	
 	private BlockingQueue<Runnable> inEventQueue = new LinkedBlockingQueue<Runnable>();
 	private boolean isRunningCycle = false;
@@ -815,6 +815,11 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		timer.setTimer(this, 1, (45 * 1000), false);
 	}
 	
+	/* Entry action for state 'Init'. */
+	private void entryAction_main_region_Init() {
+		timer.setTimer(this, 2, (1 * 1000), false);
+	}
+	
 	/* Exit action for state 'Wait'. */
 	private void exitAction_main_region_Interface_Timer_Wait() {
 		timer.unsetTimer(this, 0);
@@ -823,6 +828,11 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	/* Exit action for state 'Waiting'. */
 	private void exitAction_main_region_Preparation_r1_Waiting() {
 		timer.unsetTimer(this, 1);
+	}
+	
+	/* Exit action for state 'Init'. */
+	private void exitAction_main_region_Init() {
+		timer.unsetTimer(this, 2);
 	}
 	
 	/* 'default' enter sequence for state Interface */
@@ -910,6 +920,7 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	
 	/* 'default' enter sequence for state Init */
 	private void enterSequence_main_region_Init_default() {
+		entryAction_main_region_Init();
 		nextStateIndex = 0;
 		stateVector[0] = State.main_region_Init;
 	}
@@ -1025,6 +1036,8 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	private void exitSequence_main_region_Init() {
 		nextStateIndex = 0;
 		stateVector[0] = State.$NullState$;
+		
+		exitAction_main_region_Init();
 	}
 	
 	/* Default exit sequence for region main region */
@@ -1229,6 +1242,8 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			} else {
 				if (sCInterface.selectHotDrink) {
 					exitSequence_main_region_Interface_Selection_HotDrink();
+					sCInterface.raiseDoHotDrink();
+					
 					enterSequence_main_region_Interface_Selection_HotDrink_default();
 				} else {
 					did_transition = false;
@@ -1428,7 +1443,7 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (sCInterface.welcome) {
+			if (timeEvents[2]) {
 				exitSequence_main_region_Init();
 				sCInterface.raiseDoWelcome();
 				

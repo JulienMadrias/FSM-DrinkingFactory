@@ -12,31 +12,31 @@ public class DrinkingFactoryControlerInterfaceImplementation implements SCInterf
 	@Override
 	public void onDoCancelRaised() {
 		// TODO Auto-generated method stub
-		
+		theDFM.cancelOrder();
 	}
 
 	@Override
 	public void onDoWelcomeRaised() {
 		// TODO Auto-generated method stub
-		
+		theDFM.startSystem();
 	}
 
 	@Override
 	public void onDoHotDrinkRaised() {
 		// TODO Auto-generated method stub
-		
+		theDFM.hotDrinkSelected();
 	}
 
 	@Override
 	public void onDoCBRaised() {
 		// TODO Auto-generated method stub
-		
+		theDFM.payInCB();
 	}
 
 	@Override
 	public void onDoAddCashRaised() {
 		// TODO Auto-generated method stub
-		
+		theDFM.addCash();
 	}
 
 	@Override
