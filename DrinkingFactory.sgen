@@ -5,7 +5,7 @@ GeneratorModel for yakindu::java {
 		feature Outlet {
 			targetProject = "FSMDrinkingFactory"
 			targetFolder = "src-gen"
-			libraryTargetFolder = "src"
+			libraryTargetFolder = "fr.univcotedazur.polytech.si4.fsm.2020.project/src"
 		}
 		
 		feature GeneralFeatures {

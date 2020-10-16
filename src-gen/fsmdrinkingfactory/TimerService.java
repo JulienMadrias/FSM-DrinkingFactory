@@ -8,9 +8,6 @@ import java.util.TimerTask;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import fr.univcotedazur.polytech.si4.fsm.project.ITimer;
-import fr.univcotedazur.polytech.si4.fsm.project.ITimerCallback;
-
 /**
  * Default timer service implementation.
  *

@@ -15,8 +15,9 @@
           <vertices xsi:type="sgraph:State" xmi:id="_1qREYAoWEeumAbtkdxmcVA" name="Init" incomingTransitions="_50g3QAoWEeumAbtkdxmcVA">
             <outgoingTransitions xmi:id="_6tNZ0AoWEeumAbtkdxmcVA" specification="selectHotDrink / raise doHotDrink" target="_2SvZoAoWEeumAbtkdxmcVA"/>
           </vertices>
-          <vertices xsi:type="sgraph:State" xmi:id="_2SvZoAoWEeumAbtkdxmcVA" specification="entry / raise action" name="HotDrink" incomingTransitions="_6tNZ0AoWEeumAbtkdxmcVA _7ch98AoWEeumAbtkdxmcVA">
+          <vertices xsi:type="sgraph:State" xmi:id="_2SvZoAoWEeumAbtkdxmcVA" specification="entry / raise action" name="HotDrink" incomingTransitions="_6tNZ0AoWEeumAbtkdxmcVA _7ch98AoWEeumAbtkdxmcVA _3A6WsA-GEeumAbtkdxmcVA">
             <outgoingTransitions xmi:id="_7ch98AoWEeumAbtkdxmcVA" specification="selectParam" target="_2SvZoAoWEeumAbtkdxmcVA"/>
+            <outgoingTransitions xmi:id="_3A6WsA-GEeumAbtkdxmcVA" specification="selectHotDrink" target="_2SvZoAoWEeumAbtkdxmcVA"/>
           </vertices>
         </regions>
         <regions xmi:id="_IdhkgQoWEeumAbtkdxmcVA" name="Payment">
@@ -641,6 +642,17 @@
       <styles xsi:type="notation:FontStyle" xmi:id="_cSpC4w76EeumAbtkdxmcVA" fontName="Verdana"/>
       <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_cSpC4g76EeumAbtkdxmcVA" points="[32, 20, 7, 4]$[32, 20, 7, 4]"/>
       <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_cSpp8A76EeumAbtkdxmcVA" id="(0.7661290322580645,0.8867924528301887)"/>
+    </edges>
+    <edges xmi:id="_3A-BEA-GEeumAbtkdxmcVA" type="Transition" element="_3A6WsA-GEeumAbtkdxmcVA" source="_gPDqqwoXEeumAbtkdxmcVA" target="_gPDqqwoXEeumAbtkdxmcVA">
+      <children xsi:type="notation:DecorationNode" xmi:id="_3A-BEQ-GEeumAbtkdxmcVA" type="TransitionExpression">
+        <styles xsi:type="notation:ShapeStyle" xmi:id="_3A-BEg-GEeumAbtkdxmcVA"/>
+        <layoutConstraint xsi:type="notation:Location" xmi:id="_3A-BEw-GEeumAbtkdxmcVA" x="21" y="10"/>
+      </children>
+      <styles xsi:type="notation:ConnectorStyle" xmi:id="_3A-BFA-GEeumAbtkdxmcVA" routing="Rectilinear" lineColor="4210752"/>
+      <styles xsi:type="notation:FontStyle" xmi:id="_3A-BFQ-GEeumAbtkdxmcVA" fontName="Verdana"/>
+      <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_3A-BFg-GEeumAbtkdxmcVA" points="[-21, 5, -29, 17]$[-21, 67, -29, 79]$[53, 67, 45, 79]$[53, 5, 45, 17]"/>
+      <sourceAnchor xsi:type="notation:IdentityAnchor" xmi:id="_3BBEYA-GEeumAbtkdxmcVA" id="(0.2153846153846154,0.9367088607594937)"/>
+      <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_3BBEYQ-GEeumAbtkdxmcVA" id="(0.27692307692307694,0.7848101265822784)"/>
     </edges>
   </notation:Diagram>
 </xmi:XMI>

@@ -9,8 +9,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import fr.univcotedazur.polytech.si4.fsm.project.IStatemachine;
-
 /**
  * Runtime service for state machines to execute a run to completion step
  * periodically.
