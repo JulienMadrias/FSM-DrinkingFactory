@@ -1,0 +1,20 @@
+GeneratorModel for yakindu::java {
+
+	statechart DrinkingFactory {
+
+		feature Outlet {
+			targetProject = "FSMDrinkingFactory"
+			targetFolder = "src-gen"
+			libraryTargetFolder = "src"
+		}
+		
+		feature GeneralFeatures {
+          InterfaceObserverSupport = true
+          RuntimeService = true
+          TimerService = true
+          inEventQueue = true
+          synchronized = true
+          runnable = false
+        }
+	}
+}

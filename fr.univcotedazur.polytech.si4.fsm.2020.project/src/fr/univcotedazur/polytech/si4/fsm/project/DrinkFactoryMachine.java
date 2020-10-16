@@ -23,6 +23,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
+import fsmdrinkingfactory.TimerService;
+import fsmdrinkingfactory.drinkingfactory.DrinkingFactoryStatemachine;
+
+
 public class DrinkFactoryMachine extends JFrame {
 
 	/**
@@ -30,6 +34,7 @@ public class DrinkFactoryMachine extends JFrame {
 	 */
 	private static final long serialVersionUID = 2030629304432075314L;
 	private JPanel contentPane;
+	protected DrinkingFactoryStatemachine theFSM;
 	/**
 	 * @wbp.nonvisual location=311,475
 	 */
@@ -55,6 +60,14 @@ public class DrinkFactoryMachine extends JFrame {
 	 * Create the frame.
 	 */
 	public DrinkFactoryMachine() {
+		
+		theFSM = new DrinkingFactoryStatemachine();
+		TimerService timer = new TimerService();
+	    theFSM.setTimer(timer);
+		theFSM.init();
+		theFSM.enter();
+		theFSM.getSCInterface().getListeners().add(new DrinkingFactoryControlerInterfaceImplementation(this));
+		
 		setForeground(Color.WHITE);
 		setFont(new Font("Cantarell", Font.BOLD, 22));
 		setBackground(Color.DARK_GRAY);
