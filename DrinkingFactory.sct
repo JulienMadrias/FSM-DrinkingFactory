@@ -650,7 +650,7 @@
       </children>
       <styles xsi:type="notation:ConnectorStyle" xmi:id="_3A-BFA-GEeumAbtkdxmcVA" routing="Rectilinear" lineColor="4210752"/>
       <styles xsi:type="notation:FontStyle" xmi:id="_3A-BFQ-GEeumAbtkdxmcVA" fontName="Verdana"/>
-      <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_3A-BFg-GEeumAbtkdxmcVA" points="[-21, 5, -29, 17]$[-21, 67, -29, 79]$[53, 67, 45, 79]$[53, 5, 45, 17]"/>
+      <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_3A-BFg-GEeumAbtkdxmcVA" points="[-13, 5, -21, 17]$[-13, 67, -21, 79]$[53, 67, 45, 79]$[53, 5, 45, 17]"/>
       <sourceAnchor xsi:type="notation:IdentityAnchor" xmi:id="_3BBEYA-GEeumAbtkdxmcVA" id="(0.2153846153846154,0.9367088607594937)"/>
       <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_3BBEYQ-GEeumAbtkdxmcVA" id="(0.27692307692307694,0.7848101265822784)"/>
     </edges>

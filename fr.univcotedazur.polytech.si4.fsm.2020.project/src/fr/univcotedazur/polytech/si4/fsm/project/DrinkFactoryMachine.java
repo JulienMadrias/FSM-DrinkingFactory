@@ -135,12 +135,24 @@ public class DrinkFactoryMachine extends JFrame {
 		expressoButton.setForeground(Color.WHITE);
 		expressoButton.setBackground(Color.DARK_GRAY);
 		expressoButton.setBounds(12, 71, 96, 25);
+		expressoButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				theFSM.raiseSelectHotDrink();
+			}
+		});
 		contentPane.add(expressoButton);
 
 		JButton teaButton = new JButton("Tea");
 		teaButton.setForeground(Color.WHITE);
 		teaButton.setBackground(Color.DARK_GRAY);
 		teaButton.setBounds(12, 108, 96, 25);
+		teaButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				theFSM.raiseSelectHotDrink();
+			}
+		});
 		contentPane.add(teaButton);
 
 		JButton soupButton = new JButton("Soup");
@@ -281,6 +293,12 @@ public class DrinkFactoryMachine extends JFrame {
 		JButton nfcBiiiipButton = new JButton("biiip");
 		nfcBiiiipButton.setForeground(Color.WHITE);
 		nfcBiiiipButton.setBackground(Color.DARK_GRAY);
+		nfcBiiiipButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				theFSM.raisePayCB();
+			}
+		});
 		panel_1.add(nfcBiiiipButton);
 
 		JLabel lblNfc = new JLabel("NFC");
@@ -317,6 +335,12 @@ public class DrinkFactoryMachine extends JFrame {
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.setForeground(Color.WHITE);
 		cancelButton.setBackground(Color.DARK_GRAY);
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				theFSM.raiseCancel();
+			}
+		});
 		panel_2.add(cancelButton);
 
 		// listeners
