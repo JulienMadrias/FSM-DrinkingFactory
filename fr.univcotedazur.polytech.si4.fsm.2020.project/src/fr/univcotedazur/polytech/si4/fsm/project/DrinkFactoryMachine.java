@@ -26,6 +26,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import fsmdrinkingfactory.TimerService;
 import fsmdrinkingfactory.drinkingfactory.DrinkingFactoryStatemachine;
@@ -44,6 +46,7 @@ public class DrinkFactoryMachine extends JFrame {
 	private int cashValue = 0;
 	private int coin = 0;
 	private int maxPrice = 50;
+	private int sugar, size, temperature;
 	
 	
 	/**
@@ -51,12 +54,24 @@ public class DrinkFactoryMachine extends JFrame {
 	 */
 	private final ImageIcon imageIcon = new ImageIcon();
 
-	protected void cancelOrder() {}
+	protected void cancelOrder() {
+		if(cbDataRegistered) {
+			lblPot.setText("Transaction annulée");
+		}
+		else {
+			lblPot.setText("");
+			giveBackChange(cashValue);
+		}
+	}
 	
-	protected void startSystem() {}
+	protected void startSystem() {
+		lblPot.setText("");
+		lblChange.setText("");
+	}
 	
 	protected void payInCB() {
 		cbDataRegistered = true;
+		lblPot.setText("Carte acceptée");
 	}
 	
 	protected void addCash() {
@@ -65,6 +80,7 @@ public class DrinkFactoryMachine extends JFrame {
 		if(cashValue > maxPrice) {
 			giveBackChange(cashValue - maxPrice);
 		}
+		lblPot.setText("0." + cashValue + " €");
 	}
 	
 	protected void hotDrinkSelected() {}
@@ -192,6 +208,14 @@ public class DrinkFactoryMachine extends JFrame {
 		sugarSlider.setMajorTickSpacing(1);
 		sugarSlider.setMaximum(4);
 		sugarSlider.setBounds(301, 51, 200, 36);
+		sugar = sugarSlider.getValue();
+		sugarSlider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent event) {
+				sugar = sugarSlider.getValue();
+				theFSM.raiseSelectParam();
+			}
+		});
 		contentPane.add(sugarSlider);
 
 		JSlider sizeSlider = new JSlider();
@@ -204,6 +228,14 @@ public class DrinkFactoryMachine extends JFrame {
 		sizeSlider.setMaximum(2);
 		sizeSlider.setMajorTickSpacing(1);
 		sizeSlider.setBounds(301, 125, 200, 36);
+		size = sizeSlider.getValue();
+		sizeSlider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent event) {
+				size = sizeSlider.getValue();
+				theFSM.raiseSelectParam();
+			}
+		});
 		contentPane.add(sizeSlider);
 
 		JSlider temperatureSlider = new JSlider();
@@ -226,7 +258,14 @@ public class DrinkFactoryMachine extends JFrame {
 			l.setForeground(Color.WHITE);
 		}
 		temperatureSlider.setLabelTable(temperatureTable);
-
+		temperature = temperatureSlider.getValue();
+		temperatureSlider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent event) {
+				temperature = temperatureSlider.getValue();
+				theFSM.raiseSelectParam();
+			}
+		});
 		contentPane.add(temperatureSlider);
 
 		JButton icedTeaButton = new JButton("Iced Tea");
@@ -268,8 +307,8 @@ public class DrinkFactoryMachine extends JFrame {
 		money50centsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				theFSM.raiseAddCash();
 				coin = 50;
+				theFSM.raiseAddCash();
 			}
 		});
 		panel.add(money50centsButton);
@@ -280,8 +319,8 @@ public class DrinkFactoryMachine extends JFrame {
 		money25centsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				theFSM.raiseAddCash();
 				coin = 25;
+				theFSM.raiseAddCash();
 			}
 		});
 		panel.add(money25centsButton);
@@ -292,8 +331,8 @@ public class DrinkFactoryMachine extends JFrame {
 		money10centsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				theFSM.raiseAddCash();
 				coin = 10;
+				theFSM.raiseAddCash();
 			}
 		});
 		panel.add(money10centsButton);
@@ -337,7 +376,7 @@ public class DrinkFactoryMachine extends JFrame {
 		lblPot.setBackground(Color.DARK_GRAY);
 		lblPot.setFont(new Font("Courier", Font.PLAIN, 13));
 		lblPot.setBorder(border);
-		lblPot.setBounds(45, 370, 96, 25);
+		lblPot.setBounds(30, 370, 125, 25);
 		contentPane.add(lblPot);
 		
 		lblChange = new JLabel();
