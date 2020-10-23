@@ -358,42 +358,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			}
 		}
 		
-		private boolean doPrep;
-		
-		
-		public boolean isRaisedDoPrep() {
-			synchronized(DrinkingFactoryStatemachine.this) {
-				return doPrep;
-			}
-		}
-		
-		protected void raiseDoPrep() {
-			synchronized(DrinkingFactoryStatemachine.this) {
-				doPrep = true;
-				for (SCInterfaceListener listener : listeners) {
-					listener.onDoPrepRaised();
-				}
-			}
-		}
-		
-		private boolean doPouring;
-		
-		
-		public boolean isRaisedDoPouring() {
-			synchronized(DrinkingFactoryStatemachine.this) {
-				return doPouring;
-			}
-		}
-		
-		protected void raiseDoPouring() {
-			synchronized(DrinkingFactoryStatemachine.this) {
-				doPouring = true;
-				for (SCInterfaceListener listener : listeners) {
-					listener.onDoPouringRaised();
-				}
-			}
-		}
-		
 		private boolean doWaitRecup;
 		
 		
@@ -448,6 +412,114 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			}
 		}
 		
+		private boolean doTakeIngr;
+		
+		
+		public boolean isRaisedDoTakeIngr() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				return doTakeIngr;
+			}
+		}
+		
+		protected void raiseDoTakeIngr() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				doTakeIngr = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onDoTakeIngrRaised();
+				}
+			}
+		}
+		
+		private boolean doStartHeated;
+		
+		
+		public boolean isRaisedDoStartHeated() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				return doStartHeated;
+			}
+		}
+		
+		protected void raiseDoStartHeated() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				doStartHeated = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onDoStartHeatedRaised();
+				}
+			}
+		}
+		
+		private boolean doPrepPouring;
+		
+		
+		public boolean isRaisedDoPrepPouring() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				return doPrepPouring;
+			}
+		}
+		
+		protected void raiseDoPrepPouring() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				doPrepPouring = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onDoPrepPouringRaised();
+				}
+			}
+		}
+		
+		private boolean doWaitHeated;
+		
+		
+		public boolean isRaisedDoWaitHeated() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				return doWaitHeated;
+			}
+		}
+		
+		protected void raiseDoWaitHeated() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				doWaitHeated = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onDoWaitHeatedRaised();
+				}
+			}
+		}
+		
+		private boolean doSugar;
+		
+		
+		public boolean isRaisedDoSugar() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				return doSugar;
+			}
+		}
+		
+		protected void raiseDoSugar() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				doSugar = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onDoSugarRaised();
+				}
+			}
+		}
+		
+		private boolean doPouring;
+		
+		
+		public boolean isRaisedDoPouring() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				return doPouring;
+			}
+		}
+		
+		protected void raiseDoPouring() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				doPouring = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onDoPouringRaised();
+				}
+			}
+		}
+		
 		protected void clearEvents() {
 			welcome = false;
 			cancel = false;
@@ -471,11 +543,15 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		doAddCash = false;
 		doHotDrink = false;
 		doStartMachine = false;
-		doPrep = false;
-		doPouring = false;
 		doWaitRecup = false;
 		doWash = false;
 		doPrepSupp = false;
+		doTakeIngr = false;
+		doStartHeated = false;
+		doPrepPouring = false;
+		doWaitHeated = false;
+		doSugar = false;
+		doPouring = false;
 		}
 		
 	}
@@ -515,7 +591,7 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	
 	private ITimer timer;
 	
-	private final boolean[] timeEvents = new boolean[4];
+	private final boolean[] timeEvents = new boolean[3];
 	
 	private BlockingQueue<Runnable> inEventQueue = new LinkedBlockingQueue<Runnable>();
 	private boolean isRunningCycle = false;
@@ -848,14 +924,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		return sCInterface.isRaisedDoStartMachine();
 	}
 	
-	public synchronized boolean isRaisedDoPrep() {
-		return sCInterface.isRaisedDoPrep();
-	}
-	
-	public synchronized boolean isRaisedDoPouring() {
-		return sCInterface.isRaisedDoPouring();
-	}
-	
 	public synchronized boolean isRaisedDoWaitRecup() {
 		return sCInterface.isRaisedDoWaitRecup();
 	}
@@ -866,6 +934,30 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	
 	public synchronized boolean isRaisedDoPrepSupp() {
 		return sCInterface.isRaisedDoPrepSupp();
+	}
+	
+	public synchronized boolean isRaisedDoTakeIngr() {
+		return sCInterface.isRaisedDoTakeIngr();
+	}
+	
+	public synchronized boolean isRaisedDoStartHeated() {
+		return sCInterface.isRaisedDoStartHeated();
+	}
+	
+	public synchronized boolean isRaisedDoPrepPouring() {
+		return sCInterface.isRaisedDoPrepPouring();
+	}
+	
+	public synchronized boolean isRaisedDoWaitHeated() {
+		return sCInterface.isRaisedDoWaitHeated();
+	}
+	
+	public synchronized boolean isRaisedDoSugar() {
+		return sCInterface.isRaisedDoSugar();
+	}
+	
+	public synchronized boolean isRaisedDoPouring() {
+		return sCInterface.isRaisedDoPouring();
 	}
 	
 	/* Entry action for state 'HotDrink'. */
@@ -893,14 +985,39 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		timer.setTimer(this, 1, (1 * 1000), false);
 	}
 	
+	/* Entry action for state 'Take ingr'. */
+	private void entryAction_main_region_Starting_r1_Take_ingr() {
+		sCInterface.raiseDoTakeIngr();
+	}
+	
+	/* Entry action for state 'Start heated'. */
+	private void entryAction_main_region_Starting_r2_Start_heated() {
+		sCInterface.raiseDoStartHeated();
+	}
+	
+	/* Entry action for state 'Prep pouring'. */
+	private void entryAction_main_region_Preparation_r1_Prep_pouring() {
+		sCInterface.raiseDoPrepPouring();
+	}
+	
+	/* Entry action for state 'Wait heated'. */
+	private void entryAction_main_region_Preparation_r2_Wait_heated() {
+		sCInterface.raiseDoWaitHeated();
+	}
+	
+	/* Entry action for state 'Sugar'. */
+	private void entryAction_main_region_Pouring_r1_Sugar() {
+		sCInterface.raiseDoSugar();
+	}
+	
+	/* Entry action for state 'Pouring'. */
+	private void entryAction_main_region_Pouring_r2_Pouring() {
+		sCInterface.raiseDoPouring();
+	}
+	
 	/* Entry action for state 'Wait recup'. */
 	private void entryAction_main_region_Wait_recup() {
 		timer.setTimer(this, 2, (15 * 1000), false);
-	}
-	
-	/* Entry action for state 'Prep supp'. */
-	private void entryAction_main_region_Prep_supp() {
-		timer.setTimer(this, 3, (30 * 1000), false);
 	}
 	
 	/* Exit action for state 'Wait'. */
@@ -916,11 +1033,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	/* Exit action for state 'Wait recup'. */
 	private void exitAction_main_region_Wait_recup() {
 		timer.unsetTimer(this, 2);
-	}
-	
-	/* Exit action for state 'Prep supp'. */
-	private void exitAction_main_region_Prep_supp() {
-		timer.unsetTimer(this, 3);
 	}
 	
 	/* 'default' enter sequence for state Interface */
@@ -985,12 +1097,14 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	
 	/* 'default' enter sequence for state Take ingr */
 	private void enterSequence_main_region_Starting_r1_Take_ingr_default() {
+		entryAction_main_region_Starting_r1_Take_ingr();
 		nextStateIndex = 0;
 		stateVector[0] = State.main_region_Starting_r1_Take_ingr;
 	}
 	
 	/* 'default' enter sequence for state Start heated */
 	private void enterSequence_main_region_Starting_r2_Start_heated_default() {
+		entryAction_main_region_Starting_r2_Start_heated();
 		nextStateIndex = 1;
 		stateVector[1] = State.main_region_Starting_r2_Start_heated;
 	}
@@ -1003,12 +1117,14 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	
 	/* 'default' enter sequence for state Prep pouring */
 	private void enterSequence_main_region_Preparation_r1_Prep_pouring_default() {
+		entryAction_main_region_Preparation_r1_Prep_pouring();
 		nextStateIndex = 0;
 		stateVector[0] = State.main_region_Preparation_r1_Prep_pouring;
 	}
 	
 	/* 'default' enter sequence for state Wait heated */
 	private void enterSequence_main_region_Preparation_r2_Wait_heated_default() {
+		entryAction_main_region_Preparation_r2_Wait_heated();
 		nextStateIndex = 1;
 		stateVector[1] = State.main_region_Preparation_r2_Wait_heated;
 	}
@@ -1021,12 +1137,14 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	
 	/* 'default' enter sequence for state Sugar */
 	private void enterSequence_main_region_Pouring_r1_Sugar_default() {
+		entryAction_main_region_Pouring_r1_Sugar();
 		nextStateIndex = 0;
 		stateVector[0] = State.main_region_Pouring_r1_Sugar;
 	}
 	
 	/* 'default' enter sequence for state Pouring */
 	private void enterSequence_main_region_Pouring_r2_Pouring_default() {
+		entryAction_main_region_Pouring_r2_Pouring();
 		nextStateIndex = 1;
 		stateVector[1] = State.main_region_Pouring_r2_Pouring;
 	}
@@ -1040,7 +1158,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	
 	/* 'default' enter sequence for state Prep supp */
 	private void enterSequence_main_region_Prep_supp_default() {
-		entryAction_main_region_Prep_supp();
 		nextStateIndex = 0;
 		stateVector[0] = State.main_region_Prep_supp;
 	}
@@ -1220,8 +1337,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	private void exitSequence_main_region_Prep_supp() {
 		nextStateIndex = 0;
 		stateVector[0] = State.$NullState$;
-		
-		exitAction_main_region_Prep_supp();
 	}
 	
 	/* Default exit sequence for state Washing */
@@ -1623,8 +1738,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		if (try_transition) {
 			if (sCInterface.startPrep) {
 				exitSequence_main_region_Starting();
-				sCInterface.raiseDoPrep();
-				
 				enterSequence_main_region_Preparation_default();
 				react();
 			} else {
@@ -1664,8 +1777,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		if (try_transition) {
 			if (sCInterface.startServ) {
 				exitSequence_main_region_Preparation();
-				sCInterface.raiseDoPouring();
-				
 				enterSequence_main_region_Pouring_default();
 				react();
 			} else {
@@ -1764,7 +1875,7 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (timeEvents[3]) {
+			if (sCInterface.deliver) {
 				exitSequence_main_region_Prep_supp();
 				sCInterface.raiseDoWaitRecup();
 				

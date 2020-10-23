@@ -108,8 +108,7 @@ public class DrinkFactoryMachine extends JFrame {
 			lblPot.setText("Transaction effectuée");
 			theFSM.raiseValidate();
 			cbDataRegistered = false;
-		}
-		if(choosedDrink != null) {
+		}else if(choosedDrink != null) {
 			switch(choosedDrink) {
 				case TEA:
 					if(cashValue>=40) {

@@ -34,12 +34,6 @@ public class DrinkingFactoryControlerInterfaceImplementation implements SCInterf
 	}
 
 	@Override
-	public void onDoPrepRaised() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
 	public void onDoWashRaised() {
 		// TODO Auto-generated method stub
 		
@@ -70,9 +64,39 @@ public class DrinkingFactoryControlerInterfaceImplementation implements SCInterf
 	}
 
 	@Override
+<<<<<<< Updated upstream
 	public void onDoHotDrinkRaised() {
 		// TODO Auto-generated method stub
 		theDFM.drinkSelected();
+=======
+	public void onDoTakeIngrRaised() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDoStartHeatedRaised() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDoPrepPouringRaised() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDoWaitHeatedRaised() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDoSugarRaised() {
+		// TODO Auto-generated method stub
+		
+>>>>>>> Stashed changes
 	}
 
 }

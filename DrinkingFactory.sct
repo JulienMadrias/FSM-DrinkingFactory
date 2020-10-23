@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:sgraph="http://www.yakindu.org/sct/sgraph/2.0.0">
+<<<<<<< Updated upstream
   <sgraph:Statechart xmi:id="_AJZLIAoWEeumAbtkdxmcVA" specification="@EventDriven&#xA;// Use the event driven execution model.&#xA;// Runs a run-to-completion step&#xA;// each time an event is raised.&#xA;// Switch to cycle based behavior&#xA;// by specifying '@CycleBased(200)'&#xA;// instead.&#xA;&#xA;@ChildFirstExecution&#xA;// In composite states, execute&#xA;// child states first.&#xA;// @ParentFirstExecution does the opposite.&#xA;&#xA;interface:&#xA;in event welcome&#xA;in event cancel&#xA;in event selectHotDrink&#xA;in event selectParam&#xA;in event payCB&#xA;in event addCash&#xA;in event validate&#xA;in event startPrep&#xA;in event startServ&#xA;in event deliver&#xA;in event action&#xA;in event finishWash&#xA;in event prepSupp&#xA;&#xA;out event doCancel&#xA;out event doWelcome&#xA;out event doCB&#xA;out event doAddCash&#xA;out event doHotDrink&#xA;out event doStartMachine&#xA;out event doPrep&#xA;out event doPouring&#xA;out event doWaitRecup&#xA;out event doWash&#xA;out event doPrepSupp" name="DrinkingFactory">
+=======
+  <sgraph:Statechart xmi:id="_AJZLIAoWEeumAbtkdxmcVA" specification="@EventDriven&#xA;// Use the event driven execution model.&#xA;// Runs a run-to-completion step&#xA;// each time an event is raised.&#xA;// Switch to cycle based behavior&#xA;// by specifying '@CycleBased(200)'&#xA;// instead.&#xA;&#xA;@ChildFirstExecution&#xA;// In composite states, execute&#xA;// child states first.&#xA;// @ParentFirstExecution does the opposite.&#xA;&#xA;interface:&#xA;in event welcome&#xA;in event cancel&#xA;in event selectHotDrink&#xA;in event selectParam&#xA;in event payCB&#xA;in event addCash&#xA;in event validate&#xA;in event startPrep&#xA;in event startServ&#xA;in event deliver&#xA;in event action&#xA;in event finishWash&#xA;in event prepSupp&#xA;&#xA;out event doCancel&#xA;out event doWelcome&#xA;out event doHotDrink&#xA;out event doCB&#xA;out event doAddCash&#xA;out event doStartMachine&#xA;out event doWaitRecup&#xA;out event doWash&#xA;out event doPrepSupp&#xA;out event doTakeIngr&#xA;out event doStartHeated&#xA;out event doPrepPouring&#xA;out event doWaitHeated&#xA;out event doSugar&#xA;out event doPouring" name="DrinkingFactory">
+>>>>>>> Stashed changes
     <regions xmi:id="_AJcOcwoWEeumAbtkdxmcVA" name="main region">
       <vertices xsi:type="sgraph:Entry" xmi:id="_AJeDoQoWEeumAbtkdxmcVA">
         <outgoingTransitions xmi:id="_V-KfAAoWEeumAbtkdxmcVA" specification="" target="_Q0CjgAoWEeumAbtkdxmcVA"/>
@@ -47,33 +51,33 @@
         <outgoingTransitions xmi:id="_0FQ9mQ-JEeuDt-G6NtbQcg" specification="after 1s / raise doWelcome" target="_Idg9cAoWEeumAbtkdxmcVA"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_TDPgIBUFEeumAbtkdxmcVA" name="Starting" incomingTransitions="_nqiUQBUFEeumAbtkdxmcVA">
-        <outgoingTransitions xmi:id="_QHGCoBUGEeumAbtkdxmcVA" specification="startPrep / raise doPrep" target="_6M0jsBUFEeumAbtkdxmcVA"/>
+        <outgoingTransitions xmi:id="_QHGCoBUGEeumAbtkdxmcVA" specification="startPrep" target="_6M0jsBUFEeumAbtkdxmcVA"/>
         <regions xmi:id="_TDSjchUFEeumAbtkdxmcVA" name="r1">
           <vertices xsi:type="sgraph:Entry" xmi:id="_hWs-sBUFEeumAbtkdxmcVA">
             <outgoingTransitions xmi:id="_mxoWUBUFEeumAbtkdxmcVA" specification="" target="_hy3WQBUFEeumAbtkdxmcVA"/>
           </vertices>
-          <vertices xsi:type="sgraph:State" xmi:id="_hy3WQBUFEeumAbtkdxmcVA" name="Take ingr" incomingTransitions="_mxoWUBUFEeumAbtkdxmcVA"/>
+          <vertices xsi:type="sgraph:State" xmi:id="_hy3WQBUFEeumAbtkdxmcVA" specification="entry / raise doTakeIngr" name="Take ingr" incomingTransitions="_mxoWUBUFEeumAbtkdxmcVA"/>
         </regions>
         <regions xmi:id="_TDSjcxUFEeumAbtkdxmcVA" name="r2">
           <vertices xsi:type="sgraph:Entry" xmi:id="_oQdr0BUFEeumAbtkdxmcVA">
             <outgoingTransitions xmi:id="_2gn-wBUFEeumAbtkdxmcVA" specification="" target="_okn98BUFEeumAbtkdxmcVA"/>
           </vertices>
-          <vertices xsi:type="sgraph:State" xmi:id="_okn98BUFEeumAbtkdxmcVA" name="Start heated" incomingTransitions="_2gn-wBUFEeumAbtkdxmcVA"/>
+          <vertices xsi:type="sgraph:State" xmi:id="_okn98BUFEeumAbtkdxmcVA" specification="entry / raise doStartHeated" name="Start heated" incomingTransitions="_2gn-wBUFEeumAbtkdxmcVA"/>
         </regions>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_6M0jsBUFEeumAbtkdxmcVA" name="Preparation" incomingTransitions="_QHGCoBUGEeumAbtkdxmcVA">
-        <outgoingTransitions xmi:id="_hzRJcBUGEeumAbtkdxmcVA" specification="startServ / raise doPouring" target="_SXXcIBUGEeumAbtkdxmcVA"/>
+        <outgoingTransitions xmi:id="_hzRJcBUGEeumAbtkdxmcVA" specification="startServ" target="_SXXcIBUGEeumAbtkdxmcVA"/>
         <regions xmi:id="_6M0jsxUFEeumAbtkdxmcVA" name="r1">
           <vertices xsi:type="sgraph:Entry" xmi:id="_77RpkBUFEeumAbtkdxmcVA">
             <outgoingTransitions xmi:id="_ADomEBUGEeumAbtkdxmcVA" specification="" target="_88dZwBUFEeumAbtkdxmcVA"/>
           </vertices>
-          <vertices xsi:type="sgraph:State" xmi:id="_88dZwBUFEeumAbtkdxmcVA" name="Prep pouring" incomingTransitions="_ADomEBUGEeumAbtkdxmcVA"/>
+          <vertices xsi:type="sgraph:State" xmi:id="_88dZwBUFEeumAbtkdxmcVA" specification="entry / raise doPrepPouring" name="Prep pouring" incomingTransitions="_ADomEBUGEeumAbtkdxmcVA"/>
         </regions>
         <regions xmi:id="_6M0jtBUFEeumAbtkdxmcVA" name="r2">
           <vertices xsi:type="sgraph:Entry" xmi:id="_8NgCABUFEeumAbtkdxmcVA">
             <outgoingTransitions xmi:id="_Ap574BUGEeumAbtkdxmcVA" specification="" target="_93v9UBUFEeumAbtkdxmcVA"/>
           </vertices>
-          <vertices xsi:type="sgraph:State" xmi:id="_93v9UBUFEeumAbtkdxmcVA" name="Wait heated" incomingTransitions="_Ap574BUGEeumAbtkdxmcVA"/>
+          <vertices xsi:type="sgraph:State" xmi:id="_93v9UBUFEeumAbtkdxmcVA" specification="entry / raise doWaitHeated" name="Wait heated" incomingTransitions="_Ap574BUGEeumAbtkdxmcVA"/>
         </regions>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_SXXcIBUGEeumAbtkdxmcVA" name="Pouring" incomingTransitions="_hzRJcBUGEeumAbtkdxmcVA">
@@ -82,20 +86,20 @@
           <vertices xsi:type="sgraph:Entry" xmi:id="_XfcwQBUGEeumAbtkdxmcVA">
             <outgoingTransitions xmi:id="_eLg_oBUGEeumAbtkdxmcVA" specification="" target="_ZsOw4BUGEeumAbtkdxmcVA"/>
           </vertices>
-          <vertices xsi:type="sgraph:State" xmi:id="_ZsOw4BUGEeumAbtkdxmcVA" name="Sugar" incomingTransitions="_eLg_oBUGEeumAbtkdxmcVA"/>
+          <vertices xsi:type="sgraph:State" xmi:id="_ZsOw4BUGEeumAbtkdxmcVA" specification="entry / raise doSugar" name="Sugar" incomingTransitions="_eLg_oBUGEeumAbtkdxmcVA"/>
         </regions>
         <regions xmi:id="_SXXcJBUGEeumAbtkdxmcVA" name="r2">
           <vertices xsi:type="sgraph:Entry" xmi:id="_Yyiv0BUGEeumAbtkdxmcVA">
             <outgoingTransitions xmi:id="_eu1vIBUGEeumAbtkdxmcVA" specification="" target="_cHCmcBUGEeumAbtkdxmcVA"/>
           </vertices>
-          <vertices xsi:type="sgraph:State" xmi:id="_cHCmcBUGEeumAbtkdxmcVA" name="Pouring" incomingTransitions="_eu1vIBUGEeumAbtkdxmcVA"/>
+          <vertices xsi:type="sgraph:State" xmi:id="_cHCmcBUGEeumAbtkdxmcVA" specification="entry / raise doPouring" name="Pouring" incomingTransitions="_eu1vIBUGEeumAbtkdxmcVA"/>
         </regions>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_mZu-QBUGEeumAbtkdxmcVA" name="Wait recup" incomingTransitions="_w3SiQBUGEeumAbtkdxmcVA">
         <outgoingTransitions xmi:id="_0WU08BUGEeumAbtkdxmcVA" specification="after 15s / raise doWash" target="_yEfVMBUGEeumAbtkdxmcVA"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_uejwUBUGEeumAbtkdxmcVA" name="Prep supp" incomingTransitions="_wQfA8BUGEeumAbtkdxmcVA">
-        <outgoingTransitions xmi:id="_w3SiQBUGEeumAbtkdxmcVA" specification="after 30s / raise doWaitRecup" target="_mZu-QBUGEeumAbtkdxmcVA"/>
+        <outgoingTransitions xmi:id="_w3SiQBUGEeumAbtkdxmcVA" specification="deliver / raise doWaitRecup" target="_mZu-QBUGEeumAbtkdxmcVA"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_yEfVMBUGEeumAbtkdxmcVA" name="Washing" incomingTransitions="_0WU08BUGEeumAbtkdxmcVA">
         <outgoingTransitions xmi:id="_3omeABUGEeumAbtkdxmcVA" specification="finishWash / raise doCancel" target="_Q0CjgAoWEeumAbtkdxmcVA"/>
@@ -882,7 +886,7 @@
     <edges xmi:id="_QHGpsBUGEeumAbtkdxmcVA" type="Transition" element="_QHGCoBUGEeumAbtkdxmcVA" source="_TDU_sBUFEeumAbtkdxmcVA" target="_6M0jtRUFEeumAbtkdxmcVA">
       <children xsi:type="notation:DecorationNode" xmi:id="_QHGptBUGEeumAbtkdxmcVA" type="TransitionExpression">
         <styles xsi:type="notation:ShapeStyle" xmi:id="_QHGptRUGEeumAbtkdxmcVA"/>
-        <layoutConstraint xsi:type="notation:Location" xmi:id="_QHGpthUGEeumAbtkdxmcVA" y="10"/>
+        <layoutConstraint xsi:type="notation:Location" xmi:id="_QHGpthUGEeumAbtkdxmcVA" x="-1" y="30"/>
       </children>
       <styles xsi:type="notation:ConnectorStyle" xmi:id="_QHGpsRUGEeumAbtkdxmcVA" routing="Rectilinear" lineColor="4210752"/>
       <styles xsi:type="notation:FontStyle" xmi:id="_QHGpsxUGEeumAbtkdxmcVA" fontName="Verdana"/>
@@ -913,7 +917,7 @@
     <edges xmi:id="_hzRJcRUGEeumAbtkdxmcVA" type="Transition" element="_hzRJcBUGEeumAbtkdxmcVA" source="_6M0jtRUFEeumAbtkdxmcVA" target="_SXYDMBUGEeumAbtkdxmcVA">
       <children xsi:type="notation:DecorationNode" xmi:id="_hzRwgBUGEeumAbtkdxmcVA" type="TransitionExpression">
         <styles xsi:type="notation:ShapeStyle" xmi:id="_hzRwgRUGEeumAbtkdxmcVA"/>
-        <layoutConstraint xsi:type="notation:Location" xmi:id="_hzRwghUGEeumAbtkdxmcVA" y="10"/>
+        <layoutConstraint xsi:type="notation:Location" xmi:id="_hzRwghUGEeumAbtkdxmcVA" x="2" y="34"/>
       </children>
       <styles xsi:type="notation:ConnectorStyle" xmi:id="_hzRJchUGEeumAbtkdxmcVA" routing="Rectilinear" lineColor="4210752"/>
       <styles xsi:type="notation:FontStyle" xmi:id="_hzRJdBUGEeumAbtkdxmcVA" fontName="Verdana"/>
