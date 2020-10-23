@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +24,7 @@ import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import fsmdrinkingfactory.TimerService;
@@ -37,9 +39,12 @@ public class DrinkFactoryMachine extends JFrame {
 	private static final long serialVersionUID = 2030629304432075314L;
 	private JPanel contentPane;
 	protected DrinkingFactoryStatemachine theFSM;
+	private JLabel lblPot, lblChange;
 	private boolean cbDataRegistered = false;
 	private int cashValue = 0;
 	private int coin = 0;
+	private int maxPrice = 50;
+	
 	
 	/**
 	 * @wbp.nonvisual location=311,475
@@ -57,9 +62,17 @@ public class DrinkFactoryMachine extends JFrame {
 	protected void addCash() {
 		cashValue += coin;
 		coin = 0;
+		if(cashValue > maxPrice) {
+			giveBackChange(cashValue - maxPrice);
+		}
 	}
 	
 	protected void hotDrinkSelected() {}
+	
+	protected void giveBackChange(int change) {
+		cashValue -= change;
+		lblChange.setText("Change: " + change);
+	}
 	
 	
 	
@@ -316,6 +329,24 @@ public class DrinkFactoryMachine extends JFrame {
 		addCupButton.setBackground(Color.DARK_GRAY);
 		addCupButton.setBounds(45, 336, 96, 25);
 		contentPane.add(addCupButton);
+		
+		Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1);
+		
+		lblPot = new JLabel();
+		lblPot.setForeground(Color.WHITE);
+		lblPot.setBackground(Color.DARK_GRAY);
+		lblPot.setFont(new Font("Courier", Font.PLAIN, 13));
+		lblPot.setBorder(border);
+		lblPot.setBounds(45, 370, 96, 25);
+		contentPane.add(lblPot);
+		
+		lblChange = new JLabel();
+		lblChange.setForeground(Color.WHITE);
+		lblChange.setBackground(Color.DARK_GRAY);
+		lblChange.setBorder(border);
+		lblChange.setFont(new Font("Courier", Font.PLAIN, 13));
+		lblChange.setBounds(45, 405, 96, 25);
+		contentPane.add(lblChange);
 
 		BufferedImage myPicture = null;
 		try {

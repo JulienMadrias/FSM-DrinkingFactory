@@ -455,12 +455,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		main_region_Interface_Payment_CB,
 		main_region_Interface_Payment_Cash,
 		main_region_Interface_Timer_Wait,
-		main_region_Preparation,
-		main_region_Preparation_r1_Starting,
-		main_region_Preparation_r1_Preparing,
-		main_region_Preparation_r1_Serving,
-		main_region_Preparation_r1_Waiting,
-		main_region_Preparation_r1_Washing,
 		main_region_Init,
 		$NullState$
 	};
@@ -471,7 +465,7 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	
 	private ITimer timer;
 	
-	private final boolean[] timeEvents = new boolean[3];
+	private final boolean[] timeEvents = new boolean[2];
 	
 	private BlockingQueue<Runnable> inEventQueue = new LinkedBlockingQueue<Runnable>();
 	private boolean isRunningCycle = false;
@@ -549,21 +543,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 				break;
 			case main_region_Interface_Timer_Wait:
 				main_region_Interface_Timer_Wait_react(true);
-				break;
-			case main_region_Preparation_r1_Starting:
-				main_region_Preparation_r1_Starting_react(true);
-				break;
-			case main_region_Preparation_r1_Preparing:
-				main_region_Preparation_r1_Preparing_react(true);
-				break;
-			case main_region_Preparation_r1_Serving:
-				main_region_Preparation_r1_Serving_react(true);
-				break;
-			case main_region_Preparation_r1_Waiting:
-				main_region_Preparation_r1_Waiting_react(true);
-				break;
-			case main_region_Preparation_r1_Washing:
-				main_region_Preparation_r1_Washing_react(true);
 				break;
 			case main_region_Init:
 				main_region_Init_react(true);
@@ -647,19 +626,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			return stateVector[1] == State.main_region_Interface_Payment_Cash;
 		case main_region_Interface_Timer_Wait:
 			return stateVector[2] == State.main_region_Interface_Timer_Wait;
-		case main_region_Preparation:
-			return stateVector[0].ordinal() >= State.
-					main_region_Preparation.ordinal()&& stateVector[0].ordinal() <= State.main_region_Preparation_r1_Washing.ordinal();
-		case main_region_Preparation_r1_Starting:
-			return stateVector[0] == State.main_region_Preparation_r1_Starting;
-		case main_region_Preparation_r1_Preparing:
-			return stateVector[0] == State.main_region_Preparation_r1_Preparing;
-		case main_region_Preparation_r1_Serving:
-			return stateVector[0] == State.main_region_Preparation_r1_Serving;
-		case main_region_Preparation_r1_Waiting:
-			return stateVector[0] == State.main_region_Preparation_r1_Waiting;
-		case main_region_Preparation_r1_Washing:
-			return stateVector[0] == State.main_region_Preparation_r1_Washing;
 		case main_region_Init:
 			return stateVector[0] == State.main_region_Init;
 		default:
@@ -810,14 +776,9 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		timer.setTimer(this, 0, (45 * 1000), false);
 	}
 	
-	/* Entry action for state 'Waiting'. */
-	private void entryAction_main_region_Preparation_r1_Waiting() {
-		timer.setTimer(this, 1, (45 * 1000), false);
-	}
-	
 	/* Entry action for state 'Init'. */
 	private void entryAction_main_region_Init() {
-		timer.setTimer(this, 2, (1 * 1000), false);
+		timer.setTimer(this, 1, (1 * 1000), false);
 	}
 	
 	/* Exit action for state 'Wait'. */
@@ -825,14 +786,9 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		timer.unsetTimer(this, 0);
 	}
 	
-	/* Exit action for state 'Waiting'. */
-	private void exitAction_main_region_Preparation_r1_Waiting() {
-		timer.unsetTimer(this, 1);
-	}
-	
 	/* Exit action for state 'Init'. */
 	private void exitAction_main_region_Init() {
-		timer.unsetTimer(this, 2);
+		timer.unsetTimer(this, 1);
 	}
 	
 	/* 'default' enter sequence for state Interface */
@@ -882,42 +838,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		stateVector[2] = State.main_region_Interface_Timer_Wait;
 	}
 	
-	/* 'default' enter sequence for state Preparation */
-	private void enterSequence_main_region_Preparation_default() {
-		enterSequence_main_region_Preparation_r1_default();
-	}
-	
-	/* 'default' enter sequence for state Starting */
-	private void enterSequence_main_region_Preparation_r1_Starting_default() {
-		nextStateIndex = 0;
-		stateVector[0] = State.main_region_Preparation_r1_Starting;
-	}
-	
-	/* 'default' enter sequence for state Preparing */
-	private void enterSequence_main_region_Preparation_r1_Preparing_default() {
-		nextStateIndex = 0;
-		stateVector[0] = State.main_region_Preparation_r1_Preparing;
-	}
-	
-	/* 'default' enter sequence for state Serving */
-	private void enterSequence_main_region_Preparation_r1_Serving_default() {
-		nextStateIndex = 0;
-		stateVector[0] = State.main_region_Preparation_r1_Serving;
-	}
-	
-	/* 'default' enter sequence for state Waiting */
-	private void enterSequence_main_region_Preparation_r1_Waiting_default() {
-		entryAction_main_region_Preparation_r1_Waiting();
-		nextStateIndex = 0;
-		stateVector[0] = State.main_region_Preparation_r1_Waiting;
-	}
-	
-	/* 'default' enter sequence for state Washing */
-	private void enterSequence_main_region_Preparation_r1_Washing_default() {
-		nextStateIndex = 0;
-		stateVector[0] = State.main_region_Preparation_r1_Washing;
-	}
-	
 	/* 'default' enter sequence for state Init */
 	private void enterSequence_main_region_Init_default() {
 		entryAction_main_region_Init();
@@ -943,11 +863,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	/* 'default' enter sequence for region Timer */
 	private void enterSequence_main_region_Interface_Timer_default() {
 		react_main_region_Interface_Timer__entry_Default();
-	}
-	
-	/* 'default' enter sequence for region r1 */
-	private void enterSequence_main_region_Preparation_r1_default() {
-		react_main_region_Preparation_r1__entry_Default();
 	}
 	
 	/* Default exit sequence for state Interface */
@@ -995,43 +910,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		exitAction_main_region_Interface_Timer_Wait();
 	}
 	
-	/* Default exit sequence for state Preparation */
-	private void exitSequence_main_region_Preparation() {
-		exitSequence_main_region_Preparation_r1();
-	}
-	
-	/* Default exit sequence for state Starting */
-	private void exitSequence_main_region_Preparation_r1_Starting() {
-		nextStateIndex = 0;
-		stateVector[0] = State.$NullState$;
-	}
-	
-	/* Default exit sequence for state Preparing */
-	private void exitSequence_main_region_Preparation_r1_Preparing() {
-		nextStateIndex = 0;
-		stateVector[0] = State.$NullState$;
-	}
-	
-	/* Default exit sequence for state Serving */
-	private void exitSequence_main_region_Preparation_r1_Serving() {
-		nextStateIndex = 0;
-		stateVector[0] = State.$NullState$;
-	}
-	
-	/* Default exit sequence for state Waiting */
-	private void exitSequence_main_region_Preparation_r1_Waiting() {
-		nextStateIndex = 0;
-		stateVector[0] = State.$NullState$;
-		
-		exitAction_main_region_Preparation_r1_Waiting();
-	}
-	
-	/* Default exit sequence for state Washing */
-	private void exitSequence_main_region_Preparation_r1_Washing() {
-		nextStateIndex = 0;
-		stateVector[0] = State.$NullState$;
-	}
-	
 	/* Default exit sequence for state Init */
 	private void exitSequence_main_region_Init() {
 		nextStateIndex = 0;
@@ -1048,21 +926,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			break;
 		case main_region_Interface_Selection_HotDrink:
 			exitSequence_main_region_Interface_Selection_HotDrink();
-			break;
-		case main_region_Preparation_r1_Starting:
-			exitSequence_main_region_Preparation_r1_Starting();
-			break;
-		case main_region_Preparation_r1_Preparing:
-			exitSequence_main_region_Preparation_r1_Preparing();
-			break;
-		case main_region_Preparation_r1_Serving:
-			exitSequence_main_region_Preparation_r1_Serving();
-			break;
-		case main_region_Preparation_r1_Waiting:
-			exitSequence_main_region_Preparation_r1_Waiting();
-			break;
-		case main_region_Preparation_r1_Washing:
-			exitSequence_main_region_Preparation_r1_Washing();
 			break;
 		case main_region_Init:
 			exitSequence_main_region_Init();
@@ -1136,29 +999,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		}
 	}
 	
-	/* Default exit sequence for region r1 */
-	private void exitSequence_main_region_Preparation_r1() {
-		switch (stateVector[0]) {
-		case main_region_Preparation_r1_Starting:
-			exitSequence_main_region_Preparation_r1_Starting();
-			break;
-		case main_region_Preparation_r1_Preparing:
-			exitSequence_main_region_Preparation_r1_Preparing();
-			break;
-		case main_region_Preparation_r1_Serving:
-			exitSequence_main_region_Preparation_r1_Serving();
-			break;
-		case main_region_Preparation_r1_Waiting:
-			exitSequence_main_region_Preparation_r1_Waiting();
-			break;
-		case main_region_Preparation_r1_Washing:
-			exitSequence_main_region_Preparation_r1_Washing();
-			break;
-		default:
-			break;
-		}
-	}
-	
 	/* Default react sequence for initial entry  */
 	private void react_main_region__entry_Default() {
 		enterSequence_main_region_Init_default();
@@ -1179,11 +1019,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		enterSequence_main_region_Interface_Timer_Wait_default();
 	}
 	
-	/* Default react sequence for initial entry  */
-	private void react_main_region_Preparation_r1__entry_Default() {
-		enterSequence_main_region_Preparation_r1_Starting_default();
-	}
-	
 	private boolean react() {
 		return false;
 	}
@@ -1199,15 +1034,7 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 				enterSequence_main_region_Init_default();
 				react();
 			} else {
-				if (sCInterface.validate) {
-					exitSequence_main_region_Interface();
-					sCInterface.raiseDoValid();
-					
-					enterSequence_main_region_Preparation_default();
-					react();
-				} else {
-					did_transition = false;
-				}
+				did_transition = false;
 			}
 		}
 		if (did_transition==false) {
@@ -1327,123 +1154,11 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		return did_transition;
 	}
 	
-	private boolean main_region_Preparation_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			did_transition = false;
-		}
-		if (did_transition==false) {
-			did_transition = react();
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_Preparation_r1_Starting_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			if (sCInterface.startPrep) {
-				exitSequence_main_region_Preparation_r1_Starting();
-				sCInterface.raiseDoPrep();
-				
-				enterSequence_main_region_Preparation_r1_Preparing_default();
-				main_region_Preparation_react(false);
-			} else {
-				did_transition = false;
-			}
-		}
-		if (did_transition==false) {
-			did_transition = main_region_Preparation_react(try_transition);
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_Preparation_r1_Preparing_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			if (sCInterface.startServ) {
-				exitSequence_main_region_Preparation_r1_Preparing();
-				sCInterface.raiseDoServ();
-				
-				enterSequence_main_region_Preparation_r1_Serving_default();
-				main_region_Preparation_react(false);
-			} else {
-				did_transition = false;
-			}
-		}
-		if (did_transition==false) {
-			did_transition = main_region_Preparation_react(try_transition);
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_Preparation_r1_Serving_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			if (sCInterface.deliver) {
-				exitSequence_main_region_Preparation_r1_Serving();
-				sCInterface.raiseDoWait();
-				
-				enterSequence_main_region_Preparation_r1_Waiting_default();
-				main_region_Preparation_react(false);
-			} else {
-				did_transition = false;
-			}
-		}
-		if (did_transition==false) {
-			did_transition = main_region_Preparation_react(try_transition);
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_Preparation_r1_Waiting_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			if (timeEvents[1]) {
-				exitSequence_main_region_Preparation_r1_Waiting();
-				sCInterface.raiseDoWash();
-				
-				enterSequence_main_region_Preparation_r1_Washing_default();
-				main_region_Preparation_react(false);
-			} else {
-				did_transition = false;
-			}
-		}
-		if (did_transition==false) {
-			did_transition = main_region_Preparation_react(try_transition);
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_Preparation_r1_Washing_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			if (sCInterface.finishWash) {
-				exitSequence_main_region_Preparation();
-				sCInterface.raiseDoCancel();
-				
-				enterSequence_main_region_Init_default();
-				react();
-			} else {
-				did_transition = false;
-			}
-		}
-		if (did_transition==false) {
-			did_transition = main_region_Preparation_react(try_transition);
-		}
-		return did_transition;
-	}
-	
 	private boolean main_region_Init_react(boolean try_transition) {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (timeEvents[2]) {
+			if (timeEvents[1]) {
 				exitSequence_main_region_Init();
 				sCInterface.raiseDoWelcome();
 				
