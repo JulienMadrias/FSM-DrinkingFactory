@@ -358,6 +358,42 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			}
 		}
 		
+		private boolean doPrep;
+		
+		
+		public boolean isRaisedDoPrep() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				return doPrep;
+			}
+		}
+		
+		protected void raiseDoPrep() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				doPrep = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onDoPrepRaised();
+				}
+			}
+		}
+		
+		private boolean doPouring;
+		
+		
+		public boolean isRaisedDoPouring() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				return doPouring;
+			}
+		}
+		
+		protected void raiseDoPouring() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				doPouring = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onDoPouringRaised();
+				}
+			}
+		}
+		
 		private boolean doWaitRecup;
 		
 		
@@ -502,20 +538,20 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			}
 		}
 		
-		private boolean doPouring;
+		private boolean doPouging;
 		
 		
-		public boolean isRaisedDoPouring() {
+		public boolean isRaisedDoPouging() {
 			synchronized(DrinkingFactoryStatemachine.this) {
-				return doPouring;
+				return doPouging;
 			}
 		}
 		
-		protected void raiseDoPouring() {
+		protected void raiseDoPouging() {
 			synchronized(DrinkingFactoryStatemachine.this) {
-				doPouring = true;
+				doPouging = true;
 				for (SCInterfaceListener listener : listeners) {
-					listener.onDoPouringRaised();
+					listener.onDoPougingRaised();
 				}
 			}
 		}
@@ -543,6 +579,8 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		doAddCash = false;
 		doHotDrink = false;
 		doStartMachine = false;
+		doPrep = false;
+		doPouring = false;
 		doWaitRecup = false;
 		doWash = false;
 		doPrepSupp = false;
@@ -551,7 +589,7 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		doPrepPouring = false;
 		doWaitHeated = false;
 		doSugar = false;
-		doPouring = false;
+		doPouging = false;
 		}
 		
 	}
@@ -924,6 +962,14 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		return sCInterface.isRaisedDoStartMachine();
 	}
 	
+	public synchronized boolean isRaisedDoPrep() {
+		return sCInterface.isRaisedDoPrep();
+	}
+	
+	public synchronized boolean isRaisedDoPouring() {
+		return sCInterface.isRaisedDoPouring();
+	}
+	
 	public synchronized boolean isRaisedDoWaitRecup() {
 		return sCInterface.isRaisedDoWaitRecup();
 	}
@@ -956,8 +1002,8 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		return sCInterface.isRaisedDoSugar();
 	}
 	
-	public synchronized boolean isRaisedDoPouring() {
-		return sCInterface.isRaisedDoPouring();
+	public synchronized boolean isRaisedDoPouging() {
+		return sCInterface.isRaisedDoPouging();
 	}
 	
 	/* Entry action for state 'HotDrink'. */
