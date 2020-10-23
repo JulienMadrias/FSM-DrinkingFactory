@@ -36,6 +36,8 @@ public interface IDrinkingFactoryStatemachine extends ITimerCallback,IStatemachi
 		
 		public void raiseFinishWash();
 		
+		public void raisePrepSupp();
+		
 		public boolean isRaisedDoCancel();
 		
 		public boolean isRaisedDoWelcome();
@@ -46,15 +48,17 @@ public interface IDrinkingFactoryStatemachine extends ITimerCallback,IStatemachi
 		
 		public boolean isRaisedDoAddCash();
 		
-		public boolean isRaisedDoValid();
+		public boolean isRaisedDoStartMachine();
 		
 		public boolean isRaisedDoPrep();
 		
-		public boolean isRaisedDoServ();
+		public boolean isRaisedDoPouring();
 		
-		public boolean isRaisedDoWait();
+		public boolean isRaisedDoWaitRecup();
 		
 		public boolean isRaisedDoWash();
+		
+		public boolean isRaisedDoPrepSupp();
 		
 	public List<SCInterfaceListener> getListeners();
 	}
@@ -66,11 +70,12 @@ public interface IDrinkingFactoryStatemachine extends ITimerCallback,IStatemachi
 		public void onDoHotDrinkRaised();
 		public void onDoCBRaised();
 		public void onDoAddCashRaised();
-		public void onDoValidRaised();
+		public void onDoStartMachineRaised();
 		public void onDoPrepRaised();
-		public void onDoServRaised();
-		public void onDoWaitRaised();
+		public void onDoPouringRaised();
+		public void onDoWaitRecupRaised();
 		public void onDoWashRaised();
+		public void onDoPrepSuppRaised();
 		}
 	
 	public SCInterface getSCInterface();

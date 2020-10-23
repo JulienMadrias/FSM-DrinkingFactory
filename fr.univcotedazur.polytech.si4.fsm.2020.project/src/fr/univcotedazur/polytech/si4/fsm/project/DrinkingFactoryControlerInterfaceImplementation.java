@@ -40,31 +40,37 @@ public class DrinkingFactoryControlerInterfaceImplementation implements SCInterf
 	}
 
 	@Override
-	public void onDoValidRaised() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void onDoPrepRaised() {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void onDoServRaised() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onDoWaitRaised() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public void onDoWashRaised() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDoStartMachineRaised() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDoPouringRaised() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDoWaitRecupRaised() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDoPrepSuppRaised() {
 		// TODO Auto-generated method stub
 		
 	}
