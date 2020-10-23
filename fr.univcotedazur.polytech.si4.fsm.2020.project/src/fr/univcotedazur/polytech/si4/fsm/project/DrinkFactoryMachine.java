@@ -47,6 +47,9 @@ public class DrinkFactoryMachine extends JFrame {
 	private int coin = 0;
 	private int maxPrice = 50;
 	private int sugar, size, temperature;
+	private enum drink{COFFEE, EXPRESSO, TEA};
+	private drink choosedDrink;
+	
 	
 	
 	/**
@@ -57,14 +60,20 @@ public class DrinkFactoryMachine extends JFrame {
 	protected void cancelOrder() {
 		if(cbDataRegistered) {
 			lblPot.setText("Transaction annulée");
+			cbDataRegistered = false;
 		}
 		else {
 			lblPot.setText("");
 			giveBackChange(cashValue);
 		}
+		choosedDrink = null;
 	}
 	
 	protected void startSystem() {
+		resetMoneyDisplay();
+	}
+	
+	protected void resetMoneyDisplay() {
 		lblPot.setText("");
 		lblChange.setText("");
 	}
@@ -72,6 +81,7 @@ public class DrinkFactoryMachine extends JFrame {
 	protected void payInCB() {
 		cbDataRegistered = true;
 		lblPot.setText("Carte acceptée");
+		verifSelection();
 	}
 	
 	protected void addCash() {
@@ -81,16 +91,55 @@ public class DrinkFactoryMachine extends JFrame {
 			giveBackChange(cashValue - maxPrice);
 		}
 		lblPot.setText("0." + cashValue + " €");
+		verifSelection();
 	}
 	
-	protected void hotDrinkSelected() {}
+	protected void drinkSelected() {
+		verifSelection();
+	}
 	
 	protected void giveBackChange(int change) {
 		cashValue -= change;
 		lblChange.setText("Change: " + change);
 	}
 	
+	protected void verifSelection() {
+		if(cbDataRegistered && choosedDrink != null) {
+			lblPot.setText("Transaction effectuée");
+			theFSM.raiseValidate();
+			cbDataRegistered = false;
+		}
+		if(choosedDrink != null) {
+			switch(choosedDrink) {
+				case TEA:
+					if(cashValue>=40) {
+						theFSM.raiseValidate();
+						giveBackChange(cashValue-40);
+						cashValue = 0;
+					}
+					break;
+				case COFFEE:
+					if(cashValue>=35) {
+						theFSM.raiseValidate();
+						giveBackChange(cashValue-35);
+						cashValue = 0;
+					}
+					break;
+				case EXPRESSO:
+					if(cashValue>=50) {
+						theFSM.raiseValidate();
+						giveBackChange(cashValue-50);
+						cashValue = 0;
+					}
+					break;
+				default: break;	
+			}
+		}
+	}
 	
+	protected void startMachine() {
+		resetMoneyDisplay();
+	}
 	
 	
 	/**
@@ -155,6 +204,7 @@ public class DrinkFactoryMachine extends JFrame {
 		coffeeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				choosedDrink = drink.COFFEE;
 				theFSM.raiseSelectHotDrink();
 			}
 		});
@@ -167,6 +217,7 @@ public class DrinkFactoryMachine extends JFrame {
 		expressoButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				choosedDrink = drink.EXPRESSO;
 				theFSM.raiseSelectHotDrink();
 			}
 		});
@@ -179,6 +230,7 @@ public class DrinkFactoryMachine extends JFrame {
 		teaButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				choosedDrink = drink.TEA;
 				theFSM.raiseSelectHotDrink();
 			}
 		});
@@ -192,7 +244,7 @@ public class DrinkFactoryMachine extends JFrame {
 
 		JProgressBar progressBar = new JProgressBar();
 		progressBar.setStringPainted(true);
-		progressBar.setValue(10);
+		progressBar.setValue(0);
 		progressBar.setForeground(Color.LIGHT_GRAY);
 		progressBar.setBackground(Color.DARK_GRAY);
 		progressBar.setBounds(12, 254, 622, 26);

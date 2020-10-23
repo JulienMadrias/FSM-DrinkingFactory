@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:sgraph="http://www.yakindu.org/sct/sgraph/2.0.0">
-  <sgraph:Statechart xmi:id="_AJZLIAoWEeumAbtkdxmcVA" specification="@EventDriven&#xA;// Use the event driven execution model.&#xA;// Runs a run-to-completion step&#xA;// each time an event is raised.&#xA;// Switch to cycle based behavior&#xA;// by specifying '@CycleBased(200)'&#xA;// instead.&#xA;&#xA;@ChildFirstExecution&#xA;// In composite states, execute&#xA;// child states first.&#xA;// @ParentFirstExecution does the opposite.&#xA;&#xA;interface:&#xA;in event welcome&#xA;in event cancel&#xA;in event selectHotDrink&#xA;in event selectParam&#xA;in event payCB&#xA;in event addCash&#xA;in event validate&#xA;in event startPrep&#xA;in event startServ&#xA;in event deliver&#xA;in event action&#xA;in event finishWash&#xA;in event prepSupp&#xA;&#xA;out event doCancel&#xA;out event doWelcome&#xA;out event doHotDrink&#xA;out event doCB&#xA;out event doAddCash&#xA;out event doStartMachine&#xA;out event doPrep&#xA;out event doPouring&#xA;out event doWaitRecup&#xA;out event doWash&#xA;out event doPrepSupp" name="DrinkingFactory">
+  <sgraph:Statechart xmi:id="_AJZLIAoWEeumAbtkdxmcVA" specification="@EventDriven&#xA;// Use the event driven execution model.&#xA;// Runs a run-to-completion step&#xA;// each time an event is raised.&#xA;// Switch to cycle based behavior&#xA;// by specifying '@CycleBased(200)'&#xA;// instead.&#xA;&#xA;@ChildFirstExecution&#xA;// In composite states, execute&#xA;// child states first.&#xA;// @ParentFirstExecution does the opposite.&#xA;&#xA;interface:&#xA;in event welcome&#xA;in event cancel&#xA;in event selectHotDrink&#xA;in event selectParam&#xA;in event payCB&#xA;in event addCash&#xA;in event validate&#xA;in event startPrep&#xA;in event startServ&#xA;in event deliver&#xA;in event action&#xA;in event finishWash&#xA;in event prepSupp&#xA;&#xA;out event doCancel&#xA;out event doWelcome&#xA;out event doCB&#xA;out event doAddCash&#xA;out event doHotDrink&#xA;out event doStartMachine&#xA;out event doPrep&#xA;out event doPouring&#xA;out event doWaitRecup&#xA;out event doWash&#xA;out event doPrepSupp" name="DrinkingFactory">
     <regions xmi:id="_AJcOcwoWEeumAbtkdxmcVA" name="main region">
       <vertices xsi:type="sgraph:Entry" xmi:id="_AJeDoQoWEeumAbtkdxmcVA">
         <outgoingTransitions xmi:id="_V-KfAAoWEeumAbtkdxmcVA" specification="" target="_Q0CjgAoWEeumAbtkdxmcVA"/>
@@ -77,7 +77,6 @@
         </regions>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_SXXcIBUGEeumAbtkdxmcVA" name="Pouring" incomingTransitions="_hzRJcBUGEeumAbtkdxmcVA">
-        <outgoingTransitions xmi:id="_s1pRwBUGEeumAbtkdxmcVA" specification="deliver / raise doWaitRecup" target="_mZu-QBUGEeumAbtkdxmcVA"/>
         <outgoingTransitions xmi:id="_wQfA8BUGEeumAbtkdxmcVA" specification="prepSupp / raise doPrepSupp" target="_uejwUBUGEeumAbtkdxmcVA"/>
         <regions xmi:id="_SXXcIxUGEeumAbtkdxmcVA" name="r1">
           <vertices xsi:type="sgraph:Entry" xmi:id="_XfcwQBUGEeumAbtkdxmcVA">
@@ -92,7 +91,7 @@
           <vertices xsi:type="sgraph:State" xmi:id="_cHCmcBUGEeumAbtkdxmcVA" name="Pouring" incomingTransitions="_eu1vIBUGEeumAbtkdxmcVA"/>
         </regions>
       </vertices>
-      <vertices xsi:type="sgraph:State" xmi:id="_mZu-QBUGEeumAbtkdxmcVA" name="Wait recup" incomingTransitions="_s1pRwBUGEeumAbtkdxmcVA _w3SiQBUGEeumAbtkdxmcVA">
+      <vertices xsi:type="sgraph:State" xmi:id="_mZu-QBUGEeumAbtkdxmcVA" name="Wait recup" incomingTransitions="_w3SiQBUGEeumAbtkdxmcVA">
         <outgoingTransitions xmi:id="_0WU08BUGEeumAbtkdxmcVA" specification="after 15s / raise doWash" target="_yEfVMBUGEeumAbtkdxmcVA"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_uejwUBUGEeumAbtkdxmcVA" name="Prep supp" incomingTransitions="_wQfA8BUGEeumAbtkdxmcVA">
@@ -921,17 +920,6 @@
       <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_hzRJcxUGEeumAbtkdxmcVA" points="[4, 4, 0, -70]$[4, 71, 0, -3]"/>
       <sourceAnchor xsi:type="notation:IdentityAnchor" xmi:id="_hzSXkBUGEeumAbtkdxmcVA" id="(0.4895833333333333,0.9708029197080292)"/>
       <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_hzSXkRUGEeumAbtkdxmcVA" id="(0.5,0.021897810218978103)"/>
-    </edges>
-    <edges xmi:id="_s1p40BUGEeumAbtkdxmcVA" type="Transition" element="_s1pRwBUGEeumAbtkdxmcVA" source="_SXYDMBUGEeumAbtkdxmcVA" target="_mZu-QxUGEeumAbtkdxmcVA">
-      <children xsi:type="notation:DecorationNode" xmi:id="_s1p41BUGEeumAbtkdxmcVA" type="TransitionExpression">
-        <styles xsi:type="notation:ShapeStyle" xmi:id="_s1p41RUGEeumAbtkdxmcVA"/>
-        <layoutConstraint xsi:type="notation:Location" xmi:id="_s1p41hUGEeumAbtkdxmcVA" y="10"/>
-      </children>
-      <styles xsi:type="notation:ConnectorStyle" xmi:id="_s1p40RUGEeumAbtkdxmcVA" routing="Rectilinear" lineColor="4210752"/>
-      <styles xsi:type="notation:FontStyle" xmi:id="_s1p40xUGEeumAbtkdxmcVA" fontName="Verdana"/>
-      <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_s1p40hUGEeumAbtkdxmcVA" points="[5, 1, -197, 28]$[177, 1, -25, 28]"/>
-      <sourceAnchor xsi:type="notation:IdentityAnchor" xmi:id="_s1rG8BUGEeumAbtkdxmcVA" id="(0.9869791666666666,0.17518248175182483)"/>
-      <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_s1rG8RUGEeumAbtkdxmcVA" id="(0.12953367875647667,0.1827956989247312)"/>
     </edges>
     <edges xmi:id="_wQfoABUGEeumAbtkdxmcVA" type="Transition" element="_wQfA8BUGEeumAbtkdxmcVA" source="_SXYDMBUGEeumAbtkdxmcVA" target="_uekXYBUGEeumAbtkdxmcVA">
       <children xsi:type="notation:DecorationNode" xmi:id="_wQfoBBUGEeumAbtkdxmcVA" type="TransitionExpression">

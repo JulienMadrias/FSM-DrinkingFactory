@@ -42,11 +42,11 @@ public interface IDrinkingFactoryStatemachine extends ITimerCallback,IStatemachi
 		
 		public boolean isRaisedDoWelcome();
 		
-		public boolean isRaisedDoHotDrink();
-		
 		public boolean isRaisedDoCB();
 		
 		public boolean isRaisedDoAddCash();
+		
+		public boolean isRaisedDoHotDrink();
 		
 		public boolean isRaisedDoStartMachine();
 		
@@ -67,9 +67,9 @@ public interface IDrinkingFactoryStatemachine extends ITimerCallback,IStatemachi
 	
 		public void onDoCancelRaised();
 		public void onDoWelcomeRaised();
-		public void onDoHotDrinkRaised();
 		public void onDoCBRaised();
 		public void onDoAddCashRaised();
+		public void onDoHotDrinkRaised();
 		public void onDoStartMachineRaised();
 		public void onDoPrepRaised();
 		public void onDoPouringRaised();

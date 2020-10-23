@@ -286,24 +286,6 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			}
 		}
 		
-		private boolean doHotDrink;
-		
-		
-		public boolean isRaisedDoHotDrink() {
-			synchronized(DrinkingFactoryStatemachine.this) {
-				return doHotDrink;
-			}
-		}
-		
-		protected void raiseDoHotDrink() {
-			synchronized(DrinkingFactoryStatemachine.this) {
-				doHotDrink = true;
-				for (SCInterfaceListener listener : listeners) {
-					listener.onDoHotDrinkRaised();
-				}
-			}
-		}
-		
 		private boolean doCB;
 		
 		
@@ -336,6 +318,24 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 				doAddCash = true;
 				for (SCInterfaceListener listener : listeners) {
 					listener.onDoAddCashRaised();
+				}
+			}
+		}
+		
+		private boolean doHotDrink;
+		
+		
+		public boolean isRaisedDoHotDrink() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				return doHotDrink;
+			}
+		}
+		
+		protected void raiseDoHotDrink() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				doHotDrink = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onDoHotDrinkRaised();
 				}
 			}
 		}
@@ -467,9 +467,9 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		
 		doCancel = false;
 		doWelcome = false;
-		doHotDrink = false;
 		doCB = false;
 		doAddCash = false;
+		doHotDrink = false;
 		doStartMachine = false;
 		doPrep = false;
 		doPouring = false;
@@ -832,16 +832,16 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		return sCInterface.isRaisedDoWelcome();
 	}
 	
-	public synchronized boolean isRaisedDoHotDrink() {
-		return sCInterface.isRaisedDoHotDrink();
-	}
-	
 	public synchronized boolean isRaisedDoCB() {
 		return sCInterface.isRaisedDoCB();
 	}
 	
 	public synchronized boolean isRaisedDoAddCash() {
 		return sCInterface.isRaisedDoAddCash();
+	}
+	
+	public synchronized boolean isRaisedDoHotDrink() {
+		return sCInterface.isRaisedDoHotDrink();
 	}
 	
 	public synchronized boolean isRaisedDoStartMachine() {
@@ -1703,22 +1703,14 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (sCInterface.deliver) {
+			if (sCInterface.prepSupp) {
 				exitSequence_main_region_Pouring();
-				sCInterface.raiseDoWaitRecup();
+				sCInterface.raiseDoPrepSupp();
 				
-				enterSequence_main_region_Wait_recup_default();
+				enterSequence_main_region_Prep_supp_default();
 				react();
 			} else {
-				if (sCInterface.prepSupp) {
-					exitSequence_main_region_Pouring();
-					sCInterface.raiseDoPrepSupp();
-					
-					enterSequence_main_region_Prep_supp_default();
-					react();
-				} else {
-					did_transition = false;
-				}
+				did_transition = false;
 			}
 		}
 		if (did_transition==false) {
