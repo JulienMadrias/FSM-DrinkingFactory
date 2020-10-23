@@ -232,6 +232,24 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			}
 		}
 		
+		private boolean prepSupp;
+		
+		
+		public void raisePrepSupp() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				inEventQueue.add(
+					new Runnable() {
+						@Override
+						public void run() {
+							prepSupp = true;
+							singleCycle();
+						}
+					}
+				);
+				runCycle();
+			}
+		}
+		
 		private boolean doCancel;
 		
 		
@@ -322,20 +340,20 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			}
 		}
 		
-		private boolean doValid;
+		private boolean doStartMachine;
 		
 		
-		public boolean isRaisedDoValid() {
+		public boolean isRaisedDoStartMachine() {
 			synchronized(DrinkingFactoryStatemachine.this) {
-				return doValid;
+				return doStartMachine;
 			}
 		}
 		
-		protected void raiseDoValid() {
+		protected void raiseDoStartMachine() {
 			synchronized(DrinkingFactoryStatemachine.this) {
-				doValid = true;
+				doStartMachine = true;
 				for (SCInterfaceListener listener : listeners) {
-					listener.onDoValidRaised();
+					listener.onDoStartMachineRaised();
 				}
 			}
 		}
@@ -358,38 +376,38 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			}
 		}
 		
-		private boolean doServ;
+		private boolean doPouring;
 		
 		
-		public boolean isRaisedDoServ() {
+		public boolean isRaisedDoPouring() {
 			synchronized(DrinkingFactoryStatemachine.this) {
-				return doServ;
+				return doPouring;
 			}
 		}
 		
-		protected void raiseDoServ() {
+		protected void raiseDoPouring() {
 			synchronized(DrinkingFactoryStatemachine.this) {
-				doServ = true;
+				doPouring = true;
 				for (SCInterfaceListener listener : listeners) {
-					listener.onDoServRaised();
+					listener.onDoPouringRaised();
 				}
 			}
 		}
 		
-		private boolean doWait;
+		private boolean doWaitRecup;
 		
 		
-		public boolean isRaisedDoWait() {
+		public boolean isRaisedDoWaitRecup() {
 			synchronized(DrinkingFactoryStatemachine.this) {
-				return doWait;
+				return doWaitRecup;
 			}
 		}
 		
-		protected void raiseDoWait() {
+		protected void raiseDoWaitRecup() {
 			synchronized(DrinkingFactoryStatemachine.this) {
-				doWait = true;
+				doWaitRecup = true;
 				for (SCInterfaceListener listener : listeners) {
-					listener.onDoWaitRaised();
+					listener.onDoWaitRecupRaised();
 				}
 			}
 		}
@@ -412,6 +430,24 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			}
 		}
 		
+		private boolean doPrepSupp;
+		
+		
+		public boolean isRaisedDoPrepSupp() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				return doPrepSupp;
+			}
+		}
+		
+		protected void raiseDoPrepSupp() {
+			synchronized(DrinkingFactoryStatemachine.this) {
+				doPrepSupp = true;
+				for (SCInterfaceListener listener : listeners) {
+					listener.onDoPrepSuppRaised();
+				}
+			}
+		}
+		
 		protected void clearEvents() {
 			welcome = false;
 			cancel = false;
@@ -425,6 +461,7 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			deliver = false;
 			action = false;
 			finishWash = false;
+			prepSupp = false;
 		}
 		protected void clearOutEvents() {
 		
@@ -433,11 +470,12 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		doHotDrink = false;
 		doCB = false;
 		doAddCash = false;
-		doValid = false;
+		doStartMachine = false;
 		doPrep = false;
-		doServ = false;
-		doWait = false;
+		doPouring = false;
+		doWaitRecup = false;
 		doWash = false;
+		doPrepSupp = false;
 		}
 		
 	}
@@ -456,6 +494,18 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		main_region_Interface_Payment_Cash,
 		main_region_Interface_Timer_Wait,
 		main_region_Init,
+		main_region_Starting,
+		main_region_Starting_r1_Take_ingr,
+		main_region_Starting_r2_Start_heated,
+		main_region_Preparation,
+		main_region_Preparation_r1_Prep_pouring,
+		main_region_Preparation_r2_Wait_heated,
+		main_region_Pouring,
+		main_region_Pouring_r1_Sugar,
+		main_region_Pouring_r2_Pouring,
+		main_region_Wait_recup,
+		main_region_Prep_supp,
+		main_region_Washing,
 		$NullState$
 	};
 	
@@ -465,7 +515,7 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	
 	private ITimer timer;
 	
-	private final boolean[] timeEvents = new boolean[2];
+	private final boolean[] timeEvents = new boolean[4];
 	
 	private BlockingQueue<Runnable> inEventQueue = new LinkedBlockingQueue<Runnable>();
 	private boolean isRunningCycle = false;
@@ -546,6 +596,33 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 				break;
 			case main_region_Init:
 				main_region_Init_react(true);
+				break;
+			case main_region_Starting_r1_Take_ingr:
+				main_region_Starting_r1_Take_ingr_react(true);
+				break;
+			case main_region_Starting_r2_Start_heated:
+				main_region_Starting_r2_Start_heated_react(true);
+				break;
+			case main_region_Preparation_r1_Prep_pouring:
+				main_region_Preparation_r1_Prep_pouring_react(true);
+				break;
+			case main_region_Preparation_r2_Wait_heated:
+				main_region_Preparation_r2_Wait_heated_react(true);
+				break;
+			case main_region_Pouring_r1_Sugar:
+				main_region_Pouring_r1_Sugar_react(true);
+				break;
+			case main_region_Pouring_r2_Pouring:
+				main_region_Pouring_r2_Pouring_react(true);
+				break;
+			case main_region_Wait_recup:
+				main_region_Wait_recup_react(true);
+				break;
+			case main_region_Prep_supp:
+				main_region_Prep_supp_react(true);
+				break;
+			case main_region_Washing:
+				main_region_Washing_react(true);
 				break;
 			default:
 				// $NullState$
@@ -628,6 +705,33 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			return stateVector[2] == State.main_region_Interface_Timer_Wait;
 		case main_region_Init:
 			return stateVector[0] == State.main_region_Init;
+		case main_region_Starting:
+			return stateVector[0].ordinal() >= State.
+					main_region_Starting.ordinal()&& stateVector[0].ordinal() <= State.main_region_Starting_r2_Start_heated.ordinal();
+		case main_region_Starting_r1_Take_ingr:
+			return stateVector[0] == State.main_region_Starting_r1_Take_ingr;
+		case main_region_Starting_r2_Start_heated:
+			return stateVector[1] == State.main_region_Starting_r2_Start_heated;
+		case main_region_Preparation:
+			return stateVector[0].ordinal() >= State.
+					main_region_Preparation.ordinal()&& stateVector[0].ordinal() <= State.main_region_Preparation_r2_Wait_heated.ordinal();
+		case main_region_Preparation_r1_Prep_pouring:
+			return stateVector[0] == State.main_region_Preparation_r1_Prep_pouring;
+		case main_region_Preparation_r2_Wait_heated:
+			return stateVector[1] == State.main_region_Preparation_r2_Wait_heated;
+		case main_region_Pouring:
+			return stateVector[0].ordinal() >= State.
+					main_region_Pouring.ordinal()&& stateVector[0].ordinal() <= State.main_region_Pouring_r2_Pouring.ordinal();
+		case main_region_Pouring_r1_Sugar:
+			return stateVector[0] == State.main_region_Pouring_r1_Sugar;
+		case main_region_Pouring_r2_Pouring:
+			return stateVector[1] == State.main_region_Pouring_r2_Pouring;
+		case main_region_Wait_recup:
+			return stateVector[0] == State.main_region_Wait_recup;
+		case main_region_Prep_supp:
+			return stateVector[0] == State.main_region_Prep_supp;
+		case main_region_Washing:
+			return stateVector[0] == State.main_region_Washing;
 		default:
 			return false;
 		}
@@ -716,6 +820,10 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		sCInterface.raiseFinishWash();
 	}
 	
+	public synchronized void raisePrepSupp() {
+		sCInterface.raisePrepSupp();
+	}
+	
 	public synchronized boolean isRaisedDoCancel() {
 		return sCInterface.isRaisedDoCancel();
 	}
@@ -736,24 +844,28 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		return sCInterface.isRaisedDoAddCash();
 	}
 	
-	public synchronized boolean isRaisedDoValid() {
-		return sCInterface.isRaisedDoValid();
+	public synchronized boolean isRaisedDoStartMachine() {
+		return sCInterface.isRaisedDoStartMachine();
 	}
 	
 	public synchronized boolean isRaisedDoPrep() {
 		return sCInterface.isRaisedDoPrep();
 	}
 	
-	public synchronized boolean isRaisedDoServ() {
-		return sCInterface.isRaisedDoServ();
+	public synchronized boolean isRaisedDoPouring() {
+		return sCInterface.isRaisedDoPouring();
 	}
 	
-	public synchronized boolean isRaisedDoWait() {
-		return sCInterface.isRaisedDoWait();
+	public synchronized boolean isRaisedDoWaitRecup() {
+		return sCInterface.isRaisedDoWaitRecup();
 	}
 	
 	public synchronized boolean isRaisedDoWash() {
 		return sCInterface.isRaisedDoWash();
+	}
+	
+	public synchronized boolean isRaisedDoPrepSupp() {
+		return sCInterface.isRaisedDoPrepSupp();
 	}
 	
 	/* Entry action for state 'HotDrink'. */
@@ -781,6 +893,16 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		timer.setTimer(this, 1, (1 * 1000), false);
 	}
 	
+	/* Entry action for state 'Wait recup'. */
+	private void entryAction_main_region_Wait_recup() {
+		timer.setTimer(this, 2, (15 * 1000), false);
+	}
+	
+	/* Entry action for state 'Prep supp'. */
+	private void entryAction_main_region_Prep_supp() {
+		timer.setTimer(this, 3, (30 * 1000), false);
+	}
+	
 	/* Exit action for state 'Wait'. */
 	private void exitAction_main_region_Interface_Timer_Wait() {
 		timer.unsetTimer(this, 0);
@@ -789,6 +911,16 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	/* Exit action for state 'Init'. */
 	private void exitAction_main_region_Init() {
 		timer.unsetTimer(this, 1);
+	}
+	
+	/* Exit action for state 'Wait recup'. */
+	private void exitAction_main_region_Wait_recup() {
+		timer.unsetTimer(this, 2);
+	}
+	
+	/* Exit action for state 'Prep supp'. */
+	private void exitAction_main_region_Prep_supp() {
+		timer.unsetTimer(this, 3);
 	}
 	
 	/* 'default' enter sequence for state Interface */
@@ -845,6 +977,80 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		stateVector[0] = State.main_region_Init;
 	}
 	
+	/* 'default' enter sequence for state Starting */
+	private void enterSequence_main_region_Starting_default() {
+		enterSequence_main_region_Starting_r1_default();
+		enterSequence_main_region_Starting_r2_default();
+	}
+	
+	/* 'default' enter sequence for state Take ingr */
+	private void enterSequence_main_region_Starting_r1_Take_ingr_default() {
+		nextStateIndex = 0;
+		stateVector[0] = State.main_region_Starting_r1_Take_ingr;
+	}
+	
+	/* 'default' enter sequence for state Start heated */
+	private void enterSequence_main_region_Starting_r2_Start_heated_default() {
+		nextStateIndex = 1;
+		stateVector[1] = State.main_region_Starting_r2_Start_heated;
+	}
+	
+	/* 'default' enter sequence for state Preparation */
+	private void enterSequence_main_region_Preparation_default() {
+		enterSequence_main_region_Preparation_r1_default();
+		enterSequence_main_region_Preparation_r2_default();
+	}
+	
+	/* 'default' enter sequence for state Prep pouring */
+	private void enterSequence_main_region_Preparation_r1_Prep_pouring_default() {
+		nextStateIndex = 0;
+		stateVector[0] = State.main_region_Preparation_r1_Prep_pouring;
+	}
+	
+	/* 'default' enter sequence for state Wait heated */
+	private void enterSequence_main_region_Preparation_r2_Wait_heated_default() {
+		nextStateIndex = 1;
+		stateVector[1] = State.main_region_Preparation_r2_Wait_heated;
+	}
+	
+	/* 'default' enter sequence for state Pouring */
+	private void enterSequence_main_region_Pouring_default() {
+		enterSequence_main_region_Pouring_r1_default();
+		enterSequence_main_region_Pouring_r2_default();
+	}
+	
+	/* 'default' enter sequence for state Sugar */
+	private void enterSequence_main_region_Pouring_r1_Sugar_default() {
+		nextStateIndex = 0;
+		stateVector[0] = State.main_region_Pouring_r1_Sugar;
+	}
+	
+	/* 'default' enter sequence for state Pouring */
+	private void enterSequence_main_region_Pouring_r2_Pouring_default() {
+		nextStateIndex = 1;
+		stateVector[1] = State.main_region_Pouring_r2_Pouring;
+	}
+	
+	/* 'default' enter sequence for state Wait recup */
+	private void enterSequence_main_region_Wait_recup_default() {
+		entryAction_main_region_Wait_recup();
+		nextStateIndex = 0;
+		stateVector[0] = State.main_region_Wait_recup;
+	}
+	
+	/* 'default' enter sequence for state Prep supp */
+	private void enterSequence_main_region_Prep_supp_default() {
+		entryAction_main_region_Prep_supp();
+		nextStateIndex = 0;
+		stateVector[0] = State.main_region_Prep_supp;
+	}
+	
+	/* 'default' enter sequence for state Washing */
+	private void enterSequence_main_region_Washing_default() {
+		nextStateIndex = 0;
+		stateVector[0] = State.main_region_Washing;
+	}
+	
 	/* 'default' enter sequence for region main region */
 	private void enterSequence_main_region_default() {
 		react_main_region__entry_Default();
@@ -863,6 +1069,36 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 	/* 'default' enter sequence for region Timer */
 	private void enterSequence_main_region_Interface_Timer_default() {
 		react_main_region_Interface_Timer__entry_Default();
+	}
+	
+	/* 'default' enter sequence for region r1 */
+	private void enterSequence_main_region_Starting_r1_default() {
+		react_main_region_Starting_r1__entry_Default();
+	}
+	
+	/* 'default' enter sequence for region r2 */
+	private void enterSequence_main_region_Starting_r2_default() {
+		react_main_region_Starting_r2__entry_Default();
+	}
+	
+	/* 'default' enter sequence for region r1 */
+	private void enterSequence_main_region_Preparation_r1_default() {
+		react_main_region_Preparation_r1__entry_Default();
+	}
+	
+	/* 'default' enter sequence for region r2 */
+	private void enterSequence_main_region_Preparation_r2_default() {
+		react_main_region_Preparation_r2__entry_Default();
+	}
+	
+	/* 'default' enter sequence for region r1 */
+	private void enterSequence_main_region_Pouring_r1_default() {
+		react_main_region_Pouring_r1__entry_Default();
+	}
+	
+	/* 'default' enter sequence for region r2 */
+	private void enterSequence_main_region_Pouring_r2_default() {
+		react_main_region_Pouring_r2__entry_Default();
 	}
 	
 	/* Default exit sequence for state Interface */
@@ -918,6 +1154,82 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		exitAction_main_region_Init();
 	}
 	
+	/* Default exit sequence for state Starting */
+	private void exitSequence_main_region_Starting() {
+		exitSequence_main_region_Starting_r1();
+		exitSequence_main_region_Starting_r2();
+	}
+	
+	/* Default exit sequence for state Take ingr */
+	private void exitSequence_main_region_Starting_r1_Take_ingr() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NullState$;
+	}
+	
+	/* Default exit sequence for state Start heated */
+	private void exitSequence_main_region_Starting_r2_Start_heated() {
+		nextStateIndex = 1;
+		stateVector[1] = State.$NullState$;
+	}
+	
+	/* Default exit sequence for state Preparation */
+	private void exitSequence_main_region_Preparation() {
+		exitSequence_main_region_Preparation_r1();
+		exitSequence_main_region_Preparation_r2();
+	}
+	
+	/* Default exit sequence for state Prep pouring */
+	private void exitSequence_main_region_Preparation_r1_Prep_pouring() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NullState$;
+	}
+	
+	/* Default exit sequence for state Wait heated */
+	private void exitSequence_main_region_Preparation_r2_Wait_heated() {
+		nextStateIndex = 1;
+		stateVector[1] = State.$NullState$;
+	}
+	
+	/* Default exit sequence for state Pouring */
+	private void exitSequence_main_region_Pouring() {
+		exitSequence_main_region_Pouring_r1();
+		exitSequence_main_region_Pouring_r2();
+	}
+	
+	/* Default exit sequence for state Sugar */
+	private void exitSequence_main_region_Pouring_r1_Sugar() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NullState$;
+	}
+	
+	/* Default exit sequence for state Pouring */
+	private void exitSequence_main_region_Pouring_r2_Pouring() {
+		nextStateIndex = 1;
+		stateVector[1] = State.$NullState$;
+	}
+	
+	/* Default exit sequence for state Wait recup */
+	private void exitSequence_main_region_Wait_recup() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NullState$;
+		
+		exitAction_main_region_Wait_recup();
+	}
+	
+	/* Default exit sequence for state Prep supp */
+	private void exitSequence_main_region_Prep_supp() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NullState$;
+		
+		exitAction_main_region_Prep_supp();
+	}
+	
+	/* Default exit sequence for state Washing */
+	private void exitSequence_main_region_Washing() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NullState$;
+	}
+	
 	/* Default exit sequence for region main region */
 	private void exitSequence_main_region() {
 		switch (stateVector[0]) {
@@ -929,6 +1241,24 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			break;
 		case main_region_Init:
 			exitSequence_main_region_Init();
+			break;
+		case main_region_Starting_r1_Take_ingr:
+			exitSequence_main_region_Starting_r1_Take_ingr();
+			break;
+		case main_region_Preparation_r1_Prep_pouring:
+			exitSequence_main_region_Preparation_r1_Prep_pouring();
+			break;
+		case main_region_Pouring_r1_Sugar:
+			exitSequence_main_region_Pouring_r1_Sugar();
+			break;
+		case main_region_Wait_recup:
+			exitSequence_main_region_Wait_recup();
+			break;
+		case main_region_Prep_supp:
+			exitSequence_main_region_Prep_supp();
+			break;
+		case main_region_Washing:
+			exitSequence_main_region_Washing();
 			break;
 		default:
 			break;
@@ -943,6 +1273,15 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 			break;
 		case main_region_Interface_Payment_Cash:
 			exitSequence_main_region_Interface_Payment_Cash();
+			break;
+		case main_region_Starting_r2_Start_heated:
+			exitSequence_main_region_Starting_r2_Start_heated();
+			break;
+		case main_region_Preparation_r2_Wait_heated:
+			exitSequence_main_region_Preparation_r2_Wait_heated();
+			break;
+		case main_region_Pouring_r2_Pouring:
+			exitSequence_main_region_Pouring_r2_Pouring();
 			break;
 		default:
 			break;
@@ -999,6 +1338,72 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		}
 	}
 	
+	/* Default exit sequence for region r1 */
+	private void exitSequence_main_region_Starting_r1() {
+		switch (stateVector[0]) {
+		case main_region_Starting_r1_Take_ingr:
+			exitSequence_main_region_Starting_r1_Take_ingr();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/* Default exit sequence for region r2 */
+	private void exitSequence_main_region_Starting_r2() {
+		switch (stateVector[1]) {
+		case main_region_Starting_r2_Start_heated:
+			exitSequence_main_region_Starting_r2_Start_heated();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/* Default exit sequence for region r1 */
+	private void exitSequence_main_region_Preparation_r1() {
+		switch (stateVector[0]) {
+		case main_region_Preparation_r1_Prep_pouring:
+			exitSequence_main_region_Preparation_r1_Prep_pouring();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/* Default exit sequence for region r2 */
+	private void exitSequence_main_region_Preparation_r2() {
+		switch (stateVector[1]) {
+		case main_region_Preparation_r2_Wait_heated:
+			exitSequence_main_region_Preparation_r2_Wait_heated();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/* Default exit sequence for region r1 */
+	private void exitSequence_main_region_Pouring_r1() {
+		switch (stateVector[0]) {
+		case main_region_Pouring_r1_Sugar:
+			exitSequence_main_region_Pouring_r1_Sugar();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/* Default exit sequence for region r2 */
+	private void exitSequence_main_region_Pouring_r2() {
+		switch (stateVector[1]) {
+		case main_region_Pouring_r2_Pouring:
+			exitSequence_main_region_Pouring_r2_Pouring();
+			break;
+		default:
+			break;
+		}
+	}
+	
 	/* Default react sequence for initial entry  */
 	private void react_main_region__entry_Default() {
 		enterSequence_main_region_Init_default();
@@ -1019,6 +1424,36 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 		enterSequence_main_region_Interface_Timer_Wait_default();
 	}
 	
+	/* Default react sequence for initial entry  */
+	private void react_main_region_Starting_r1__entry_Default() {
+		enterSequence_main_region_Starting_r1_Take_ingr_default();
+	}
+	
+	/* Default react sequence for initial entry  */
+	private void react_main_region_Starting_r2__entry_Default() {
+		enterSequence_main_region_Starting_r2_Start_heated_default();
+	}
+	
+	/* Default react sequence for initial entry  */
+	private void react_main_region_Preparation_r1__entry_Default() {
+		enterSequence_main_region_Preparation_r1_Prep_pouring_default();
+	}
+	
+	/* Default react sequence for initial entry  */
+	private void react_main_region_Preparation_r2__entry_Default() {
+		enterSequence_main_region_Preparation_r2_Wait_heated_default();
+	}
+	
+	/* Default react sequence for initial entry  */
+	private void react_main_region_Pouring_r1__entry_Default() {
+		enterSequence_main_region_Pouring_r1_Sugar_default();
+	}
+	
+	/* Default react sequence for initial entry  */
+	private void react_main_region_Pouring_r2__entry_Default() {
+		enterSequence_main_region_Pouring_r2_Pouring_default();
+	}
+	
 	private boolean react() {
 		return false;
 	}
@@ -1034,7 +1469,15 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 				enterSequence_main_region_Init_default();
 				react();
 			} else {
-				did_transition = false;
+				if (sCInterface.validate) {
+					exitSequence_main_region_Interface();
+					sCInterface.raiseDoStartMachine();
+					
+					enterSequence_main_region_Starting_default();
+					react();
+				} else {
+					did_transition = false;
+				}
 			}
 		}
 		if (did_transition==false) {
@@ -1163,6 +1606,197 @@ public class DrinkingFactoryStatemachine implements IDrinkingFactoryStatemachine
 				sCInterface.raiseDoWelcome();
 				
 				enterSequence_main_region_Interface_default();
+				react();
+			} else {
+				did_transition = false;
+			}
+		}
+		if (did_transition==false) {
+			did_transition = react();
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Starting_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (sCInterface.startPrep) {
+				exitSequence_main_region_Starting();
+				sCInterface.raiseDoPrep();
+				
+				enterSequence_main_region_Preparation_default();
+				react();
+			} else {
+				did_transition = false;
+			}
+		}
+		if (did_transition==false) {
+			did_transition = react();
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Starting_r1_Take_ingr_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			did_transition = false;
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Starting_r2_Start_heated_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			did_transition = false;
+		}
+		if (did_transition==false) {
+			did_transition = main_region_Starting_react(try_transition);
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Preparation_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (sCInterface.startServ) {
+				exitSequence_main_region_Preparation();
+				sCInterface.raiseDoPouring();
+				
+				enterSequence_main_region_Pouring_default();
+				react();
+			} else {
+				did_transition = false;
+			}
+		}
+		if (did_transition==false) {
+			did_transition = react();
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Preparation_r1_Prep_pouring_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			did_transition = false;
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Preparation_r2_Wait_heated_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			did_transition = false;
+		}
+		if (did_transition==false) {
+			did_transition = main_region_Preparation_react(try_transition);
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Pouring_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (sCInterface.deliver) {
+				exitSequence_main_region_Pouring();
+				sCInterface.raiseDoWaitRecup();
+				
+				enterSequence_main_region_Wait_recup_default();
+				react();
+			} else {
+				if (sCInterface.prepSupp) {
+					exitSequence_main_region_Pouring();
+					sCInterface.raiseDoPrepSupp();
+					
+					enterSequence_main_region_Prep_supp_default();
+					react();
+				} else {
+					did_transition = false;
+				}
+			}
+		}
+		if (did_transition==false) {
+			did_transition = react();
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Pouring_r1_Sugar_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			did_transition = false;
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Pouring_r2_Pouring_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			did_transition = false;
+		}
+		if (did_transition==false) {
+			did_transition = main_region_Pouring_react(try_transition);
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Wait_recup_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (timeEvents[2]) {
+				exitSequence_main_region_Wait_recup();
+				sCInterface.raiseDoWash();
+				
+				enterSequence_main_region_Washing_default();
+				react();
+			} else {
+				did_transition = false;
+			}
+		}
+		if (did_transition==false) {
+			did_transition = react();
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Prep_supp_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (timeEvents[3]) {
+				exitSequence_main_region_Prep_supp();
+				sCInterface.raiseDoWaitRecup();
+				
+				enterSequence_main_region_Wait_recup_default();
+				react();
+			} else {
+				did_transition = false;
+			}
+		}
+		if (did_transition==false) {
+			did_transition = react();
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Washing_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (sCInterface.finishWash) {
+				exitSequence_main_region_Washing();
+				sCInterface.raiseDoCancel();
+				
+				enterSequence_main_region_Init_default();
 				react();
 			} else {
 				did_transition = false;
