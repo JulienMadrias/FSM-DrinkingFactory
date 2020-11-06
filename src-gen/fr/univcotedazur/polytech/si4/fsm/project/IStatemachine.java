@@ -7,11 +7,6 @@ package fr.univcotedazur.polytech.si4.fsm.project;
 public interface IStatemachine {
 
 	/**
-	 * Initializes the state machine. Used to initialize internal variables etc.
-	 */
-	public void init();
-
-	/**
 	 * Enters the state machine. Sets the state machine into a defined state.
 	 */
 	public void enter();
@@ -32,9 +27,4 @@ public interface IStatemachine {
 	 * If there are no active states then the state machine is considered being incative. In this case this method returns <code>false</code>.
 	 */
 	public boolean isFinal();
-
-	/**
-	* Start a run-to-completion cycle.
-	*/
-	public void runCycle();
 }

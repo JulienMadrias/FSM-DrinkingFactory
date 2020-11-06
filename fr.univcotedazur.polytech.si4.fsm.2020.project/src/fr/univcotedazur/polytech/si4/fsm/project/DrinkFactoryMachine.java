@@ -29,8 +29,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import fsmdrinkingfactory.TimerService;
-import fsmdrinkingfactory.drinkingfactory.DrinkingFactoryStatemachine;
+import fr.univcotedazur.polytech.si4.fsm.project.drinkingMachine.DrinkingFactoryStatemachine;
+
 
 
 public class DrinkFactoryMachine extends JFrame {
@@ -51,6 +51,7 @@ public class DrinkFactoryMachine extends JFrame {
 	private int sugar, size, temperature;
 	private enum drink{COFFEE, EXPRESSO, TEA};
 	private drink choosedDrink;
+	private Recipe recette;
 	
 	
 	
@@ -75,6 +76,7 @@ public class DrinkFactoryMachine extends JFrame {
 		vanillaButton.setEnabled(false);
 		price = 0;
 		lblValue.setText("Price: " + price + "€");
+		System.out.println("Bienvenue, vous pouvez commander");
 	}
 	
 	protected void startSystem() {
@@ -173,6 +175,25 @@ public class DrinkFactoryMachine extends JFrame {
 	
 	protected void startMachine() {
 		resetMoneyDisplay();
+		switch(choosedDrink) {
+		case COFFEE:
+			recette = new Coffee(sugar, size, temperature);
+			break;
+		case TEA:
+			recette = new Tea(sugar, size, temperature);
+			break;
+		case EXPRESSO:
+			recette = new Expresso(sugar, size, temperature);
+			break;
+		default: 
+			break;
+			}
+		recette.time();
+		theFSM.setTime1(recette.time1);
+		theFSM.setTime2(recette.time2);
+		theFSM.setTime3(recette.time3);
+		theFSM.setTime4(recette.time4);
+		theFSM.setTime5(recette.time5);
 	}
 	
 	
@@ -199,10 +220,26 @@ public class DrinkFactoryMachine extends JFrame {
 		
 		theFSM = new DrinkingFactoryStatemachine();
 		TimerService timer = new TimerService();
-	    theFSM.setTimer(timer);
-		theFSM.init();
+	    theFSM.setTimerService(timer);
+	    
+	    theFSM.getDoAddCash().subscribe(e -> this.addCash());
+	    theFSM.getDoCancel().subscribe(e -> this.cancelOrder());
+	    theFSM.getDoWelcome().subscribe(e -> this.startSystem());
+	    theFSM.getDoCB().subscribe(e -> this.payInCB());
+	    theFSM.getDoHotDrink().subscribe(e -> this.drinkSelected());
+	    
+	    theFSM.getDoStartMachine().subscribe(e -> this.startMachine());
+	    theFSM.getDoTakeIngr().subscribe(e -> recette.TakeIngredient());
+	    theFSM.getDoStartHeated().subscribe(e -> recette.StartHeatedWater());
+	    theFSM.getDoPrepPouring().subscribe(e -> recette.PrepPouring());
+	    theFSM.getDoWaitHeated().subscribe(e -> recette.WaitHeatedWater());
+	    theFSM.getDoSugar().subscribe(e -> recette.PutSugar());
+	    theFSM.getDoPouring().subscribe(e -> recette.PouringWater());
+	    theFSM.getDoPrepSupp().subscribe(e -> recette.PrepSupp());
+	    theFSM.getDoWaitRecup().subscribe(e -> recette.WaitRecup());
+	    theFSM.getDoWash().subscribe(e -> recette.WashingMashine());
+	    
 		theFSM.enter();
-		theFSM.getSCInterface().getListeners().add(new DrinkingFactoryControlerInterfaceImplementation(this));
 		
 		setForeground(Color.WHITE);
 		setFont(new Font("Cantarell", Font.BOLD, 22));
