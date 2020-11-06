@@ -41,11 +41,13 @@ public class DrinkFactoryMachine extends JFrame {
 	private static final long serialVersionUID = 2030629304432075314L;
 	private JPanel contentPane;
 	protected DrinkingFactoryStatemachine theFSM;
-	private JLabel lblPot, lblChange;
+	private JLabel lblValue, lblPot, lblChange;
+	private JButton milkButton, croutonButton, mapleButton, vanillaButton;
 	private boolean cbDataRegistered = false;
 	private int cashValue = 0;
 	private int coin = 0;
-	private int maxPrice = 50;
+	private int maxPrice = 100;
+	private int price = maxPrice;
 	private int sugar, size, temperature;
 	private enum drink{COFFEE, EXPRESSO, TEA};
 	private drink choosedDrink;
@@ -67,6 +69,12 @@ public class DrinkFactoryMachine extends JFrame {
 			giveBackChange(cashValue);
 		}
 		choosedDrink = null;
+		milkButton.setEnabled(false);
+		croutonButton.setEnabled(false);
+		mapleButton.setEnabled(false);
+		vanillaButton.setEnabled(false);
+		price = 0;
+		lblValue.setText("Price: " + price + "€");
 	}
 	
 	protected void startSystem() {
@@ -76,6 +84,7 @@ public class DrinkFactoryMachine extends JFrame {
 	protected void resetMoneyDisplay() {
 		lblPot.setText("");
 		lblChange.setText("");
+		lblValue.setText("");
 	}
 	
 	protected void payInCB() {
@@ -90,7 +99,15 @@ public class DrinkFactoryMachine extends JFrame {
 		if(cashValue > maxPrice) {
 			giveBackChange(cashValue - maxPrice);
 		}
-		lblPot.setText("0." + cashValue + " €");
+		if(cashValue < 100) {
+			lblPot.setText("0." + cashValue + " €");
+		}
+		else if(cashValue == 100) {lblPot.setText("1.00 €");}
+		else {
+			int cents = cashValue;
+			cents -= 100;
+			lblPot.setText("1." + cents + " €");
+		}
 		verifSelection();
 	}
 	
@@ -104,35 +121,53 @@ public class DrinkFactoryMachine extends JFrame {
 	}
 	
 	protected void verifSelection() {
-		if(cbDataRegistered && choosedDrink != null) {
+		if(choosedDrink == null) {}
+		else if(cbDataRegistered) {
 			lblPot.setText("Transaction effectuée");
 			theFSM.raiseValidate();
 			cbDataRegistered = false;
-		}else if(choosedDrink != null) {
-			switch(choosedDrink) {
-				case TEA:
-					if(cashValue>=40) {
-						theFSM.raiseValidate();
-						giveBackChange(cashValue-40);
-						cashValue = 0;
-					}
-					break;
-				case COFFEE:
-					if(cashValue>=35) {
-						theFSM.raiseValidate();
-						giveBackChange(cashValue-35);
-						cashValue = 0;
-					}
-					break;
-				case EXPRESSO:
-					if(cashValue>=50) {
-						theFSM.raiseValidate();
-						giveBackChange(cashValue-50);
-						cashValue = 0;
-					}
-					break;
-				default: break;	
+		}
+		else {
+			if(cashValue>=price) {
+				theFSM.raiseValidate();	
+				giveBackChange(cashValue-price);
+				cashValue = 0;
 			}
+		}
+	}
+	
+	private void setOptionsButtons() {
+		switch(choosedDrink) {
+			case COFFEE:
+				milkButton.setEnabled(true);
+				croutonButton.setEnabled(false);
+				mapleButton.setEnabled(false);
+				vanillaButton.setEnabled(true);
+				break;
+			case TEA:
+				milkButton.setEnabled(true);
+				croutonButton.setEnabled(false);
+				mapleButton.setEnabled(false);
+				vanillaButton.setEnabled(false);
+				break;
+			case EXPRESSO:
+				milkButton.setEnabled(true);
+				croutonButton.setEnabled(false);
+				mapleButton.setEnabled(false);
+				vanillaButton.setEnabled(true);
+				break;
+			default: 
+				break;	
+		}
+	}
+	
+	private void displayValue() {
+		if(price < 100) {lblValue.setText("Price: 0." + price + "€");}
+		else if(price == 100) {lblValue.setText("Price: 1.00 €");}
+		else {
+			int cents = price;
+			cents -= 100;
+			lblValue.setText("Price: 1." + cents + "€");
 		}
 	}
 	
@@ -195,6 +230,12 @@ public class DrinkFactoryMachine extends JFrame {
 		lblCoins.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCoins.setBounds(538, 12, 44, 15);
 		contentPane.add(lblCoins);
+		
+		JLabel lblOptions = new JLabel("Options");
+		lblOptions.setForeground(Color.WHITE);
+		lblOptions.setHorizontalAlignment(SwingConstants.CENTER);
+		lblOptions.setBounds(126, 91, 44, 15);
+		contentPane.add(lblOptions);
 
 		JButton coffeeButton = new JButton("Coffee");
 		coffeeButton.setForeground(Color.WHITE);
@@ -204,6 +245,9 @@ public class DrinkFactoryMachine extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				choosedDrink = drink.COFFEE;
+				price = 35;
+				displayValue();
+				setOptionsButtons();
 				theFSM.raiseSelectHotDrink();
 			}
 		});
@@ -217,6 +261,9 @@ public class DrinkFactoryMachine extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				choosedDrink = drink.EXPRESSO;
+				price = 50;
+				displayValue();
+				setOptionsButtons();
 				theFSM.raiseSelectHotDrink();
 			}
 		});
@@ -230,6 +277,9 @@ public class DrinkFactoryMachine extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				choosedDrink = drink.TEA;
+				price = 40;
+				displayValue();
+				setOptionsButtons();
 				theFSM.raiseSelectHotDrink();
 			}
 		});
@@ -240,6 +290,66 @@ public class DrinkFactoryMachine extends JFrame {
 		soupButton.setBackground(Color.DARK_GRAY);
 		soupButton.setBounds(12, 145, 96, 25);
 		contentPane.add(soupButton);
+		
+		milkButton = new JButton("Milk Cloud");
+		milkButton.setForeground(Color.WHITE);
+		milkButton.setBackground(Color.DARK_GRAY);
+		milkButton.setBounds(130, 108, 96, 25);
+		milkButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				price += 10;
+				displayValue();
+				theFSM.raiseSelectParam();
+			}
+		});
+		contentPane.add(milkButton);
+		milkButton.setEnabled(false);
+		
+		croutonButton = new JButton("Croutons");
+		croutonButton.setForeground(Color.WHITE);
+		croutonButton.setBackground(Color.DARK_GRAY);
+		croutonButton.setBounds(130, 145, 96, 25);
+		croutonButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				price += 30;
+				displayValue();
+				theFSM.raiseSelectParam();
+			}
+		});
+		contentPane.add(croutonButton);
+		croutonButton.setEnabled(false);
+		
+		mapleButton = new JButton("Maple Sirup");
+		mapleButton.setForeground(Color.WHITE);
+		mapleButton.setBackground(Color.DARK_GRAY);
+		mapleButton.setBounds(130, 182, 96, 25);
+		mapleButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				price += 10;
+				displayValue();
+				theFSM.raiseSelectParam();
+			}
+		});
+		contentPane.add(mapleButton);
+		mapleButton.setEnabled(false);
+		
+		vanillaButton = new JButton("Ice Cream");
+		vanillaButton.setForeground(Color.WHITE);
+		vanillaButton.setBackground(Color.DARK_GRAY);
+		vanillaButton.setBounds(130, 219, 96, 25);
+		vanillaButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				price += 40;
+				displayValue();
+				theFSM.raiseSelectParam();
+			}
+		});
+		contentPane.add(vanillaButton);
+		vanillaButton.setEnabled(false);
 
 		JProgressBar progressBar = new JProgressBar();
 		progressBar.setStringPainted(true);
@@ -422,12 +532,20 @@ public class DrinkFactoryMachine extends JFrame {
 		
 		Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1);
 		
+		lblValue = new JLabel();
+		lblValue.setForeground(Color.WHITE);
+		lblValue.setBackground(Color.DARK_GRAY);
+		lblValue.setFont(new Font("Courier", Font.PLAIN, 13));
+		lblValue.setBorder(border);
+		lblValue.setBounds(30, 370, 125, 25);
+		contentPane.add(lblValue);
+		
 		lblPot = new JLabel();
 		lblPot.setForeground(Color.WHITE);
 		lblPot.setBackground(Color.DARK_GRAY);
-		lblPot.setFont(new Font("Courier", Font.PLAIN, 13));
 		lblPot.setBorder(border);
-		lblPot.setBounds(30, 370, 125, 25);
+		lblPot.setFont(new Font("Courier", Font.PLAIN, 13));
+		lblPot.setBounds(30, 405, 125, 25);
 		contentPane.add(lblPot);
 		
 		lblChange = new JLabel();
@@ -435,7 +553,7 @@ public class DrinkFactoryMachine extends JFrame {
 		lblChange.setBackground(Color.DARK_GRAY);
 		lblChange.setBorder(border);
 		lblChange.setFont(new Font("Courier", Font.PLAIN, 13));
-		lblChange.setBounds(45, 405, 96, 25);
+		lblChange.setBounds(45, 440, 96, 25);
 		contentPane.add(lblChange);
 
 		BufferedImage myPicture = null;
