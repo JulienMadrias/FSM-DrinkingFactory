@@ -2,8 +2,8 @@ package fr.univcotedazur.polytech.si4.fsm.project;
 
 public class Expresso extends Recipe{
 
-	public Expresso(int sugar, int size, int temperature) {
-		super(sugar, size, temperature);
+	public Expresso(int sugar, int size, int temperature, boolean milk, boolean maple, boolean vanilla) {
+		super(sugar, size, temperature, milk, maple, vanilla);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -35,7 +35,11 @@ public class Expresso extends Recipe{
 	@Override
 	void PutSugar() {
 		// TODO Auto-generated method stub
-		System.out.println("Ajout du sucre");
+		if(maple == true) {
+			System.out.println("Ajout du sirop d'érable");
+		}else {
+			System.out.println("Ajout du sucre");
+		}
 	}
 
 	@Override
@@ -47,6 +51,13 @@ public class Expresso extends Recipe{
 	@Override
 	void PrepSupp() {
 		// TODO Auto-generated method stub
+		if(vanilla == true) {
+			System.out.println("Ajout de la glace vanille");
+			System.out.println("Mixage en cours...");
+		}
+		if(milk == true) {
+			System.out.println("Ajout du nuage de lait");
+		}
 	}
 
 	@Override
@@ -55,7 +66,15 @@ public class Expresso extends Recipe{
 		time1 = (int) temperature * 2000;
 		time2 = (int) temperature * 2000;
 		time3 = (int) sugar * 250 + size * 2500 + 7500 ;
-		time4 = 0;
+		if(vanilla == true && milk == true) {
+			time4 = (int) 12000 + 3000;
+		}else if(vanilla == true) {
+			time4 = (int) 12000;
+		}else if(milk == true) {
+			time4 = (int) 3000;
+		}else {
+			time4 = 0;
+		}
 		time5 = 10000;
 	}
 	

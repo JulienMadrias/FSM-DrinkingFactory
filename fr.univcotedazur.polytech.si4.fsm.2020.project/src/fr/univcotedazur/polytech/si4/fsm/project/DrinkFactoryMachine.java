@@ -72,6 +72,7 @@ public class DrinkFactoryMachine extends JFrame {
 			giveBackChange(cashValue);
 		}
 		choosedDrink = null;
+		resetButtonsState();
 		milkButton.setEnabled(false);
 		croutonButton.setEnabled(false);
 		mapleButton.setEnabled(false);
@@ -83,6 +84,7 @@ public class DrinkFactoryMachine extends JFrame {
 	
 	protected void startSystem() {
 		resetMoneyDisplay();
+		resetButtonsState();
 	}
 	
 	protected void resetMoneyDisplay() {
@@ -153,19 +155,19 @@ public class DrinkFactoryMachine extends JFrame {
 			case COFFEE:
 				milkButton.setEnabled(true);
 				croutonButton.setEnabled(false);
-				mapleButton.setEnabled(false);
+				mapleButton.setEnabled(true);
 				vanillaButton.setEnabled(true);
 				break;
 			case TEA:
 				milkButton.setEnabled(true);
 				croutonButton.setEnabled(false);
-				mapleButton.setEnabled(false);
+				mapleButton.setEnabled(true);
 				vanillaButton.setEnabled(false);
 				break;
 			case EXPRESSO:
 				milkButton.setEnabled(true);
 				croutonButton.setEnabled(false);
-				mapleButton.setEnabled(false);
+				mapleButton.setEnabled(true);
 				vanillaButton.setEnabled(true);
 				break;
 			default: 
@@ -191,13 +193,13 @@ public class DrinkFactoryMachine extends JFrame {
 		resetMoneyDisplay();
 		switch(choosedDrink) {
 		case COFFEE:
-			recette = new Coffee(sugar, size, temperature);
+			recette = new Coffee(sugar, size, temperature, milkState, mapleState, vanillaState);
 			break;
 		case TEA:
-			recette = new Tea(sugar, size, temperature);
+			recette = new Tea(sugar, size, temperature, milkState, mapleState);
 			break;
 		case EXPRESSO:
-			recette = new Expresso(sugar, size, temperature);
+			recette = new Expresso(sugar, size, temperature, milkState, mapleState, vanillaState);
 			break;
 		default: 
 			break;

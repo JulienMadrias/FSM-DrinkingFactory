@@ -4,6 +4,10 @@ public abstract class Recipe {
 	int sugar;
 	int size;
 	int temperature;
+	boolean milk = false;
+	boolean crouton = false;
+	boolean maple = false;
+	boolean vanilla = false;
 	DrinkFactoryMachine theFSM;
 	int time1;
 	int time2;
@@ -11,10 +15,31 @@ public abstract class Recipe {
 	int time4;
 	int time5;
 	
-	public Recipe(int sugar, int size, int temperature) {
+	public Recipe(int sugar, int size, int temperature, boolean milk, boolean crouton, boolean maple, boolean vanilla) {
 		this.size = size;
 		this.sugar = sugar;
 		this.temperature = temperature;
+		this.milk = milk;
+		this.crouton = crouton;
+		this.maple = maple;
+		this.vanilla = vanilla;
+	}
+	
+	public Recipe(int sugar, int size, int temperature, boolean milk, boolean maple,  boolean vanilla) {
+		this.size = size;
+		this.sugar = sugar;
+		this.temperature = temperature;
+		this.milk = milk;
+		this.vanilla = vanilla;
+		this.maple = maple;
+	}
+	
+	public Recipe(int sugar, int size, int temperature, boolean milk, boolean maple) {
+		this.size = size;
+		this.sugar = sugar;
+		this.temperature = temperature;
+		this.milk = milk;
+		this.maple = maple;
 	}
 	
 	abstract void TakeIngredient();
