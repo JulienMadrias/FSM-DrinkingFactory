@@ -1,28 +1,24 @@
 package fr.univcotedazur.polytech.si4.fsm.project;
 
-import java.util.Timer;
-
-public class Coffee extends Recipe{
+public class Expresso extends Recipe{
 	
 	boolean prep1 = false;
 	boolean prep2 = false;
 	int step1;
 	int step2;
 	int step3;
+	int step4;
 	int totalTime;
-	
-	
-	public Coffee(int sugar, int size, int temperature, DrinkFactoryMachine theFSM) {
+
+	public Expresso(int sugar, int size, int temperature, DrinkFactoryMachine theFSM) {
 		super(sugar, size, temperature, theFSM);
 		// TODO Auto-generated constructor stub
 	}
 
-	
 	@Override
 	void TakeIngredient() {
 		// TODO Auto-generated method stub
-		System.out.println("Récupération de la dosette");
-		System.out.println("Positionnement de la dosette");
+		System.out.println("broyage des grains");
 		prep1 = true;
 		NextStep(prep1,prep2);
 	}
@@ -39,6 +35,7 @@ public class Coffee extends Recipe{
 	void PrepPouring() {
 		// TODO Auto-generated method stub
 		System.out.println("Positionnement du gobelet");
+		System.out.println("Tassage du café");
 		prep1 = true;
 		NextStep(prep1,prep2);
 	}
@@ -85,16 +82,14 @@ public class Coffee extends Recipe{
 		}
 	}
 
-
 	@Override
 	void time(int size, int sugar, int temperature) {
 		// TODO Auto-generated method stub
 		step1 = (int) temperature * 1000;
-		step2 = (int) sugar * 500 + size * 1500;
-		step3 = 15000;
-		totalTime = step1 + step2 + step3;
+		step2 = (int) size * 1000;
+		step3 = (int) sugar * 500 + size * 1500;
+		step4 = (int) 15000;
+		totalTime = step1 + step2 + step3 + step4;
 	}
-	
-	
 
 }
