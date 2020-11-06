@@ -1,0 +1,28 @@
+GeneratorModel for yakindu::java {
+
+	const PROJECT : string = "FSMDrinkingFactory"
+
+	const FOLDER : string = "src-gen"
+
+	statechart DrinkingFactory {
+
+		feature Outlet {
+			targetProject = PROJECT
+			targetFolder = FOLDER
+			libraryTargetFolder = "src-gen"
+		}
+		
+		feature GeneralFeatures {
+          RuntimeService = true
+          TimerService = true
+          synchronized = true
+          runnable = false
+        }
+        
+        feature Naming{
+            typeName = "DrinkingFactoryStatemachine"
+            libraryPackage = "fr.univcotedazur.polytech.si4.fsm.project"
+            basePackage = "fr.univcotedazur.polytech.si4.fsm.project.drinkingMachine"
+        }
+	}
+}

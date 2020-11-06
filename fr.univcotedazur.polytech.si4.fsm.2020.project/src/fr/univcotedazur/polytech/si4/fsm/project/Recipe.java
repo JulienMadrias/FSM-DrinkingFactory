@@ -5,12 +5,16 @@ public abstract class Recipe {
 	int size;
 	int temperature;
 	DrinkFactoryMachine theFSM;
+	int time1;
+	int time2;
+	int time3;
+	int time4;
+	int time5;
 	
-	public Recipe(int sugar, int size, int temperature, DrinkFactoryMachine theFSM) {
+	public Recipe(int sugar, int size, int temperature) {
 		this.size = size;
 		this.sugar = sugar;
 		this.temperature = temperature;
-		this.theFSM = theFSM;
 	}
 	
 	abstract void TakeIngredient();
@@ -20,6 +24,7 @@ public abstract class Recipe {
 	abstract void PutSugar();
 	abstract void PouringWater();
 	abstract void PrepSupp();
-	abstract void NextStep(boolean prep1, boolean prep2);
-	abstract void time(int size, int sugar, int temperature);
+	abstract void WaitRecup();
+	abstract void WashingMashine();
+	abstract void time();
 }
