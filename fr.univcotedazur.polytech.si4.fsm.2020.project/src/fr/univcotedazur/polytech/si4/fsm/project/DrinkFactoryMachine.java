@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
+import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -42,7 +43,8 @@ public class DrinkFactoryMachine extends JFrame {
 	private JPanel contentPane;
 	protected DrinkingFactoryStatemachine theFSM;
 	private JLabel lblValue, lblPot, lblChange;
-	private JButton milkButton, croutonButton, mapleButton, vanillaButton;
+	private JToggleButton milkButton, croutonButton, mapleButton, vanillaButton;
+	private boolean milkState=false, croutonState=false, mapleState=false, vanillaState=false;
 	private boolean cbDataRegistered = false;
 	private int cashValue = 0;
 	private int coin = 0;
@@ -136,7 +138,15 @@ public class DrinkFactoryMachine extends JFrame {
 		}
 	}
 	
+	private void resetButtonsState() {
+		milkState=false;
+		croutonState=false;
+		mapleState=false;
+		vanillaState=false;
+	}
+	
 	private void setOptionsButtons() {
+		resetButtonsState();
 		switch(choosedDrink) {
 			case COFFEE:
 				milkButton.setEnabled(true);
@@ -157,6 +167,10 @@ public class DrinkFactoryMachine extends JFrame {
 				vanillaButton.setEnabled(true);
 				break;
 			default: 
+				milkButton.setEnabled(false);
+				croutonButton.setEnabled(false);
+				mapleButton.setEnabled(false);
+				vanillaButton.setEnabled(false);
 				break;	
 		}
 	}
@@ -222,7 +236,7 @@ public class DrinkFactoryMachine extends JFrame {
 		messagesToUser.setVerticalAlignment(SwingConstants.TOP);
 		messagesToUser.setToolTipText("message to the user");
 		messagesToUser.setBackground(Color.WHITE);
-		messagesToUser.setBounds(126, 34, 165, 175);
+		messagesToUser.setBounds(126, 34, 165, 57);
 		contentPane.add(messagesToUser);
 
 		JLabel lblCoins = new JLabel("Coins");
@@ -291,14 +305,21 @@ public class DrinkFactoryMachine extends JFrame {
 		soupButton.setBounds(12, 145, 96, 25);
 		contentPane.add(soupButton);
 		
-		milkButton = new JButton("Milk Cloud");
+		milkButton = new JToggleButton("Milk Cloud");
 		milkButton.setForeground(Color.WHITE);
 		milkButton.setBackground(Color.DARK_GRAY);
 		milkButton.setBounds(130, 108, 96, 25);
 		milkButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				price += 10;
+				if(!milkState) {
+					price += 10;
+					milkState = true;
+				}
+				else {
+					price -= 10;
+					milkState = false;
+				}
 				displayValue();
 				theFSM.raiseSelectParam();
 			}
@@ -306,14 +327,21 @@ public class DrinkFactoryMachine extends JFrame {
 		contentPane.add(milkButton);
 		milkButton.setEnabled(false);
 		
-		croutonButton = new JButton("Croutons");
+		croutonButton = new JToggleButton("Croutons");
 		croutonButton.setForeground(Color.WHITE);
 		croutonButton.setBackground(Color.DARK_GRAY);
 		croutonButton.setBounds(130, 145, 96, 25);
 		croutonButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				price += 30;
+				if(!croutonState) {
+					price += 30;
+					croutonState = true;
+				}
+				else {
+					price -= 30;
+					croutonState = false;
+				}
 				displayValue();
 				theFSM.raiseSelectParam();
 			}
@@ -321,14 +349,21 @@ public class DrinkFactoryMachine extends JFrame {
 		contentPane.add(croutonButton);
 		croutonButton.setEnabled(false);
 		
-		mapleButton = new JButton("Maple Sirup");
+		mapleButton = new JToggleButton("Maple Sirup");
 		mapleButton.setForeground(Color.WHITE);
 		mapleButton.setBackground(Color.DARK_GRAY);
 		mapleButton.setBounds(130, 182, 96, 25);
 		mapleButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				price += 10;
+				if(!mapleState) {
+					price += 10;
+					mapleState = true;
+				}
+				else {
+					price -= 10;
+					mapleState = false;
+				}
 				displayValue();
 				theFSM.raiseSelectParam();
 			}
@@ -336,14 +371,21 @@ public class DrinkFactoryMachine extends JFrame {
 		contentPane.add(mapleButton);
 		mapleButton.setEnabled(false);
 		
-		vanillaButton = new JButton("Ice Cream");
+		vanillaButton = new JToggleButton("Ice Cream");
 		vanillaButton.setForeground(Color.WHITE);
 		vanillaButton.setBackground(Color.DARK_GRAY);
 		vanillaButton.setBounds(130, 219, 96, 25);
 		vanillaButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				price += 40;
+				if(!vanillaState) {
+					price += 40;
+					vanillaState = true;
+				}
+				else {
+					price -= 40;
+					vanillaState = false;
+				}
 				displayValue();
 				theFSM.raiseSelectParam();
 			}
