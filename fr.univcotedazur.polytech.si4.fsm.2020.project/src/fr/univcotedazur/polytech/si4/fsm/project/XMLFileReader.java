@@ -8,6 +8,11 @@ import org.xml.sax.SAXParseException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -32,8 +37,7 @@ public class XMLFileReader {
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
-        ClassLoader classLoader = getClass().getClassLoader();
-        File fileXML = new File(Objects.requireNonNull(classLoader.getResource(INGREDIENTS_FILENAME)).getFile());
+        File fileXML = new File("fr.univcotedazur.polytech.si4.fsm.2020.project\\src\\fr\\univcotedazur\\polytech\\si4\\fsm\\project\\ingredients.xml");
         Document ingredientXml = null;
         try {
             ingredientXml = builder.parse(fileXML);
@@ -67,7 +71,7 @@ public class XMLFileReader {
         int croutonsStock = ((Double) path.evaluate(croutonsPath, ingredientsRoot, XPathConstants.NUMBER)).intValue();
         int mapleStock = ((Double) path.evaluate(maplePath, ingredientsRoot, XPathConstants.NUMBER)).intValue();
         int vanillaStock = ((Double) path.evaluate(vanillaPath, ingredientsRoot, XPathConstants.NUMBER)).intValue();
-        
+
         ingredients.put("expresso", expressoStock);
         ingredients.put("coffee", coffeeStock);
         ingredients.put("tea", teaStock);
@@ -77,5 +81,37 @@ public class XMLFileReader {
         ingredients.put("mapleSirup", mapleStock);
         ingredients.put("iceCream", vanillaStock);
         return ingredients;
+    }
+    
+    protected void writeIngredientsList(HashMap<String, Integer> list) {
+    	try {
+    		 
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();
+     
+            Document doc = docBuilder.newDocument();
+            Element racine = doc.createElement("INGREDIENTS");
+            doc.appendChild(racine);
+     
+            list.forEach((k, v) -> {
+            	Element element = doc.createElement(k);
+                element.appendChild(doc.createTextNode(v.toString()));
+                racine.appendChild(element);
+            });
+     
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult resultat = new StreamResult(new File("fr.univcotedazur.polytech.si4.fsm.2020.project\\src\\fr\\univcotedazur\\polytech\\si4\\\\fsm\\project\\ingredients.xml"));
+     
+            transformer.transform(source, resultat);
+     
+            System.out.println("Fichier sauvegardé avec succès!");
+     
+         } catch (ParserConfigurationException pce) {
+             pce.printStackTrace();
+         } catch (TransformerException tfe) {
+             tfe.printStackTrace();
+         }
     }
 }

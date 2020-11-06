@@ -47,6 +47,7 @@ public class DrinkFactoryMachine extends JFrame {
 	private JLabel lblValue, lblPot, lblChange;
 	private JButton coffeeButton, expressoButton, teaButton, soupButton;
 	private JToggleButton milkButton, croutonButton, mapleButton, vanillaButton;
+	private JSlider sizeSlider, sugarSlider, temperatureSlider;
 	private boolean milkState=false, croutonState=false, mapleState=false, vanillaState=false;
 	private boolean finalMilkState=true, finalCroutonState=true, finalMapleState=true, finalVanillaState=true;
 	private boolean cbDataRegistered = false;
@@ -79,7 +80,7 @@ public class DrinkFactoryMachine extends JFrame {
 			giveBackChange(cashValue);
 		}
 		choosedDrink = null;
-		resetButtonsState();
+		resetOptionsState();
 		milkButton.setEnabled(false);
 		croutonButton.setEnabled(false);
 		mapleButton.setEnabled(false);
@@ -99,7 +100,7 @@ public class DrinkFactoryMachine extends JFrame {
 		}
 		verifStock();
 		resetMoneyDisplay();
-		resetButtonsState();
+		resetOptionsState();
 	}
 	
 	private void verifStock() {
@@ -110,10 +111,10 @@ public class DrinkFactoryMachine extends JFrame {
 		if(stock.get("croutons") == 0) {finalCroutonState = false;}
 		if(stock.get("mapleSirup") == 0) {finalMapleState = false;}
 		if(stock.get("iceCream") == 0) {finalVanillaState = false;}
-		if(stock.get("expresso") < 3) {maxExpressoDose = stock.get("expresso");}
-		if(stock.get("coffee") < 3) {maxCoffeeDose = stock.get("coffee");}
-		if(stock.get("tea") < 3) {maxTeaDose = stock.get("tea");}
-		if(stock.get("sugar") < 4) {maxSugar = stock.get("sugar");}
+		maxExpressoDose = stock.get("expresso");
+		maxCoffeeDose = stock.get("coffee");
+		maxTeaDose = stock.get("tea");
+		maxSugar = stock.get("sugar");
 	}
 
 	protected void resetMoneyDisplay() {
@@ -147,6 +148,8 @@ public class DrinkFactoryMachine extends JFrame {
 	}
 	
 	protected void drinkSelected() {
+		displayValue();
+		setOptionsButtons();
 		verifSelection();
 	}
 	
@@ -171,7 +174,13 @@ public class DrinkFactoryMachine extends JFrame {
 		}
 	}
 	
-	private void resetButtonsState() {
+	private void resetOptionsState() {
+		sugar = 0;
+		size = 0;
+		temperature = 0;
+		sugarSlider.setValue(0);
+		sizeSlider.setValue(0);
+		temperatureSlider.setValue(0);
 		milkState=false;
 		croutonState=false;
 		mapleState=false;
@@ -183,24 +192,24 @@ public class DrinkFactoryMachine extends JFrame {
 	}
 	
 	private void setOptionsButtons() {
-		resetButtonsState();
+		resetOptionsState();
 		switch(choosedDrink) {
 			case COFFEE:
 				milkButton.setEnabled(true && finalMilkState);
 				croutonButton.setEnabled(false);
-				mapleButton.setEnabled(true);
+				mapleButton.setEnabled(true && finalMapleState);
 				vanillaButton.setEnabled(true && finalVanillaState);
 				break;
 			case TEA:
 				milkButton.setEnabled(true && finalMilkState);
 				croutonButton.setEnabled(false);
-				mapleButton.setEnabled(true);
+				mapleButton.setEnabled(true && finalMapleState);
 				vanillaButton.setEnabled(false);
 				break;
 			case EXPRESSO:
 				milkButton.setEnabled(true && finalMilkState);
 				croutonButton.setEnabled(false);
-				mapleButton.setEnabled(true);
+				mapleButton.setEnabled(true && finalMapleState);
 				vanillaButton.setEnabled(true && finalVanillaState);
 				break;
 			default: 
@@ -226,17 +235,32 @@ public class DrinkFactoryMachine extends JFrame {
 		resetMoneyDisplay();
 		switch(choosedDrink) {
 		case COFFEE:
+			stock.put("coffee", stock.get("coffee")-(size+1));
+			stock.put("sugar", stock.get("sugar")-sugar);
+			if(milkState) {stock.put("milk", stock.get("milk")-1);}
+			if(mapleState) {stock.put("mapleSirup", stock.get("mapleSirup")-1);}
+			if(vanillaState) {stock.put("iceCream", stock.get("iceCream")-1);}
 			recette = new Coffee(sugar, size, temperature, milkState, mapleState, vanillaState);
 			break;
 		case TEA:
+			stock.put("tea", stock.get("tea")-(size+1));
+			stock.put("sugar", stock.get("sugar")-sugar);
+			if(milkState) {stock.put("milk", stock.get("milk")-1);}
+			if(mapleState) {stock.put("mapleSirup", stock.get("mapleSirup")-1);}
 			recette = new Tea(sugar, size, temperature, milkState, mapleState);
 			break;
 		case EXPRESSO:
+			stock.put("expresso", stock.get("coffee")-(size+1));
+			stock.put("sugar", stock.get("sugar")-sugar);
+			if(milkState) {stock.put("milk", stock.get("milk")-1);}
+			if(mapleState) {stock.put("mapleSirup", stock.get("mapleSirup")-1);}
+			if(vanillaState) {stock.put("iceCream", stock.get("iceCream")-1);}
 			recette = new Expresso(sugar, size, temperature, milkState, mapleState, vanillaState);
 			break;
 		default: 
 			break;
 			}
+		fileReader.writeIngredientsList(stock);
 		recette.time();
 		theFSM.setTime1(recette.time1);
 		theFSM.setTime2(recette.time2);
@@ -332,8 +356,7 @@ public class DrinkFactoryMachine extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				choosedDrink = drink.COFFEE;
 				price = 35;
-				displayValue();
-				setOptionsButtons();
+				maxDrinkDose = maxCoffeeDose;
 				theFSM.raiseSelectHotDrink();
 			}
 		});
@@ -348,8 +371,7 @@ public class DrinkFactoryMachine extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				choosedDrink = drink.EXPRESSO;
 				price = 50;
-				displayValue();
-				setOptionsButtons();
+				maxDrinkDose = maxExpressoDose;
 				theFSM.raiseSelectHotDrink();
 			}
 		});
@@ -364,8 +386,7 @@ public class DrinkFactoryMachine extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				choosedDrink = drink.TEA;
 				price = 40;
-				displayValue();
-				setOptionsButtons();
+				maxDrinkDose = maxTeaDose;
 				theFSM.raiseSelectHotDrink();
 			}
 		});
@@ -473,8 +494,8 @@ public class DrinkFactoryMachine extends JFrame {
 		progressBar.setBounds(12, 254, 622, 26);
 		contentPane.add(progressBar);
 
-		JSlider sugarSlider = new JSlider();
-		sugarSlider.setValue(1);
+		sugarSlider = new JSlider();
+		sugarSlider.setValue(0);
 		sugarSlider.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		sugarSlider.setBackground(Color.DARK_GRAY);
 		sugarSlider.setForeground(Color.WHITE);
@@ -487,15 +508,16 @@ public class DrinkFactoryMachine extends JFrame {
 		sugarSlider.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent event) {
+				if(sugarSlider.getValue() > maxSugar) {sugarSlider.setValue(maxSugar);}
 				sugar = sugarSlider.getValue();
 				theFSM.raiseSelectParam();
 			}
 		});
 		contentPane.add(sugarSlider);
 
-		JSlider sizeSlider = new JSlider();
+		sizeSlider = new JSlider();
 		sizeSlider.setPaintTicks(true);
-		sizeSlider.setValue(1);
+		sizeSlider.setValue(0);
 		sizeSlider.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		sizeSlider.setBackground(Color.DARK_GRAY);
 		sizeSlider.setForeground(Color.WHITE);
@@ -507,13 +529,14 @@ public class DrinkFactoryMachine extends JFrame {
 		sizeSlider.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent event) {
+				if(sizeSlider.getValue()+1 > maxDrinkDose) {sizeSlider.setValue(maxDrinkDose-1);}
 				size = sizeSlider.getValue();
 				theFSM.raiseSelectParam();
 			}
 		});
 		contentPane.add(sizeSlider);
 
-		JSlider temperatureSlider = new JSlider();
+		temperatureSlider = new JSlider();
 		temperatureSlider.setPaintLabels(true);
 		temperatureSlider.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		temperatureSlider.setValue(2);
