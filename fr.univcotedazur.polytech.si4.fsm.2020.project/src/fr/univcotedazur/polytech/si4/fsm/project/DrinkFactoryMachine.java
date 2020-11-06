@@ -54,7 +54,7 @@ public class DrinkFactoryMachine extends JFrame {
 	private enum drink{COFFEE, EXPRESSO, TEA};
 	private drink choosedDrink;
 	private Recipe recette;
-	
+	JLabel labelForPictures;
 	
 	
 	/**
@@ -212,6 +212,35 @@ public class DrinkFactoryMachine extends JFrame {
 		theFSM.setTime5(recette.time5);
 	}
 	
+	protected void doChangeImgGobelet() {
+		BufferedImage myPicture = null;
+		try {
+			myPicture = ImageIO.read(new File("./fr.univcotedazur.polytech.si4.fsm.2020.project/picts/gobeletPolluant.jpg"));
+		} catch (IOException ee) {
+			ee.printStackTrace();
+		}
+		labelForPictures.setIcon(new ImageIcon(myPicture));
+	}
+	
+	protected void doChangeImgVide() {
+		BufferedImage myPicture = null;
+		try {
+			myPicture = ImageIO.read(new File("./fr.univcotedazur.polytech.si4.fsm.2020.project/picts/vide2.jpg"));
+		} catch (IOException ee) {
+			ee.printStackTrace();
+		}
+		labelForPictures.setIcon(new ImageIcon(myPicture));
+	}
+	
+	protected void doChangeImgCup() {
+		BufferedImage myPicture = null;
+		try {
+			myPicture = ImageIO.read(new File("./fr.univcotedazur.polytech.si4.fsm.2020.project/picts/ownCup.jpg"));
+		} catch (IOException ee) {
+			ee.printStackTrace();
+		}
+		labelForPictures.setIcon(new ImageIcon(myPicture));
+	}
 	
 	/**
 	 * Launch the application.
@@ -248,11 +277,13 @@ public class DrinkFactoryMachine extends JFrame {
 	    theFSM.getDoTakeIngr().subscribe(e -> recette.TakeIngredient());
 	    theFSM.getDoStartHeated().subscribe(e -> recette.StartHeatedWater());
 	    theFSM.getDoPrepPouring().subscribe(e -> recette.PrepPouring());
+	    theFSM.getDoPrepPouring().subscribe(e -> this.doChangeImgGobelet());
 	    theFSM.getDoWaitHeated().subscribe(e -> recette.WaitHeatedWater());
 	    theFSM.getDoSugar().subscribe(e -> recette.PutSugar());
 	    theFSM.getDoPouring().subscribe(e -> recette.PouringWater());
 	    theFSM.getDoPrepSupp().subscribe(e -> recette.PrepSupp());
 	    theFSM.getDoWaitRecup().subscribe(e -> recette.WaitRecup());
+	    theFSM.getDoWash().subscribe(e -> this.doChangeImgVide());
 	    theFSM.getDoWash().subscribe(e -> recette.WashingMashine());
 	    
 		theFSM.enter();
@@ -643,7 +674,7 @@ public class DrinkFactoryMachine extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		JLabel labelForPictures = new JLabel(new ImageIcon(myPicture));
+		labelForPictures = new JLabel(new ImageIcon(myPicture));
 		labelForPictures.setBounds(175, 319, 286, 260);
 		contentPane.add(labelForPictures);
 
