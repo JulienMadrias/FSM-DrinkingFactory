@@ -2,8 +2,8 @@ package fr.univcotedazur.polytech.si4.fsm.project;
 
 public class Tea extends Recipe {
 
-	public Tea(int sugar, int size, int temperature) {
-		super(sugar, size, temperature);
+	public Tea(int sugar, int size, int temperature, boolean milk, boolean maple) {
+		super(sugar, size, temperature, milk, maple);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -35,7 +35,11 @@ public class Tea extends Recipe {
 	@Override
 	void PutSugar() {
 		// TODO Auto-generated method stub
-		System.out.println("Ajout du sucre");
+		if(maple == true) {
+			System.out.println("Ajout du sirop d'érable");
+		}else {
+			System.out.println("Ajout du sucre");
+		}
 	}
 
 	@Override
@@ -49,6 +53,9 @@ public class Tea extends Recipe {
 		// TODO Auto-generated method stub
 		System.out.println("infusion du thé");
 		System.out.println("retrait du sachet");
+		if(milk == true) {
+			System.out.println("Ajout du nuage de lait");
+		}
 	}
 
 	@Override
@@ -57,7 +64,11 @@ public class Tea extends Recipe {
 		time1 = (int) temperature * 2000;
 		time2 = (int) temperature * 2000;
 		time3 = (int) sugar * 250 + size * 2500 + 7500 ;
-		time4 = (int) size * 2000 + 10000;
+		if(milk == true) {
+			time4 = (int) size * 2000 + 10000 + 3000;
+		}else {
+			time4 = (int) size * 2000 + 10000;
+		}
 		time5 = 5000;
 	}
 	

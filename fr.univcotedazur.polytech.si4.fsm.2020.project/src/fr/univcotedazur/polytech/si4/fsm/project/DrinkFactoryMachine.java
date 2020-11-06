@@ -61,7 +61,7 @@ public class DrinkFactoryMachine extends JFrame {
 	private HashMap<String, Integer> stock;
 	private XMLFileReader fileReader;
 	private int maxSugar, maxDrinkDose, maxCoffeeDose, maxTeaDose, maxExpressoDose;
-	
+
 	
 	
 	/**
@@ -79,6 +79,7 @@ public class DrinkFactoryMachine extends JFrame {
 			giveBackChange(cashValue);
 		}
 		choosedDrink = null;
+		resetButtonsState();
 		milkButton.setEnabled(false);
 		croutonButton.setEnabled(false);
 		mapleButton.setEnabled(false);
@@ -98,6 +99,7 @@ public class DrinkFactoryMachine extends JFrame {
 		}
 		verifStock();
 		resetMoneyDisplay();
+		resetButtonsState();
 	}
 	
 	private void verifStock() {
@@ -113,7 +115,7 @@ public class DrinkFactoryMachine extends JFrame {
 		if(stock.get("tea") < 3) {maxTeaDose = stock.get("tea");}
 		if(stock.get("sugar") < 4) {maxSugar = stock.get("sugar");}
 	}
-	
+
 	protected void resetMoneyDisplay() {
 		lblPot.setText("");
 		lblChange.setText("");
@@ -186,19 +188,19 @@ public class DrinkFactoryMachine extends JFrame {
 			case COFFEE:
 				milkButton.setEnabled(true && finalMilkState);
 				croutonButton.setEnabled(false);
-				mapleButton.setEnabled(false);
+				mapleButton.setEnabled(true);
 				vanillaButton.setEnabled(true && finalVanillaState);
 				break;
 			case TEA:
 				milkButton.setEnabled(true && finalMilkState);
 				croutonButton.setEnabled(false);
-				mapleButton.setEnabled(false);
+				mapleButton.setEnabled(true);
 				vanillaButton.setEnabled(false);
 				break;
 			case EXPRESSO:
 				milkButton.setEnabled(true && finalMilkState);
 				croutonButton.setEnabled(false);
-				mapleButton.setEnabled(false);
+				mapleButton.setEnabled(true);
 				vanillaButton.setEnabled(true && finalVanillaState);
 				break;
 			default: 
@@ -224,13 +226,13 @@ public class DrinkFactoryMachine extends JFrame {
 		resetMoneyDisplay();
 		switch(choosedDrink) {
 		case COFFEE:
-			recette = new Coffee(sugar, size, temperature);
+			recette = new Coffee(sugar, size, temperature, milkState, mapleState, vanillaState);
 			break;
 		case TEA:
-			recette = new Tea(sugar, size, temperature);
+			recette = new Tea(sugar, size, temperature, milkState, mapleState);
 			break;
 		case EXPRESSO:
-			recette = new Expresso(sugar, size, temperature);
+			recette = new Expresso(sugar, size, temperature, milkState, mapleState, vanillaState);
 			break;
 		default: 
 			break;
