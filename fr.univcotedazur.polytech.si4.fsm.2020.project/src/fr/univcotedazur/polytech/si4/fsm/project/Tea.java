@@ -70,6 +70,7 @@ public class Tea extends Recipe {
 			time4 = (int) size * 2000 + 10000;
 		}
 		time5 = 5000;
+		totalTime = time1 + time2 + time3 + time4;
 	}
 	
 	@Override

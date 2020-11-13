@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Hashtable;
 
@@ -60,9 +61,11 @@ public class DrinkFactoryMachine extends JFrame {
 	private drink choosedDrink;
 	private Recipe recette;
 	JLabel labelForPictures;
+	JProgressBar progressBar;
 	private HashMap<String, Integer> stock;
 	private XMLFileReader fileReader;
 	private int maxSugar, maxDrinkDose, maxCoffeeDose, maxTeaDose, maxExpressoDose;
+	private double advancementTime = 0;
 	
 	
 	/**
@@ -267,6 +270,7 @@ public class DrinkFactoryMachine extends JFrame {
 		theFSM.setTime3(recette.time3);
 		theFSM.setTime4(recette.time4);
 		theFSM.setTime5(recette.time5);
+		theFSM.setTotalTime(recette.totalTime);
 	}
 	
 	protected void doChangeImgGobelet() {
@@ -297,6 +301,12 @@ public class DrinkFactoryMachine extends JFrame {
 			ee.printStackTrace();
 		}
 		labelForPictures.setIcon(new ImageIcon(myPicture));
+	}
+	
+	protected void progressBarAdvancement() {
+		advancementTime += 100;
+		BigDecimal valeur = new BigDecimal((advancementTime / recette.totalTime)*100);
+		progressBar.setValue(valeur.intValue());
 	}
 	
 	/**
@@ -342,6 +352,7 @@ public class DrinkFactoryMachine extends JFrame {
 	    theFSM.getDoWaitRecup().subscribe(e -> recette.WaitRecup());
 	    theFSM.getDoWash().subscribe(e -> this.doChangeImgVide());
 	    theFSM.getDoWash().subscribe(e -> recette.WashingMashine());
+	    theFSM.getDoProgressBar().subscribe(e -> this.progressBarAdvancement());
 	    
 		theFSM.enter();
 		
@@ -517,7 +528,7 @@ public class DrinkFactoryMachine extends JFrame {
 		contentPane.add(vanillaButton);
 		vanillaButton.setEnabled(false);
 
-		JProgressBar progressBar = new JProgressBar();
+		progressBar = new JProgressBar();
 		progressBar.setStringPainted(true);
 		progressBar.setValue(0);
 		progressBar.setForeground(Color.LIGHT_GRAY);
