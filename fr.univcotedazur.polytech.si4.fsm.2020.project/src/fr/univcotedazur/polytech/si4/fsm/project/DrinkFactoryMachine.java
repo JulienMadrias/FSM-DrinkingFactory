@@ -10,13 +10,16 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -45,6 +48,7 @@ public class DrinkFactoryMachine extends JFrame {
 	private JPanel contentPane;
 	protected DrinkingFactoryStatemachine theFSM;
 	private JLabel lblValue, lblPot, lblChange;
+	private JFormattedTextField idField;
 	private JButton coffeeButton, expressoButton, teaButton, soupButton;
 	private JToggleButton milkButton, croutonButton, mapleButton, vanillaButton;
 	private JSlider sizeSlider, sugarSlider, temperatureSlider;
@@ -61,6 +65,10 @@ public class DrinkFactoryMachine extends JFrame {
 	private Recipe recette;
 	JLabel labelForPictures;
 	private HashMap<String, Integer> stock;
+	private HashMap<Integer, Customer> customers;
+	private Customer currentCustomer;
+	private boolean isConnected = false;
+	private int currentCustomerId;
 	private XMLFileReader fileReader;
 	private int maxSugar, maxDrinkDose, maxCoffeeDose, maxTeaDose, maxExpressoDose;
 	
@@ -81,6 +89,8 @@ public class DrinkFactoryMachine extends JFrame {
 		}
 		choosedDrink = null;
 		resetOptionsState();
+		idField.setValue(null);
+		isConnected = false;
 		milkButton.setEnabled(false);
 		croutonButton.setEnabled(false);
 		mapleButton.setEnabled(false);
@@ -94,6 +104,7 @@ public class DrinkFactoryMachine extends JFrame {
 		fileReader = new XMLFileReader();
 		try {
 			stock = fileReader.readIngredientsList();
+			customers = fileReader.readCustomersList();
 		} catch (XPathExpressionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,6 +112,8 @@ public class DrinkFactoryMachine extends JFrame {
 		verifStock();
 		resetMoneyDisplay();
 		resetOptionsState();
+		idField.setValue(null);
+		isConnected = false;
 	}
 	
 	private void verifStock() {
@@ -125,8 +138,28 @@ public class DrinkFactoryMachine extends JFrame {
 	
 	protected void payInCB() {
 		cbDataRegistered = true;
+		if(idField.getValue() != null) {
+			currentCustomerId = ((Long)idField.getValue()).intValue();
+			connectUser(currentCustomerId);
+		}
 		lblPot.setText("Carte acceptée");
 		verifSelection();
+	}
+	
+	private void connectUser(int id) {
+        for (Map.Entry mapEntry: customers.entrySet()
+             ) {
+            System.out.println(mapEntry.getKey());
+        }
+		if(customers.containsKey(id)) {
+			currentCustomer = customers.get(id);
+			System.out.println("Connecté");
+		}
+		else {
+			currentCustomer = new Customer(id);
+			System.out.println("Inscrit");
+		}
+		isConnected = true;
 	}
 	
 	protected void addCash() {
@@ -161,15 +194,25 @@ public class DrinkFactoryMachine extends JFrame {
 	protected void verifSelection() {
 		if(choosedDrink == null) {}
 		else if(cbDataRegistered) {
-			lblPot.setText("Transaction effectuée");
-			theFSM.raiseValidate();
+		    if(isConnected && currentCustomer.useDiscount(price)){
+                lblPot.setText("Boisson offerte");
+            }
+            else if(isConnected){
+                lblPot.setText("Transaction effectuée");
+                System.out.println("Diggy " + currentCustomer.getListOfPrices().size());
+                currentCustomer.addToList(price);
+                System.out.println("Payé");
+                System.out.println("Hole " + currentCustomer.getListOfPrices().size());
+            }
+            else{ lblPot.setText("Transaction effectuée");}
 			cbDataRegistered = false;
+			theFSM.raiseValidate();
 		}
 		else {
 			if(cashValue>=price) {
-				theFSM.raiseValidate();	
 				giveBackChange(cashValue-price);
 				cashValue = 0;
+				theFSM.raiseValidate();	
 			}
 		}
 	}
@@ -261,6 +304,10 @@ public class DrinkFactoryMachine extends JFrame {
 			break;
 			}
 		fileReader.writeIngredientsList(stock);
+		if(isConnected){
+		    customers.put(currentCustomerId, currentCustomer);
+		    fileReader.writeCustomerList(customers);
+		}
 		recette.time();
 		theFSM.setTime1(recette.time1);
 		theFSM.setTime2(recette.time2);
@@ -375,7 +422,7 @@ public class DrinkFactoryMachine extends JFrame {
 		JLabel lblOptions = new JLabel("Options");
 		lblOptions.setForeground(Color.WHITE);
 		lblOptions.setHorizontalAlignment(SwingConstants.CENTER);
-		lblOptions.setBounds(126, 91, 44, 15);
+		lblOptions.setBounds(126, 91, 50, 15);
 		contentPane.add(lblOptions);
 
 		coffeeButton = new JButton("Coffee");
@@ -681,6 +728,12 @@ public class DrinkFactoryMachine extends JFrame {
 			}
 		});
 		panel_1.add(nfcBiiiipButton);
+		
+		idField = new JFormattedTextField(NumberFormat.getNumberInstance());
+		idField.setForeground(Color.WHITE);
+		idField.setBackground(Color.DARK_GRAY);
+		idField.setBounds(552, 190, 65, 20);
+		contentPane.add(idField);
 
 		JLabel lblNfc = new JLabel("NFC");
 		lblNfc.setForeground(Color.WHITE);

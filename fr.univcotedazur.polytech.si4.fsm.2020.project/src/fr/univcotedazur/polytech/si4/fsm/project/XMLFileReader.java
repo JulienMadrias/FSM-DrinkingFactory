@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -28,6 +29,7 @@ public class XMLFileReader {
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     private final String INGREDIENTS_FILENAME = "ingredients.xml";
     private Element ingredientsRoot;
+    private Element clientsRoot;
     private XPath path;
 
     public XMLFileReader() {
@@ -37,16 +39,20 @@ public class XMLFileReader {
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
-        File fileXML = new File("fr.univcotedazur.polytech.si4.fsm.2020.project\\src\\fr\\univcotedazur\\polytech\\si4\\fsm\\project\\ingredients.xml");
+        File ingredientsFileXML = new File("fr.univcotedazur.polytech.si4.fsm.2020.project\\src\\fr\\univcotedazur\\polytech\\si4\\fsm\\project\\ingredients.xml");
+        File clientsFileXML = new File("fr.univcotedazur.polytech.si4.fsm.2020.project\\src\\fr\\univcotedazur\\polytech\\si4\\fsm\\project\\clients.xml");
         Document ingredientXml = null;
+        Document clientsXml = null;
         try {
-            ingredientXml = builder.parse(fileXML);
+            ingredientXml = builder.parse(ingredientsFileXML);
+            clientsXml = builder.parse(clientsFileXML);
         } catch (SAXException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         ingredientsRoot = ingredientXml.getDocumentElement();
+        clientsRoot = clientsXml.getDocumentElement();
         XPathFactory xpf = XPathFactory.newInstance();
         path = xpf.newXPath();
     }
@@ -106,12 +112,92 @@ public class XMLFileReader {
      
             transformer.transform(source, resultat);
      
-            System.out.println("Fichier sauvegardé avec succès!");
-     
          } catch (ParserConfigurationException pce) {
              pce.printStackTrace();
          } catch (TransformerException tfe) {
              tfe.printStackTrace();
          }
+    }
+
+    protected HashMap<Integer, Customer> readCustomersList() throws XPathExpressionException {
+        HashMap<Integer, Customer> customersList = new HashMap<Integer, Customer>();
+
+        String expression = "/CLIENTS";
+
+        NodeList clientNodeList = (NodeList)path.evaluate(expression, clientsRoot, XPathConstants.NODESET);
+        System.out.println(clientsRoot.getTagName());
+        System.out.println("BIIP " + clientNodeList.getLength());
+        for(int i = 0 ; i < clientNodeList.getLength(); i++){
+            Node n = clientNodeList.item(i);
+            int id = ((Double) path.evaluate("/id", n, XPathConstants.NUMBER)).intValue();
+            int numberOfCommand = ((Double) path.evaluate("/numberOfCommand", n, XPathConstants.NUMBER)).intValue();
+            ArrayList<Integer> listOfPrices= new ArrayList<Integer>();
+            int discount = ((Double) path.evaluate("/discount", n, XPathConstants.NUMBER)).intValue();
+
+            expression = "listOfPrices/price";
+            path.compile(expression);
+            NodeList listNodeList = (NodeList)path.evaluate(expression, n, XPathConstants.NODESET);
+            for(int j=0; j < listNodeList.getLength(); j++){
+                Node priceNode = listNodeList.item(j);
+                int price = Integer.parseInt(priceNode.getTextContent());
+                listOfPrices.add(price);
+            }
+            Customer customer = new Customer(numberOfCommand, listOfPrices, discount);
+            customersList.put(id, customer);
+        }
+        return customersList;
+    }
+
+    protected void writeCustomerList(HashMap<Integer, Customer> list){
+        try {
+
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();
+
+            Document doc = docBuilder.newDocument();
+            Element racine = doc.createElement("CLIENTS");
+            doc.appendChild(racine);
+
+            list.forEach((k, v) -> {
+                Element client = doc.createElement("client");
+                racine.appendChild(client);
+
+                Element id = doc.createElement("id");
+                id.appendChild(doc.createTextNode(k.toString()));
+                client.appendChild(id);
+
+                Element numberOfCommand = doc.createElement("numberOfCommand");
+                numberOfCommand.appendChild(doc.createTextNode(String.valueOf((v.getNumberOfCommand()))));
+                client.appendChild(numberOfCommand);
+
+                Element listOfPrices = doc.createElement("listOfPrices");
+                client.appendChild(listOfPrices);
+
+                Element discount = doc.createElement("discount");
+                discount.appendChild(doc.createTextNode(String.valueOf(v.getDiscount())));
+                client.appendChild(discount);
+
+                System.out.println("Taille " + v.getListOfPrices().size());
+
+                for (int priceValue: v.getListOfPrices()) {
+                    Element price = doc.createElement("price");
+                    price.appendChild(doc.createTextNode(String.valueOf(priceValue)));
+                    listOfPrices.appendChild(price);
+                    System.out.println("Sous l'océan!");
+                }
+            });
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult resultat = new StreamResult(new File("fr.univcotedazur.polytech.si4.fsm.2020.project\\src\\fr\\univcotedazur\\polytech\\si4\\\\fsm\\project\\clients.xml"));
+
+            transformer.transform(source, resultat);
+
+        } catch (ParserConfigurationException pce) {
+            pce.printStackTrace();
+        } catch (TransformerException tfe) {
+            tfe.printStackTrace();
+        }
     }
 }
