@@ -79,6 +79,7 @@ public class Coffee extends Recipe{
 			time4 = 0;
 		}
 		time5 = 5000;
+		totalTime = time1 + time2 + time3 + time4;
 	}
 
 

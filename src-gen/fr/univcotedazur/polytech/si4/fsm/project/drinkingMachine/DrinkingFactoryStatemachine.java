@@ -18,18 +18,19 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		MAIN_REGION_INTERFACE_PAYMENT_CASH,
 		MAIN_REGION_INTERFACE_TIMER_WAIT,
 		MAIN_REGION_INIT,
-		MAIN_REGION_STARTING,
-		MAIN_REGION_STARTING_R1_TAKE_INGR,
-		MAIN_REGION_STARTING_R2_START_HEATED,
-		MAIN_REGION_PREPARATION,
-		MAIN_REGION_PREPARATION_R1_PREP_POURING,
-		MAIN_REGION_PREPARATION_R2_WAIT_HEATED,
-		MAIN_REGION_POURING,
-		MAIN_REGION_POURING_R1_SUGAR,
-		MAIN_REGION_POURING_R2_POURING,
 		MAIN_REGION_WAIT_RECUP,
-		MAIN_REGION_PREP_SUPP,
 		MAIN_REGION_WASHING,
+		MAIN_REGION_PREPARATION,
+		MAIN_REGION_PREPARATION_R1_PREPARATION,
+		MAIN_REGION_PREPARATION_R1_PREPARATION_R1_PREP_POURING,
+		MAIN_REGION_PREPARATION_R1_PREPARATION_R2_WAIT_HEATED,
+		MAIN_REGION_PREPARATION_R1_PREP_SUPP,
+		MAIN_REGION_PREPARATION_R1_POURING,
+		MAIN_REGION_PREPARATION_R1_POURING_R1_SUGAR,
+		MAIN_REGION_PREPARATION_R1_POURING_R2_POURING,
+		MAIN_REGION_PREPARATION_R1_STARTING,
+		MAIN_REGION_PREPARATION_R1_STARTING_R1_TAKE_INGR,
+		MAIN_REGION_PREPARATION_R1_STARTING_R2_START_HEATED,
 		$NULLSTATE$
 	};
 	
@@ -39,7 +40,7 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 	
 	private ITimerService timerService;
 	
-	private final boolean[] timeEvents = new boolean[8];
+	private final boolean[] timeEvents = new boolean[9];
 	
 	private BlockingQueue<Runnable> inEventQueue = new LinkedBlockingQueue<Runnable>();
 	private boolean isExecuting;
@@ -71,6 +72,8 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		setTime4(0);
 		
 		setTime5(0);
+		
+		setTotalTime(0);
 		
 		isExecuting = false;
 	}
@@ -130,6 +133,7 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		timeEvents[5] = false;
 		timeEvents[6] = false;
 		timeEvents[7] = false;
+		timeEvents[8] = false;
 	}
 	
 	private void runCycle() {
@@ -167,32 +171,32 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 				case MAIN_REGION_INIT:
 					main_region_Init_react(true);
 					break;
-				case MAIN_REGION_STARTING_R1_TAKE_INGR:
-					main_region_Starting_r1_Take_ingr_react(true);
-					break;
-				case MAIN_REGION_STARTING_R2_START_HEATED:
-					main_region_Starting_r2_Start_heated_react(true);
-					break;
-				case MAIN_REGION_PREPARATION_R1_PREP_POURING:
-					main_region_Preparation_r1_Prep_pouring_react(true);
-					break;
-				case MAIN_REGION_PREPARATION_R2_WAIT_HEATED:
-					main_region_Preparation_r2_Wait_heated_react(true);
-					break;
-				case MAIN_REGION_POURING_R1_SUGAR:
-					main_region_Pouring_r1_Sugar_react(true);
-					break;
-				case MAIN_REGION_POURING_R2_POURING:
-					main_region_Pouring_r2_Pouring_react(true);
-					break;
 				case MAIN_REGION_WAIT_RECUP:
 					main_region_Wait_recup_react(true);
 					break;
-				case MAIN_REGION_PREP_SUPP:
-					main_region_Prep_supp_react(true);
-					break;
 				case MAIN_REGION_WASHING:
 					main_region_Washing_react(true);
+					break;
+				case MAIN_REGION_PREPARATION_R1_PREPARATION_R1_PREP_POURING:
+					main_region_Preparation_r1_Preparation_r1_Prep_pouring_react(true);
+					break;
+				case MAIN_REGION_PREPARATION_R1_PREPARATION_R2_WAIT_HEATED:
+					main_region_Preparation_r1_Preparation_r2_Wait_heated_react(true);
+					break;
+				case MAIN_REGION_PREPARATION_R1_PREP_SUPP:
+					main_region_Preparation_r1_Prep_supp_react(true);
+					break;
+				case MAIN_REGION_PREPARATION_R1_POURING_R1_SUGAR:
+					main_region_Preparation_r1_Pouring_r1_Sugar_react(true);
+					break;
+				case MAIN_REGION_PREPARATION_R1_POURING_R2_POURING:
+					main_region_Preparation_r1_Pouring_r2_Pouring_react(true);
+					break;
+				case MAIN_REGION_PREPARATION_R1_STARTING_R1_TAKE_INGR:
+					main_region_Preparation_r1_Starting_r1_Take_ingr_react(true);
+					break;
+				case MAIN_REGION_PREPARATION_R1_STARTING_R2_START_HEATED:
+					main_region_Preparation_r1_Starting_r2_Start_heated_react(true);
 					break;
 				default:
 					// $NULLSTATE$
@@ -201,7 +205,7 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 			
 			clearInEvents();
 			nextEvent();
-		} while ((((((((((((((((welcome || cancel) || selectHotDrink) || selectParam) || payCB) || addCash) || validate) || action) || timeEvents[0]) || timeEvents[1]) || timeEvents[2]) || timeEvents[3]) || timeEvents[4]) || timeEvents[5]) || timeEvents[6]) || timeEvents[7]));
+		} while (((((((((((((((((welcome || cancel) || selectHotDrink) || selectParam) || payCB) || addCash) || validate) || action) || timeEvents[0]) || timeEvents[1]) || timeEvents[2]) || timeEvents[3]) || timeEvents[4]) || timeEvents[5]) || timeEvents[6]) || timeEvents[7]) || timeEvents[8]));
 		
 		isExecuting = false;
 	}
@@ -235,33 +239,36 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 			return stateVector[2] == State.MAIN_REGION_INTERFACE_TIMER_WAIT;
 		case MAIN_REGION_INIT:
 			return stateVector[0] == State.MAIN_REGION_INIT;
-		case MAIN_REGION_STARTING:
-			return stateVector[0].ordinal() >= State.
-					MAIN_REGION_STARTING.ordinal()&& stateVector[0].ordinal() <= State.MAIN_REGION_STARTING_R2_START_HEATED.ordinal();
-		case MAIN_REGION_STARTING_R1_TAKE_INGR:
-			return stateVector[0] == State.MAIN_REGION_STARTING_R1_TAKE_INGR;
-		case MAIN_REGION_STARTING_R2_START_HEATED:
-			return stateVector[1] == State.MAIN_REGION_STARTING_R2_START_HEATED;
-		case MAIN_REGION_PREPARATION:
-			return stateVector[0].ordinal() >= State.
-					MAIN_REGION_PREPARATION.ordinal()&& stateVector[0].ordinal() <= State.MAIN_REGION_PREPARATION_R2_WAIT_HEATED.ordinal();
-		case MAIN_REGION_PREPARATION_R1_PREP_POURING:
-			return stateVector[0] == State.MAIN_REGION_PREPARATION_R1_PREP_POURING;
-		case MAIN_REGION_PREPARATION_R2_WAIT_HEATED:
-			return stateVector[1] == State.MAIN_REGION_PREPARATION_R2_WAIT_HEATED;
-		case MAIN_REGION_POURING:
-			return stateVector[0].ordinal() >= State.
-					MAIN_REGION_POURING.ordinal()&& stateVector[0].ordinal() <= State.MAIN_REGION_POURING_R2_POURING.ordinal();
-		case MAIN_REGION_POURING_R1_SUGAR:
-			return stateVector[0] == State.MAIN_REGION_POURING_R1_SUGAR;
-		case MAIN_REGION_POURING_R2_POURING:
-			return stateVector[1] == State.MAIN_REGION_POURING_R2_POURING;
 		case MAIN_REGION_WAIT_RECUP:
 			return stateVector[0] == State.MAIN_REGION_WAIT_RECUP;
-		case MAIN_REGION_PREP_SUPP:
-			return stateVector[0] == State.MAIN_REGION_PREP_SUPP;
 		case MAIN_REGION_WASHING:
 			return stateVector[0] == State.MAIN_REGION_WASHING;
+		case MAIN_REGION_PREPARATION:
+			return stateVector[0].ordinal() >= State.
+					MAIN_REGION_PREPARATION.ordinal()&& stateVector[0].ordinal() <= State.MAIN_REGION_PREPARATION_R1_STARTING_R2_START_HEATED.ordinal();
+		case MAIN_REGION_PREPARATION_R1_PREPARATION:
+			return stateVector[0].ordinal() >= State.
+					MAIN_REGION_PREPARATION_R1_PREPARATION.ordinal()&& stateVector[0].ordinal() <= State.MAIN_REGION_PREPARATION_R1_PREPARATION_R2_WAIT_HEATED.ordinal();
+		case MAIN_REGION_PREPARATION_R1_PREPARATION_R1_PREP_POURING:
+			return stateVector[0] == State.MAIN_REGION_PREPARATION_R1_PREPARATION_R1_PREP_POURING;
+		case MAIN_REGION_PREPARATION_R1_PREPARATION_R2_WAIT_HEATED:
+			return stateVector[1] == State.MAIN_REGION_PREPARATION_R1_PREPARATION_R2_WAIT_HEATED;
+		case MAIN_REGION_PREPARATION_R1_PREP_SUPP:
+			return stateVector[0] == State.MAIN_REGION_PREPARATION_R1_PREP_SUPP;
+		case MAIN_REGION_PREPARATION_R1_POURING:
+			return stateVector[0].ordinal() >= State.
+					MAIN_REGION_PREPARATION_R1_POURING.ordinal()&& stateVector[0].ordinal() <= State.MAIN_REGION_PREPARATION_R1_POURING_R2_POURING.ordinal();
+		case MAIN_REGION_PREPARATION_R1_POURING_R1_SUGAR:
+			return stateVector[0] == State.MAIN_REGION_PREPARATION_R1_POURING_R1_SUGAR;
+		case MAIN_REGION_PREPARATION_R1_POURING_R2_POURING:
+			return stateVector[1] == State.MAIN_REGION_PREPARATION_R1_POURING_R2_POURING;
+		case MAIN_REGION_PREPARATION_R1_STARTING:
+			return stateVector[0].ordinal() >= State.
+					MAIN_REGION_PREPARATION_R1_STARTING.ordinal()&& stateVector[0].ordinal() <= State.MAIN_REGION_PREPARATION_R1_STARTING_R2_START_HEATED.ordinal();
+		case MAIN_REGION_PREPARATION_R1_STARTING_R1_TAKE_INGR:
+			return stateVector[0] == State.MAIN_REGION_PREPARATION_R1_STARTING_R1_TAKE_INGR;
+		case MAIN_REGION_PREPARATION_R1_STARTING_R2_START_HEATED:
+			return stateVector[1] == State.MAIN_REGION_PREPARATION_R1_STARTING_R2_START_HEATED;
 		default:
 			return false;
 		}
@@ -661,6 +668,22 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		return doSugarObservable;
 	}
 	
+	private boolean doProgressBar;
+	
+	
+	protected void raiseDoProgressBar() {
+		synchronized(DrinkingFactoryStatemachine.this) {
+			doProgressBar = true;
+			doProgressBarObservable.next(null);
+		}
+	}
+	
+	private Observable<Void> doProgressBarObservable = new Observable<Void>();
+	
+	public Observable<Void> getDoProgressBar() {
+		return doProgressBarObservable;
+	}
+	
 	private long time1;
 	
 	public synchronized long getTime1() {
@@ -731,6 +754,20 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		}
 	}
 	
+	private long totalTime;
+	
+	public synchronized long getTotalTime() {
+		synchronized(DrinkingFactoryStatemachine.this) {
+			return totalTime;
+		}
+	}
+	
+	public void setTotalTime(long value) {
+		synchronized(DrinkingFactoryStatemachine.this) {
+			this.totalTime = value;
+		}
+	}
+	
 	/* Entry action for state 'HotDrink'. */
 	private void entryAction_main_region_Interface_Selection_HotDrink() {
 		raiseAction();
@@ -756,64 +793,69 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		timerService.setTimer(this, 1, (1 * 1000), false);
 	}
 	
-	/* Entry action for state 'Starting'. */
-	private void entryAction_main_region_Starting() {
-		timerService.setTimer(this, 2, getTime1(), false);
-	}
-	
-	/* Entry action for state 'Take ingr'. */
-	private void entryAction_main_region_Starting_r1_Take_ingr() {
-		raiseDoTakeIngr();
-	}
-	
-	/* Entry action for state 'Start heated'. */
-	private void entryAction_main_region_Starting_r2_Start_heated() {
-		raiseDoStartHeated();
-	}
-	
-	/* Entry action for state 'Preparation'. */
-	private void entryAction_main_region_Preparation() {
-		timerService.setTimer(this, 3, getTime2(), false);
-	}
-	
-	/* Entry action for state 'Prep pouring'. */
-	private void entryAction_main_region_Preparation_r1_Prep_pouring() {
-		raiseDoPrepPouring();
-	}
-	
-	/* Entry action for state 'Wait heated'. */
-	private void entryAction_main_region_Preparation_r2_Wait_heated() {
-		raiseDoWaitHeated();
-	}
-	
-	/* Entry action for state 'Pouring'. */
-	private void entryAction_main_region_Pouring() {
-		timerService.setTimer(this, 4, getTime3(), false);
-	}
-	
-	/* Entry action for state 'Sugar'. */
-	private void entryAction_main_region_Pouring_r1_Sugar() {
-		raiseDoSugar();
-	}
-	
-	/* Entry action for state 'Pouring'. */
-	private void entryAction_main_region_Pouring_r2_Pouring() {
-		raiseDoPouring();
-	}
-	
 	/* Entry action for state 'Wait recup'. */
 	private void entryAction_main_region_Wait_recup() {
-		timerService.setTimer(this, 5, (15 * 1000), false);
-	}
-	
-	/* Entry action for state 'Prep supp'. */
-	private void entryAction_main_region_Prep_supp() {
-		timerService.setTimer(this, 6, getTime4(), false);
+		timerService.setTimer(this, 2, (15 * 1000), false);
 	}
 	
 	/* Entry action for state 'Washing'. */
 	private void entryAction_main_region_Washing() {
-		timerService.setTimer(this, 7, getTime5(), false);
+		timerService.setTimer(this, 3, getTime5(), false);
+	}
+	
+	/* Entry action for state 'Preparation'. */
+	private void entryAction_main_region_Preparation() {
+		timerService.setTimer(this, 4, 100, true);
+	}
+	
+	/* Entry action for state 'Preparation'. */
+	private void entryAction_main_region_Preparation_r1_Preparation() {
+		timerService.setTimer(this, 5, getTime2(), false);
+	}
+	
+	/* Entry action for state 'Prep pouring'. */
+	private void entryAction_main_region_Preparation_r1_Preparation_r1_Prep_pouring() {
+		raiseDoPrepPouring();
+	}
+	
+	/* Entry action for state 'Wait heated'. */
+	private void entryAction_main_region_Preparation_r1_Preparation_r2_Wait_heated() {
+		raiseDoWaitHeated();
+	}
+	
+	/* Entry action for state 'Prep supp'. */
+	private void entryAction_main_region_Preparation_r1_Prep_supp() {
+		timerService.setTimer(this, 6, getTime4(), false);
+	}
+	
+	/* Entry action for state 'Pouring'. */
+	private void entryAction_main_region_Preparation_r1_Pouring() {
+		timerService.setTimer(this, 7, getTime3(), false);
+	}
+	
+	/* Entry action for state 'Sugar'. */
+	private void entryAction_main_region_Preparation_r1_Pouring_r1_Sugar() {
+		raiseDoSugar();
+	}
+	
+	/* Entry action for state 'Pouring'. */
+	private void entryAction_main_region_Preparation_r1_Pouring_r2_Pouring() {
+		raiseDoPouring();
+	}
+	
+	/* Entry action for state 'Starting'. */
+	private void entryAction_main_region_Preparation_r1_Starting() {
+		timerService.setTimer(this, 8, getTime1(), false);
+	}
+	
+	/* Entry action for state 'Take ingr'. */
+	private void entryAction_main_region_Preparation_r1_Starting_r1_Take_ingr() {
+		raiseDoTakeIngr();
+	}
+	
+	/* Entry action for state 'Start heated'. */
+	private void entryAction_main_region_Preparation_r1_Starting_r2_Start_heated() {
+		raiseDoStartHeated();
 	}
 	
 	/* Exit action for state 'Wait'. */
@@ -826,34 +868,39 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		timerService.unsetTimer(this, 1);
 	}
 	
-	/* Exit action for state 'Starting'. */
-	private void exitAction_main_region_Starting() {
-		timerService.unsetTimer(this, 2);
-	}
-	
-	/* Exit action for state 'Preparation'. */
-	private void exitAction_main_region_Preparation() {
-		timerService.unsetTimer(this, 3);
-	}
-	
-	/* Exit action for state 'Pouring'. */
-	private void exitAction_main_region_Pouring() {
-		timerService.unsetTimer(this, 4);
-	}
-	
 	/* Exit action for state 'Wait recup'. */
 	private void exitAction_main_region_Wait_recup() {
-		timerService.unsetTimer(this, 5);
-	}
-	
-	/* Exit action for state 'Prep supp'. */
-	private void exitAction_main_region_Prep_supp() {
-		timerService.unsetTimer(this, 6);
+		timerService.unsetTimer(this, 2);
 	}
 	
 	/* Exit action for state 'Washing'. */
 	private void exitAction_main_region_Washing() {
+		timerService.unsetTimer(this, 3);
+	}
+	
+	/* Exit action for state 'Preparation'. */
+	private void exitAction_main_region_Preparation() {
+		timerService.unsetTimer(this, 4);
+	}
+	
+	/* Exit action for state 'Preparation'. */
+	private void exitAction_main_region_Preparation_r1_Preparation() {
+		timerService.unsetTimer(this, 5);
+	}
+	
+	/* Exit action for state 'Prep supp'. */
+	private void exitAction_main_region_Preparation_r1_Prep_supp() {
+		timerService.unsetTimer(this, 6);
+	}
+	
+	/* Exit action for state 'Pouring'. */
+	private void exitAction_main_region_Preparation_r1_Pouring() {
 		timerService.unsetTimer(this, 7);
+	}
+	
+	/* Exit action for state 'Starting'. */
+	private void exitAction_main_region_Preparation_r1_Starting() {
+		timerService.unsetTimer(this, 8);
 	}
 	
 	/* 'default' enter sequence for state Interface */
@@ -910,69 +957,6 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		stateVector[0] = State.MAIN_REGION_INIT;
 	}
 	
-	/* 'default' enter sequence for state Starting */
-	private void enterSequence_main_region_Starting_default() {
-		entryAction_main_region_Starting();
-		enterSequence_main_region_Starting_r1_default();
-		enterSequence_main_region_Starting_r2_default();
-	}
-	
-	/* 'default' enter sequence for state Take ingr */
-	private void enterSequence_main_region_Starting_r1_Take_ingr_default() {
-		entryAction_main_region_Starting_r1_Take_ingr();
-		nextStateIndex = 0;
-		stateVector[0] = State.MAIN_REGION_STARTING_R1_TAKE_INGR;
-	}
-	
-	/* 'default' enter sequence for state Start heated */
-	private void enterSequence_main_region_Starting_r2_Start_heated_default() {
-		entryAction_main_region_Starting_r2_Start_heated();
-		nextStateIndex = 1;
-		stateVector[1] = State.MAIN_REGION_STARTING_R2_START_HEATED;
-	}
-	
-	/* 'default' enter sequence for state Preparation */
-	private void enterSequence_main_region_Preparation_default() {
-		entryAction_main_region_Preparation();
-		enterSequence_main_region_Preparation_r1_default();
-		enterSequence_main_region_Preparation_r2_default();
-	}
-	
-	/* 'default' enter sequence for state Prep pouring */
-	private void enterSequence_main_region_Preparation_r1_Prep_pouring_default() {
-		entryAction_main_region_Preparation_r1_Prep_pouring();
-		nextStateIndex = 0;
-		stateVector[0] = State.MAIN_REGION_PREPARATION_R1_PREP_POURING;
-	}
-	
-	/* 'default' enter sequence for state Wait heated */
-	private void enterSequence_main_region_Preparation_r2_Wait_heated_default() {
-		entryAction_main_region_Preparation_r2_Wait_heated();
-		nextStateIndex = 1;
-		stateVector[1] = State.MAIN_REGION_PREPARATION_R2_WAIT_HEATED;
-	}
-	
-	/* 'default' enter sequence for state Pouring */
-	private void enterSequence_main_region_Pouring_default() {
-		entryAction_main_region_Pouring();
-		enterSequence_main_region_Pouring_r1_default();
-		enterSequence_main_region_Pouring_r2_default();
-	}
-	
-	/* 'default' enter sequence for state Sugar */
-	private void enterSequence_main_region_Pouring_r1_Sugar_default() {
-		entryAction_main_region_Pouring_r1_Sugar();
-		nextStateIndex = 0;
-		stateVector[0] = State.MAIN_REGION_POURING_R1_SUGAR;
-	}
-	
-	/* 'default' enter sequence for state Pouring */
-	private void enterSequence_main_region_Pouring_r2_Pouring_default() {
-		entryAction_main_region_Pouring_r2_Pouring();
-		nextStateIndex = 1;
-		stateVector[1] = State.MAIN_REGION_POURING_R2_POURING;
-	}
-	
 	/* 'default' enter sequence for state Wait recup */
 	private void enterSequence_main_region_Wait_recup_default() {
 		entryAction_main_region_Wait_recup();
@@ -980,18 +964,87 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		stateVector[0] = State.MAIN_REGION_WAIT_RECUP;
 	}
 	
-	/* 'default' enter sequence for state Prep supp */
-	private void enterSequence_main_region_Prep_supp_default() {
-		entryAction_main_region_Prep_supp();
-		nextStateIndex = 0;
-		stateVector[0] = State.MAIN_REGION_PREP_SUPP;
-	}
-	
 	/* 'default' enter sequence for state Washing */
 	private void enterSequence_main_region_Washing_default() {
 		entryAction_main_region_Washing();
 		nextStateIndex = 0;
 		stateVector[0] = State.MAIN_REGION_WASHING;
+	}
+	
+	/* 'default' enter sequence for state Preparation */
+	private void enterSequence_main_region_Preparation_default() {
+		entryAction_main_region_Preparation();
+		enterSequence_main_region_Preparation_r1_default();
+	}
+	
+	/* 'default' enter sequence for state Preparation */
+	private void enterSequence_main_region_Preparation_r1_Preparation_default() {
+		entryAction_main_region_Preparation_r1_Preparation();
+		enterSequence_main_region_Preparation_r1_Preparation_r1_default();
+		enterSequence_main_region_Preparation_r1_Preparation_r2_default();
+	}
+	
+	/* 'default' enter sequence for state Prep pouring */
+	private void enterSequence_main_region_Preparation_r1_Preparation_r1_Prep_pouring_default() {
+		entryAction_main_region_Preparation_r1_Preparation_r1_Prep_pouring();
+		nextStateIndex = 0;
+		stateVector[0] = State.MAIN_REGION_PREPARATION_R1_PREPARATION_R1_PREP_POURING;
+	}
+	
+	/* 'default' enter sequence for state Wait heated */
+	private void enterSequence_main_region_Preparation_r1_Preparation_r2_Wait_heated_default() {
+		entryAction_main_region_Preparation_r1_Preparation_r2_Wait_heated();
+		nextStateIndex = 1;
+		stateVector[1] = State.MAIN_REGION_PREPARATION_R1_PREPARATION_R2_WAIT_HEATED;
+	}
+	
+	/* 'default' enter sequence for state Prep supp */
+	private void enterSequence_main_region_Preparation_r1_Prep_supp_default() {
+		entryAction_main_region_Preparation_r1_Prep_supp();
+		nextStateIndex = 0;
+		stateVector[0] = State.MAIN_REGION_PREPARATION_R1_PREP_SUPP;
+	}
+	
+	/* 'default' enter sequence for state Pouring */
+	private void enterSequence_main_region_Preparation_r1_Pouring_default() {
+		entryAction_main_region_Preparation_r1_Pouring();
+		enterSequence_main_region_Preparation_r1_Pouring_r1_default();
+		enterSequence_main_region_Preparation_r1_Pouring_r2_default();
+	}
+	
+	/* 'default' enter sequence for state Sugar */
+	private void enterSequence_main_region_Preparation_r1_Pouring_r1_Sugar_default() {
+		entryAction_main_region_Preparation_r1_Pouring_r1_Sugar();
+		nextStateIndex = 0;
+		stateVector[0] = State.MAIN_REGION_PREPARATION_R1_POURING_R1_SUGAR;
+	}
+	
+	/* 'default' enter sequence for state Pouring */
+	private void enterSequence_main_region_Preparation_r1_Pouring_r2_Pouring_default() {
+		entryAction_main_region_Preparation_r1_Pouring_r2_Pouring();
+		nextStateIndex = 1;
+		stateVector[1] = State.MAIN_REGION_PREPARATION_R1_POURING_R2_POURING;
+	}
+	
+	/* 'default' enter sequence for state Starting */
+	private void enterSequence_main_region_Preparation_r1_Starting_default() {
+		entryAction_main_region_Preparation_r1_Starting();
+		enterSequence_main_region_Preparation_r1_Starting_r1_default();
+		enterSequence_main_region_Preparation_r1_Starting_r2_default();
+	}
+	
+	/* 'default' enter sequence for state Take ingr */
+	private void enterSequence_main_region_Preparation_r1_Starting_r1_Take_ingr_default() {
+		entryAction_main_region_Preparation_r1_Starting_r1_Take_ingr();
+		nextStateIndex = 0;
+		stateVector[0] = State.MAIN_REGION_PREPARATION_R1_STARTING_R1_TAKE_INGR;
+	}
+	
+	/* 'default' enter sequence for state Start heated */
+	private void enterSequence_main_region_Preparation_r1_Starting_r2_Start_heated_default() {
+		entryAction_main_region_Preparation_r1_Starting_r2_Start_heated();
+		nextStateIndex = 1;
+		stateVector[1] = State.MAIN_REGION_PREPARATION_R1_STARTING_R2_START_HEATED;
 	}
 	
 	/* 'default' enter sequence for region main region */
@@ -1015,33 +1068,38 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 	}
 	
 	/* 'default' enter sequence for region r1 */
-	private void enterSequence_main_region_Starting_r1_default() {
-		react_main_region_Starting_r1__entry_Default();
-	}
-	
-	/* 'default' enter sequence for region r2 */
-	private void enterSequence_main_region_Starting_r2_default() {
-		react_main_region_Starting_r2__entry_Default();
-	}
-	
-	/* 'default' enter sequence for region r1 */
 	private void enterSequence_main_region_Preparation_r1_default() {
 		react_main_region_Preparation_r1__entry_Default();
 	}
 	
+	/* 'default' enter sequence for region r1 */
+	private void enterSequence_main_region_Preparation_r1_Preparation_r1_default() {
+		react_main_region_Preparation_r1_Preparation_r1__entry_Default();
+	}
+	
 	/* 'default' enter sequence for region r2 */
-	private void enterSequence_main_region_Preparation_r2_default() {
-		react_main_region_Preparation_r2__entry_Default();
+	private void enterSequence_main_region_Preparation_r1_Preparation_r2_default() {
+		react_main_region_Preparation_r1_Preparation_r2__entry_Default();
 	}
 	
 	/* 'default' enter sequence for region r1 */
-	private void enterSequence_main_region_Pouring_r1_default() {
-		react_main_region_Pouring_r1__entry_Default();
+	private void enterSequence_main_region_Preparation_r1_Pouring_r1_default() {
+		react_main_region_Preparation_r1_Pouring_r1__entry_Default();
 	}
 	
 	/* 'default' enter sequence for region r2 */
-	private void enterSequence_main_region_Pouring_r2_default() {
-		react_main_region_Pouring_r2__entry_Default();
+	private void enterSequence_main_region_Preparation_r1_Pouring_r2_default() {
+		react_main_region_Preparation_r1_Pouring_r2__entry_Default();
+	}
+	
+	/* 'default' enter sequence for region r1 */
+	private void enterSequence_main_region_Preparation_r1_Starting_r1_default() {
+		react_main_region_Preparation_r1_Starting_r1__entry_Default();
+	}
+	
+	/* 'default' enter sequence for region r2 */
+	private void enterSequence_main_region_Preparation_r1_Starting_r2_default() {
+		react_main_region_Preparation_r1_Starting_r2__entry_Default();
 	}
 	
 	/* Default exit sequence for state Interface */
@@ -1097,63 +1155,6 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		exitAction_main_region_Init();
 	}
 	
-	/* Default exit sequence for state Starting */
-	private void exitSequence_main_region_Starting() {
-		exitSequence_main_region_Starting_r1();
-		exitSequence_main_region_Starting_r2();
-		exitAction_main_region_Starting();
-	}
-	
-	/* Default exit sequence for state Take ingr */
-	private void exitSequence_main_region_Starting_r1_Take_ingr() {
-		nextStateIndex = 0;
-		stateVector[0] = State.$NULLSTATE$;
-	}
-	
-	/* Default exit sequence for state Start heated */
-	private void exitSequence_main_region_Starting_r2_Start_heated() {
-		nextStateIndex = 1;
-		stateVector[1] = State.$NULLSTATE$;
-	}
-	
-	/* Default exit sequence for state Preparation */
-	private void exitSequence_main_region_Preparation() {
-		exitSequence_main_region_Preparation_r1();
-		exitSequence_main_region_Preparation_r2();
-		exitAction_main_region_Preparation();
-	}
-	
-	/* Default exit sequence for state Prep pouring */
-	private void exitSequence_main_region_Preparation_r1_Prep_pouring() {
-		nextStateIndex = 0;
-		stateVector[0] = State.$NULLSTATE$;
-	}
-	
-	/* Default exit sequence for state Wait heated */
-	private void exitSequence_main_region_Preparation_r2_Wait_heated() {
-		nextStateIndex = 1;
-		stateVector[1] = State.$NULLSTATE$;
-	}
-	
-	/* Default exit sequence for state Pouring */
-	private void exitSequence_main_region_Pouring() {
-		exitSequence_main_region_Pouring_r1();
-		exitSequence_main_region_Pouring_r2();
-		exitAction_main_region_Pouring();
-	}
-	
-	/* Default exit sequence for state Sugar */
-	private void exitSequence_main_region_Pouring_r1_Sugar() {
-		nextStateIndex = 0;
-		stateVector[0] = State.$NULLSTATE$;
-	}
-	
-	/* Default exit sequence for state Pouring */
-	private void exitSequence_main_region_Pouring_r2_Pouring() {
-		nextStateIndex = 1;
-		stateVector[1] = State.$NULLSTATE$;
-	}
-	
 	/* Default exit sequence for state Wait recup */
 	private void exitSequence_main_region_Wait_recup() {
 		nextStateIndex = 0;
@@ -1162,20 +1163,83 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		exitAction_main_region_Wait_recup();
 	}
 	
-	/* Default exit sequence for state Prep supp */
-	private void exitSequence_main_region_Prep_supp() {
-		nextStateIndex = 0;
-		stateVector[0] = State.$NULLSTATE$;
-		
-		exitAction_main_region_Prep_supp();
-	}
-	
 	/* Default exit sequence for state Washing */
 	private void exitSequence_main_region_Washing() {
 		nextStateIndex = 0;
 		stateVector[0] = State.$NULLSTATE$;
 		
 		exitAction_main_region_Washing();
+	}
+	
+	/* Default exit sequence for state Preparation */
+	private void exitSequence_main_region_Preparation() {
+		exitSequence_main_region_Preparation_r1();
+		exitAction_main_region_Preparation();
+	}
+	
+	/* Default exit sequence for state Preparation */
+	private void exitSequence_main_region_Preparation_r1_Preparation() {
+		exitSequence_main_region_Preparation_r1_Preparation_r1();
+		exitSequence_main_region_Preparation_r1_Preparation_r2();
+		exitAction_main_region_Preparation_r1_Preparation();
+	}
+	
+	/* Default exit sequence for state Prep pouring */
+	private void exitSequence_main_region_Preparation_r1_Preparation_r1_Prep_pouring() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NULLSTATE$;
+	}
+	
+	/* Default exit sequence for state Wait heated */
+	private void exitSequence_main_region_Preparation_r1_Preparation_r2_Wait_heated() {
+		nextStateIndex = 1;
+		stateVector[1] = State.$NULLSTATE$;
+	}
+	
+	/* Default exit sequence for state Prep supp */
+	private void exitSequence_main_region_Preparation_r1_Prep_supp() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NULLSTATE$;
+		
+		exitAction_main_region_Preparation_r1_Prep_supp();
+	}
+	
+	/* Default exit sequence for state Pouring */
+	private void exitSequence_main_region_Preparation_r1_Pouring() {
+		exitSequence_main_region_Preparation_r1_Pouring_r1();
+		exitSequence_main_region_Preparation_r1_Pouring_r2();
+		exitAction_main_region_Preparation_r1_Pouring();
+	}
+	
+	/* Default exit sequence for state Sugar */
+	private void exitSequence_main_region_Preparation_r1_Pouring_r1_Sugar() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NULLSTATE$;
+	}
+	
+	/* Default exit sequence for state Pouring */
+	private void exitSequence_main_region_Preparation_r1_Pouring_r2_Pouring() {
+		nextStateIndex = 1;
+		stateVector[1] = State.$NULLSTATE$;
+	}
+	
+	/* Default exit sequence for state Starting */
+	private void exitSequence_main_region_Preparation_r1_Starting() {
+		exitSequence_main_region_Preparation_r1_Starting_r1();
+		exitSequence_main_region_Preparation_r1_Starting_r2();
+		exitAction_main_region_Preparation_r1_Starting();
+	}
+	
+	/* Default exit sequence for state Take ingr */
+	private void exitSequence_main_region_Preparation_r1_Starting_r1_Take_ingr() {
+		nextStateIndex = 0;
+		stateVector[0] = State.$NULLSTATE$;
+	}
+	
+	/* Default exit sequence for state Start heated */
+	private void exitSequence_main_region_Preparation_r1_Starting_r2_Start_heated() {
+		nextStateIndex = 1;
+		stateVector[1] = State.$NULLSTATE$;
 	}
 	
 	/* Default exit sequence for region main region */
@@ -1190,23 +1254,24 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		case MAIN_REGION_INIT:
 			exitSequence_main_region_Init();
 			break;
-		case MAIN_REGION_STARTING_R1_TAKE_INGR:
-			exitSequence_main_region_Starting_r1_Take_ingr();
-			break;
-		case MAIN_REGION_PREPARATION_R1_PREP_POURING:
-			exitSequence_main_region_Preparation_r1_Prep_pouring();
-			break;
-		case MAIN_REGION_POURING_R1_SUGAR:
-			exitSequence_main_region_Pouring_r1_Sugar();
-			break;
 		case MAIN_REGION_WAIT_RECUP:
 			exitSequence_main_region_Wait_recup();
 			break;
-		case MAIN_REGION_PREP_SUPP:
-			exitSequence_main_region_Prep_supp();
-			break;
 		case MAIN_REGION_WASHING:
 			exitSequence_main_region_Washing();
+			break;
+		case MAIN_REGION_PREPARATION_R1_PREPARATION_R1_PREP_POURING:
+			exitSequence_main_region_Preparation_r1_Preparation_r1_Prep_pouring();
+			break;
+		case MAIN_REGION_PREPARATION_R1_PREP_SUPP:
+			exitSequence_main_region_Preparation_r1_Prep_supp();
+			exitAction_main_region_Preparation();
+			break;
+		case MAIN_REGION_PREPARATION_R1_POURING_R1_SUGAR:
+			exitSequence_main_region_Preparation_r1_Pouring_r1_Sugar();
+			break;
+		case MAIN_REGION_PREPARATION_R1_STARTING_R1_TAKE_INGR:
+			exitSequence_main_region_Preparation_r1_Starting_r1_Take_ingr();
 			break;
 		default:
 			break;
@@ -1222,17 +1287,20 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		case MAIN_REGION_INTERFACE_PAYMENT_CASH:
 			exitSequence_main_region_Interface_Payment_Cash();
 			break;
-		case MAIN_REGION_STARTING_R2_START_HEATED:
-			exitSequence_main_region_Starting_r2_Start_heated();
-			exitAction_main_region_Starting();
-			break;
-		case MAIN_REGION_PREPARATION_R2_WAIT_HEATED:
-			exitSequence_main_region_Preparation_r2_Wait_heated();
+		case MAIN_REGION_PREPARATION_R1_PREPARATION_R2_WAIT_HEATED:
+			exitSequence_main_region_Preparation_r1_Preparation_r2_Wait_heated();
+			exitAction_main_region_Preparation_r1_Preparation();
 			exitAction_main_region_Preparation();
 			break;
-		case MAIN_REGION_POURING_R2_POURING:
-			exitSequence_main_region_Pouring_r2_Pouring();
-			exitAction_main_region_Pouring();
+		case MAIN_REGION_PREPARATION_R1_POURING_R2_POURING:
+			exitSequence_main_region_Preparation_r1_Pouring_r2_Pouring();
+			exitAction_main_region_Preparation_r1_Pouring();
+			exitAction_main_region_Preparation();
+			break;
+		case MAIN_REGION_PREPARATION_R1_STARTING_R2_START_HEATED:
+			exitSequence_main_region_Preparation_r1_Starting_r2_Start_heated();
+			exitAction_main_region_Preparation_r1_Starting();
+			exitAction_main_region_Preparation();
 			break;
 		default:
 			break;
@@ -1290,43 +1358,36 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 	}
 	
 	/* Default exit sequence for region r1 */
-	private void exitSequence_main_region_Starting_r1() {
-		switch (stateVector[0]) {
-		case MAIN_REGION_STARTING_R1_TAKE_INGR:
-			exitSequence_main_region_Starting_r1_Take_ingr();
-			break;
-		default:
-			break;
-		}
-	}
-	
-	/* Default exit sequence for region r2 */
-	private void exitSequence_main_region_Starting_r2() {
-		switch (stateVector[1]) {
-		case MAIN_REGION_STARTING_R2_START_HEATED:
-			exitSequence_main_region_Starting_r2_Start_heated();
-			break;
-		default:
-			break;
-		}
-	}
-	
-	/* Default exit sequence for region r1 */
 	private void exitSequence_main_region_Preparation_r1() {
 		switch (stateVector[0]) {
-		case MAIN_REGION_PREPARATION_R1_PREP_POURING:
-			exitSequence_main_region_Preparation_r1_Prep_pouring();
+		case MAIN_REGION_PREPARATION_R1_PREPARATION_R1_PREP_POURING:
+			exitSequence_main_region_Preparation_r1_Preparation_r1_Prep_pouring();
+			break;
+		case MAIN_REGION_PREPARATION_R1_PREP_SUPP:
+			exitSequence_main_region_Preparation_r1_Prep_supp();
+			break;
+		case MAIN_REGION_PREPARATION_R1_POURING_R1_SUGAR:
+			exitSequence_main_region_Preparation_r1_Pouring_r1_Sugar();
+			break;
+		case MAIN_REGION_PREPARATION_R1_STARTING_R1_TAKE_INGR:
+			exitSequence_main_region_Preparation_r1_Starting_r1_Take_ingr();
 			break;
 		default:
 			break;
 		}
-	}
-	
-	/* Default exit sequence for region r2 */
-	private void exitSequence_main_region_Preparation_r2() {
+		
 		switch (stateVector[1]) {
-		case MAIN_REGION_PREPARATION_R2_WAIT_HEATED:
-			exitSequence_main_region_Preparation_r2_Wait_heated();
+		case MAIN_REGION_PREPARATION_R1_PREPARATION_R2_WAIT_HEATED:
+			exitSequence_main_region_Preparation_r1_Preparation_r2_Wait_heated();
+			exitAction_main_region_Preparation_r1_Preparation();
+			break;
+		case MAIN_REGION_PREPARATION_R1_POURING_R2_POURING:
+			exitSequence_main_region_Preparation_r1_Pouring_r2_Pouring();
+			exitAction_main_region_Preparation_r1_Pouring();
+			break;
+		case MAIN_REGION_PREPARATION_R1_STARTING_R2_START_HEATED:
+			exitSequence_main_region_Preparation_r1_Starting_r2_Start_heated();
+			exitAction_main_region_Preparation_r1_Starting();
 			break;
 		default:
 			break;
@@ -1334,10 +1395,10 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 	}
 	
 	/* Default exit sequence for region r1 */
-	private void exitSequence_main_region_Pouring_r1() {
+	private void exitSequence_main_region_Preparation_r1_Preparation_r1() {
 		switch (stateVector[0]) {
-		case MAIN_REGION_POURING_R1_SUGAR:
-			exitSequence_main_region_Pouring_r1_Sugar();
+		case MAIN_REGION_PREPARATION_R1_PREPARATION_R1_PREP_POURING:
+			exitSequence_main_region_Preparation_r1_Preparation_r1_Prep_pouring();
 			break;
 		default:
 			break;
@@ -1345,10 +1406,54 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 	}
 	
 	/* Default exit sequence for region r2 */
-	private void exitSequence_main_region_Pouring_r2() {
+	private void exitSequence_main_region_Preparation_r1_Preparation_r2() {
 		switch (stateVector[1]) {
-		case MAIN_REGION_POURING_R2_POURING:
-			exitSequence_main_region_Pouring_r2_Pouring();
+		case MAIN_REGION_PREPARATION_R1_PREPARATION_R2_WAIT_HEATED:
+			exitSequence_main_region_Preparation_r1_Preparation_r2_Wait_heated();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/* Default exit sequence for region r1 */
+	private void exitSequence_main_region_Preparation_r1_Pouring_r1() {
+		switch (stateVector[0]) {
+		case MAIN_REGION_PREPARATION_R1_POURING_R1_SUGAR:
+			exitSequence_main_region_Preparation_r1_Pouring_r1_Sugar();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/* Default exit sequence for region r2 */
+	private void exitSequence_main_region_Preparation_r1_Pouring_r2() {
+		switch (stateVector[1]) {
+		case MAIN_REGION_PREPARATION_R1_POURING_R2_POURING:
+			exitSequence_main_region_Preparation_r1_Pouring_r2_Pouring();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/* Default exit sequence for region r1 */
+	private void exitSequence_main_region_Preparation_r1_Starting_r1() {
+		switch (stateVector[0]) {
+		case MAIN_REGION_PREPARATION_R1_STARTING_R1_TAKE_INGR:
+			exitSequence_main_region_Preparation_r1_Starting_r1_Take_ingr();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/* Default exit sequence for region r2 */
+	private void exitSequence_main_region_Preparation_r1_Starting_r2() {
+		switch (stateVector[1]) {
+		case MAIN_REGION_PREPARATION_R1_STARTING_R2_START_HEATED:
+			exitSequence_main_region_Preparation_r1_Starting_r2_Start_heated();
 			break;
 		default:
 			break;
@@ -1376,33 +1481,38 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 	}
 	
 	/* Default react sequence for initial entry  */
-	private void react_main_region_Starting_r1__entry_Default() {
-		enterSequence_main_region_Starting_r1_Take_ingr_default();
+	private void react_main_region_Preparation_r1_Preparation_r1__entry_Default() {
+		enterSequence_main_region_Preparation_r1_Preparation_r1_Prep_pouring_default();
 	}
 	
 	/* Default react sequence for initial entry  */
-	private void react_main_region_Starting_r2__entry_Default() {
-		enterSequence_main_region_Starting_r2_Start_heated_default();
+	private void react_main_region_Preparation_r1_Preparation_r2__entry_Default() {
+		enterSequence_main_region_Preparation_r1_Preparation_r2_Wait_heated_default();
+	}
+	
+	/* Default react sequence for initial entry  */
+	private void react_main_region_Preparation_r1_Pouring_r1__entry_Default() {
+		enterSequence_main_region_Preparation_r1_Pouring_r1_Sugar_default();
+	}
+	
+	/* Default react sequence for initial entry  */
+	private void react_main_region_Preparation_r1_Pouring_r2__entry_Default() {
+		enterSequence_main_region_Preparation_r1_Pouring_r2_Pouring_default();
+	}
+	
+	/* Default react sequence for initial entry  */
+	private void react_main_region_Preparation_r1_Starting_r1__entry_Default() {
+		enterSequence_main_region_Preparation_r1_Starting_r1_Take_ingr_default();
+	}
+	
+	/* Default react sequence for initial entry  */
+	private void react_main_region_Preparation_r1_Starting_r2__entry_Default() {
+		enterSequence_main_region_Preparation_r1_Starting_r2_Start_heated_default();
 	}
 	
 	/* Default react sequence for initial entry  */
 	private void react_main_region_Preparation_r1__entry_Default() {
-		enterSequence_main_region_Preparation_r1_Prep_pouring_default();
-	}
-	
-	/* Default react sequence for initial entry  */
-	private void react_main_region_Preparation_r2__entry_Default() {
-		enterSequence_main_region_Preparation_r2_Wait_heated_default();
-	}
-	
-	/* Default react sequence for initial entry  */
-	private void react_main_region_Pouring_r1__entry_Default() {
-		enterSequence_main_region_Pouring_r1_Sugar_default();
-	}
-	
-	/* Default react sequence for initial entry  */
-	private void react_main_region_Pouring_r2__entry_Default() {
-		enterSequence_main_region_Pouring_r2_Pouring_default();
+		enterSequence_main_region_Preparation_r1_Starting_default();
 	}
 	
 	private boolean react() {
@@ -1424,7 +1534,7 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 					exitSequence_main_region_Interface();
 					raiseDoStartMachine();
 					
-					enterSequence_main_region_Starting_default();
+					enterSequence_main_region_Preparation_default();
 					react();
 				} else {
 					did_transition = false;
@@ -1568,130 +1678,11 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		return did_transition;
 	}
 	
-	private boolean main_region_Starting_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			if (timeEvents[2]) {
-				exitSequence_main_region_Starting();
-				enterSequence_main_region_Preparation_default();
-				react();
-			} else {
-				did_transition = false;
-			}
-		}
-		if (did_transition==false) {
-			did_transition = react();
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_Starting_r1_Take_ingr_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			did_transition = false;
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_Starting_r2_Start_heated_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			did_transition = false;
-		}
-		if (did_transition==false) {
-			did_transition = main_region_Starting_react(try_transition);
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_Preparation_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			if (timeEvents[3]) {
-				exitSequence_main_region_Preparation();
-				enterSequence_main_region_Pouring_default();
-				react();
-			} else {
-				did_transition = false;
-			}
-		}
-		if (did_transition==false) {
-			did_transition = react();
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_Preparation_r1_Prep_pouring_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			did_transition = false;
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_Preparation_r2_Wait_heated_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			did_transition = false;
-		}
-		if (did_transition==false) {
-			did_transition = main_region_Preparation_react(try_transition);
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_Pouring_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			if (timeEvents[4]) {
-				exitSequence_main_region_Pouring();
-				raiseDoPrepSupp();
-				
-				enterSequence_main_region_Prep_supp_default();
-				react();
-			} else {
-				did_transition = false;
-			}
-		}
-		if (did_transition==false) {
-			did_transition = react();
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_Pouring_r1_Sugar_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			did_transition = false;
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_Pouring_r2_Pouring_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			did_transition = false;
-		}
-		if (did_transition==false) {
-			did_transition = main_region_Pouring_react(try_transition);
-		}
-		return did_transition;
-	}
-	
 	private boolean main_region_Wait_recup_react(boolean try_transition) {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (timeEvents[5]) {
+			if (timeEvents[2]) {
 				exitSequence_main_region_Wait_recup();
 				raiseDoWash();
 				
@@ -1707,31 +1698,11 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		return did_transition;
 	}
 	
-	private boolean main_region_Prep_supp_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			if (timeEvents[6]) {
-				exitSequence_main_region_Prep_supp();
-				raiseDoWaitRecup();
-				
-				enterSequence_main_region_Wait_recup_default();
-				react();
-			} else {
-				did_transition = false;
-			}
-		}
-		if (did_transition==false) {
-			did_transition = react();
-		}
-		return did_transition;
-	}
-	
 	private boolean main_region_Washing_react(boolean try_transition) {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
-			if (timeEvents[7]) {
+			if (timeEvents[3]) {
 				exitSequence_main_region_Washing();
 				raiseDoCancel();
 				
@@ -1743,6 +1714,160 @@ public class DrinkingFactoryStatemachine implements IStatemachine, ITimed {
 		}
 		if (did_transition==false) {
 			did_transition = react();
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Preparation_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			did_transition = false;
+		}
+		if (did_transition==false) {
+			if (timeEvents[4]) {
+				raiseDoProgressBar();
+			}
+			did_transition = react();
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Preparation_r1_Preparation_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (timeEvents[5]) {
+				exitSequence_main_region_Preparation_r1_Preparation();
+				enterSequence_main_region_Preparation_r1_Pouring_default();
+				main_region_Preparation_react(false);
+			} else {
+				did_transition = false;
+			}
+		}
+		if (did_transition==false) {
+			did_transition = main_region_Preparation_react(try_transition);
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Preparation_r1_Preparation_r1_Prep_pouring_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			did_transition = false;
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Preparation_r1_Preparation_r2_Wait_heated_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			did_transition = false;
+		}
+		if (did_transition==false) {
+			did_transition = main_region_Preparation_r1_Preparation_react(try_transition);
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Preparation_r1_Prep_supp_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (timeEvents[6]) {
+				exitSequence_main_region_Preparation();
+				raiseDoWaitRecup();
+				
+				enterSequence_main_region_Wait_recup_default();
+				react();
+			} else {
+				did_transition = false;
+			}
+		}
+		if (did_transition==false) {
+			did_transition = main_region_Preparation_react(try_transition);
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Preparation_r1_Pouring_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (timeEvents[7]) {
+				exitSequence_main_region_Preparation_r1_Pouring();
+				raiseDoPrepSupp();
+				
+				enterSequence_main_region_Preparation_r1_Prep_supp_default();
+				main_region_Preparation_react(false);
+			} else {
+				did_transition = false;
+			}
+		}
+		if (did_transition==false) {
+			did_transition = main_region_Preparation_react(try_transition);
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Preparation_r1_Pouring_r1_Sugar_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			did_transition = false;
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Preparation_r1_Pouring_r2_Pouring_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			did_transition = false;
+		}
+		if (did_transition==false) {
+			did_transition = main_region_Preparation_r1_Pouring_react(try_transition);
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Preparation_r1_Starting_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			if (timeEvents[8]) {
+				exitSequence_main_region_Preparation_r1_Starting();
+				enterSequence_main_region_Preparation_r1_Preparation_default();
+				main_region_Preparation_react(false);
+			} else {
+				did_transition = false;
+			}
+		}
+		if (did_transition==false) {
+			did_transition = main_region_Preparation_react(try_transition);
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Preparation_r1_Starting_r1_Take_ingr_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			did_transition = false;
+		}
+		return did_transition;
+	}
+	
+	private boolean main_region_Preparation_r1_Starting_r2_Start_heated_react(boolean try_transition) {
+		boolean did_transition = try_transition;
+		
+		if (try_transition) {
+			did_transition = false;
+		}
+		if (did_transition==false) {
+			did_transition = main_region_Preparation_r1_Starting_react(try_transition);
 		}
 		return did_transition;
 	}

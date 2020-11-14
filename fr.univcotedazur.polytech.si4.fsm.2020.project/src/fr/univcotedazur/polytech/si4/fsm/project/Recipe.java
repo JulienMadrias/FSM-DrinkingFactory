@@ -14,6 +14,7 @@ public abstract class Recipe {
 	int time3;
 	int time4;
 	int time5;
+	int totalTime;
 	
 	public Recipe(int sugar, int size, int temperature, boolean milk, boolean crouton, boolean maple, boolean vanilla) {
 		this.size = size;

@@ -76,6 +76,7 @@ public class Expresso extends Recipe{
 			time4 = 0;
 		}
 		time5 = 10000;
+		totalTime = time1 + time2 + time3 + time4;
 	}
 	
 	@Override
