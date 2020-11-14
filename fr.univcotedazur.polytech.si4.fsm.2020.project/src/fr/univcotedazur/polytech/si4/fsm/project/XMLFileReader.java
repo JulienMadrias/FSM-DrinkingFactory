@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class XMLFileReader {
@@ -30,6 +31,7 @@ public class XMLFileReader {
     private final String INGREDIENTS_FILENAME = "ingredients.xml";
     private Element ingredientsRoot;
     private Element clientsRoot;
+    private Document clientsXml;
     private XPath path;
 
     public XMLFileReader() {
@@ -42,7 +44,7 @@ public class XMLFileReader {
         File ingredientsFileXML = new File("fr.univcotedazur.polytech.si4.fsm.2020.project\\src\\fr\\univcotedazur\\polytech\\si4\\fsm\\project\\ingredients.xml");
         File clientsFileXML = new File("fr.univcotedazur.polytech.si4.fsm.2020.project\\src\\fr\\univcotedazur\\polytech\\si4\\fsm\\project\\clients.xml");
         Document ingredientXml = null;
-        Document clientsXml = null;
+        clientsXml = null;
         try {
             ingredientXml = builder.parse(ingredientsFileXML);
             clientsXml = builder.parse(clientsFileXML);
@@ -124,15 +126,13 @@ public class XMLFileReader {
 
         String expression = "/CLIENTS";
 
-        NodeList clientNodeList = (NodeList)path.evaluate(expression, clientsRoot, XPathConstants.NODESET);
-        System.out.println(clientsRoot.getTagName());
-        System.out.println("BIIP " + clientNodeList.getLength());
+        NodeList clientNodeList = clientsXml.getElementsByTagName("client");
         for(int i = 0 ; i < clientNodeList.getLength(); i++){
             Node n = clientNodeList.item(i);
-            int id = ((Double) path.evaluate("/id", n, XPathConstants.NUMBER)).intValue();
-            int numberOfCommand = ((Double) path.evaluate("/numberOfCommand", n, XPathConstants.NUMBER)).intValue();
+            int id = Integer.parseInt(((Element) n).getElementsByTagName("id").item(0).getTextContent());
+            int numberOfCommand = Integer.parseInt(((Element) n).getElementsByTagName("numberOfCommand").item(0).getTextContent());
             ArrayList<Integer> listOfPrices= new ArrayList<Integer>();
-            int discount = ((Double) path.evaluate("/discount", n, XPathConstants.NUMBER)).intValue();
+            int discount = Integer.parseInt(((Element) n).getElementsByTagName("discount").item(0).getTextContent());
 
             expression = "listOfPrices/price";
             path.compile(expression);
@@ -177,13 +177,10 @@ public class XMLFileReader {
                 discount.appendChild(doc.createTextNode(String.valueOf(v.getDiscount())));
                 client.appendChild(discount);
 
-                System.out.println("Taille " + v.getListOfPrices().size());
-
                 for (int priceValue: v.getListOfPrices()) {
                     Element price = doc.createElement("price");
                     price.appendChild(doc.createTextNode(String.valueOf(priceValue)));
                     listOfPrices.appendChild(price);
-                    System.out.println("Sous l'océan!");
                 }
             });
 
@@ -199,5 +196,6 @@ public class XMLFileReader {
         } catch (TransformerException tfe) {
             tfe.printStackTrace();
         }
+
     }
 }

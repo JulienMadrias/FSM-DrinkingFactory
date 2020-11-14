@@ -147,17 +147,11 @@ public class DrinkFactoryMachine extends JFrame {
 	}
 	
 	private void connectUser(int id) {
-        for (Map.Entry mapEntry: customers.entrySet()
-             ) {
-            System.out.println(mapEntry.getKey());
-        }
 		if(customers.containsKey(id)) {
 			currentCustomer = customers.get(id);
-			System.out.println("Connecté");
 		}
 		else {
 			currentCustomer = new Customer(id);
-			System.out.println("Inscrit");
 		}
 		isConnected = true;
 	}
@@ -199,10 +193,7 @@ public class DrinkFactoryMachine extends JFrame {
             }
             else if(isConnected){
                 lblPot.setText("Transaction effectuée");
-                System.out.println("Diggy " + currentCustomer.getListOfPrices().size());
                 currentCustomer.addToList(price);
-                System.out.println("Payé");
-                System.out.println("Hole " + currentCustomer.getListOfPrices().size());
             }
             else{ lblPot.setText("Transaction effectuée");}
 			cbDataRegistered = false;
