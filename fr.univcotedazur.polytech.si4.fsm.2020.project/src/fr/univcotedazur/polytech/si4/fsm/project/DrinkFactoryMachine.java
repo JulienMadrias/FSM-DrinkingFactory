@@ -880,7 +880,20 @@ public class DrinkFactoryMachine extends JFrame {
 					ownCup = true;
 					price -= 10;
 					displayValue();
-				}	
+				}
+                else{
+                    BufferedImage myPicture = null;
+                    try {
+                        myPicture = ImageIO.read(new File("./fr.univcotedazur.polytech.si4.fsm.2020.project/picts/vide2.jpg"));
+                    } catch (IOException ee) {
+                        ee.printStackTrace();
+                    }
+                    labelForPictures.setIcon(new ImageIcon(myPicture));
+                    addCupButton.setText("Add cup");
+                    ownCup = false;
+                    price += 10;
+                    displayValue();
+                }
 			}
 		});
 
