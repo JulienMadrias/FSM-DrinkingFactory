@@ -160,7 +160,7 @@ public class DrinkFactoryMachine extends JFrame {
 			currentCustomer = customers.get(id);
 		}
 		else {
-			currentCustomer = new Customer(id);
+			currentCustomer = new Customer(0);
 		}
 		isConnected = true;
 	}
