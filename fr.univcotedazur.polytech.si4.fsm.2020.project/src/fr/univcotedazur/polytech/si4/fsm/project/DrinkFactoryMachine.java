@@ -100,6 +100,7 @@ public class DrinkFactoryMachine extends JFrame {
 		lblValue.setText("Price: " + price + "€");
 		advancementTime = 100;
 		progressBar.setValue(0);
+		doChangeImgVide();
 		System.out.println("Bienvenue, vous pouvez commander");
 
 	}
@@ -473,7 +474,11 @@ public class DrinkFactoryMachine extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				choosedDrink = drink.COFFEE;
-				price = 35;
+				if(ownCup) {
+					price = 25;
+				}else {
+					price = 35;
+				}
 				maxDrinkDose = maxCoffeeDose;
 				theFSM.raiseSelectHotDrink();
 			}
@@ -488,7 +493,11 @@ public class DrinkFactoryMachine extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				choosedDrink = drink.EXPRESSO;
-				price = 50;
+				if(ownCup) {
+					price = 40;
+				}else {
+					price = 50;
+				}
 				maxDrinkDose = maxExpressoDose;
 				theFSM.raiseSelectHotDrink();
 			}
@@ -503,7 +512,11 @@ public class DrinkFactoryMachine extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				choosedDrink = drink.TEA;
-				price = 40;
+				if(ownCup) {
+					price = 30;
+				}else {
+					price = 40;
+				}
 				maxDrinkDose = maxTeaDose;
 				theFSM.raiseSelectHotDrink();
 			}
