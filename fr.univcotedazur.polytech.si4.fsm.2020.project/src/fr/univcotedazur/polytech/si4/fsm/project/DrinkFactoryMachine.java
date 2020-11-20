@@ -57,9 +57,9 @@ public class DrinkFactoryMachine extends JFrame {
 	private boolean cbDataRegistered = false;
 	private int cashValue = 0;
 	private int coin = 0;
-	private int maxPrice = 100;
+	private int maxPrice = 150;
 	private int price = maxPrice;
-	private int sugar, size, temperature;
+	private int additive, size, temperature;
 	private enum drink{COFFEE, EXPRESSO, TEA, SOUP};
 	private drink choosedDrink;
 	private Recipe recette;
@@ -102,6 +102,7 @@ public class DrinkFactoryMachine extends JFrame {
 		ownCup = false;
 		lblValue.setText("Price: " + price + "€");
 		System.out.println("Bienvenue, vous pouvez commander");
+
 	}
 	
 	protected void startSystem() {
@@ -217,7 +218,7 @@ public class DrinkFactoryMachine extends JFrame {
 	}
 	
 	private void resetOptionsState() {
-		sugar = 0;
+		additive = 0;
 		size = 0;
 		temperature = 0;
 		sugarSlider.setValue(0);
@@ -302,32 +303,32 @@ public class DrinkFactoryMachine extends JFrame {
 		switch(choosedDrink) {
 		case COFFEE:
 			stock.put("coffee", stock.get("coffee")-(size+1));
-			stock.put("sugar", stock.get("sugar")-sugar);
+			stock.put("sugar", stock.get("sugar")-additive);
 			if(milkState) {stock.put("milk", stock.get("milk")-1);}
 			if(mapleState) {stock.put("mapleSirup", stock.get("mapleSirup")-1);}
 			if(vanillaState) {stock.put("iceCream", stock.get("iceCream")-1);}
-			recette = new Coffee(sugar, size, temperature, ownCup, milkState, mapleState, vanillaState);
+			recette = new Coffee(additive, size, temperature, ownCup, milkState, mapleState, vanillaState);
 			break;
 		case TEA:
 			stock.put("tea", stock.get("tea")-(size+1));
-			stock.put("sugar", stock.get("sugar")-sugar);
+			stock.put("sugar", stock.get("sugar")-additive);
 			if(milkState) {stock.put("milk", stock.get("milk")-1);}
 			if(mapleState) {stock.put("mapleSirup", stock.get("mapleSirup")-1);}
-			recette = new Tea(sugar, size, temperature, ownCup, milkState, mapleState);
+			recette = new Tea(additive, size, temperature, ownCup, milkState, mapleState);
 			break;
 		case EXPRESSO:
 			stock.put("expresso", stock.get("coffee")-(size+1));
-			stock.put("sugar", stock.get("sugar")-sugar);
+			stock.put("sugar", stock.get("sugar")-additive);
 			if(milkState) {stock.put("milk", stock.get("milk")-1);}
 			if(mapleState) {stock.put("mapleSirup", stock.get("mapleSirup")-1);}
 			if(vanillaState) {stock.put("iceCream", stock.get("iceCream")-1);}
-			recette = new Expresso(sugar, size, temperature, ownCup, milkState, mapleState, vanillaState);
+			recette = new Expresso(additive, size, temperature, ownCup, milkState, mapleState, vanillaState);
 			break;
 		case SOUP:
 			stock.put("soup", stock.get("soup")-(size-1));
-			stock.put("spices", stock.get("spices")-sugar);
+			stock.put("spices", stock.get("spices")-additive);
 			if(croutonState) {stock.put("croutons", stock.get("croutons")-1);}
-
+			recette = new Soup(additive, size, temperature, ownCup, croutonState);
 			break;
 		default: 
 			break;
@@ -631,12 +632,12 @@ public class DrinkFactoryMachine extends JFrame {
 		sugarSlider.setMajorTickSpacing(1);
 		sugarSlider.setMaximum(4);
 		sugarSlider.setBounds(301, 51, 200, 36);
-		sugar = sugarSlider.getValue();
+		additive = sugarSlider.getValue();
 		sugarSlider.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent event) {
 				if(sugarSlider.getValue() > maxOption) {sugarSlider.setValue(maxOption);}
-				sugar = sugarSlider.getValue();
+				additive = sugarSlider.getValue();
 				theFSM.raiseSelectParam();
 			}
 		});
