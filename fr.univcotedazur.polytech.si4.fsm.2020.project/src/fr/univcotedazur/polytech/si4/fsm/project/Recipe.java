@@ -2,6 +2,7 @@ package fr.univcotedazur.polytech.si4.fsm.project;
 
 public abstract class Recipe {
 	int sugar;
+	int spices;
 	int size;
 	int temperature;
 	boolean milk = false;
@@ -45,6 +46,14 @@ public abstract class Recipe {
 		this.ownCup = ownCup;
 		this.milk = milk;
 		this.maple = maple;
+	}
+
+	public Recipe(int spices, int size, int temperature, boolean ownCup, boolean croutons) {
+		this.size = size;
+		this.spices = spices;
+		this.temperature = temperature;
+		this.ownCup = ownCup;
+		this.crouton = croutons;
 	}
 	
 	abstract void TakeIngredient();
