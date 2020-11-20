@@ -294,7 +294,8 @@ public class DrinkFactoryMachine extends JFrame {
 		else {
 			int cents = price;
 			cents -= 100;
-			lblValue.setText("Price: 1." + cents + "€");
+            if(cents>=10){lblValue.setText("Price: 1." + cents + "€");}
+			else{lblValue.setText("Price: 1.0" + cents + "€");}
 		}
 	}
 	
