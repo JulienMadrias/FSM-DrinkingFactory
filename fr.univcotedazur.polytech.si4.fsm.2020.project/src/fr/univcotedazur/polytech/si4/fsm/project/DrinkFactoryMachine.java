@@ -41,9 +41,6 @@ import fr.univcotedazur.polytech.si4.fsm.project.drinkingMachine.DrinkingFactory
 
 public class DrinkFactoryMachine extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2030629304432075314L;
 	private JPanel contentPane;
 	protected DrinkingFactoryStatemachine theFSM;
@@ -72,7 +69,7 @@ public class DrinkFactoryMachine extends JFrame {
 	private int currentCustomerId;
 	private XMLFileReader fileReader;
 	private int maxSugar, maxDrinkDose, maxCoffeeDose, maxTeaDose, maxExpressoDose;
-	private double advancementTime = 0;
+	private double advancementTime = 100;
 	private boolean ownCup = false;
 
 	
@@ -101,6 +98,8 @@ public class DrinkFactoryMachine extends JFrame {
 		price = 0;
 		ownCup = false;
 		lblValue.setText("Price: " + price + "€");
+		advancementTime = 100;
+		progressBar.setValue(0);
 		System.out.println("Bienvenue, vous pouvez commander");
 	}
 	
