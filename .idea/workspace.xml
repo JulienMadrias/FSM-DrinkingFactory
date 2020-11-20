@@ -2,20 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1b47ac6b-6068-44d5-a670-fad850ee90d0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/Soup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/fr/univcotedazur/polytech/si4/fsm/project/DrinkFactoryMachine$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/fr/univcotedazur/polytech/si4/fsm/project/DrinkFactoryMachine$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/fr/univcotedazur/polytech/si4/fsm/project/DrinkFactoryMachine$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/fr/univcotedazur/polytech/si4/fsm/project/DrinkFactoryMachine$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/fr/univcotedazur/polytech/si4/fsm/project/DrinkFactoryMachine$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/fr/univcotedazur/polytech/si4/fsm/project/DrinkFactoryMachine$3.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/fr/univcotedazur/polytech/si4/fsm/project/DrinkFactoryMachine.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/fr/univcotedazur/polytech/si4/fsm/project/DrinkFactoryMachine.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/fr/univcotedazur/polytech/si4/fsm/project/IStatemachine.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/fr/univcotedazur/polytech/si4/fsm/project/IStatemachine.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/fr/univcotedazur/polytech/si4/fsm/project/ITimer.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/fr/univcotedazur/polytech/si4/fsm/project/ITimer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/fr/univcotedazur/polytech/si4/fsm/project/ITimerCallback.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/fr/univcotedazur/polytech/si4/fsm/project/ITimerCallback.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/fsmdrinkingfactory/IStatemachine.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/fsmdrinkingfactory/IStatemachine.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/fsmdrinkingfactory/ITimer.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/fsmdrinkingfactory/ITimer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/fsmdrinkingfactory/ITimerCallback.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/fsmdrinkingfactory/ITimerCallback.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/DrinkFactoryMachine.java" beforeDir="false" afterPath="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/DrinkFactoryMachine.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/XMLFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/XMLFileReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/clients.xml" beforeDir="false" afterPath="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/clients.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/ingredients.xml" beforeDir="false" afterPath="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/ingredients.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,36 +26,37 @@
         <counts>
           <entry key="project.closed" value="1" />
           <entry key="project.open.time.17" value="1" />
+          <entry key="project.open.time.19" value="1" />
           <entry key="project.open.time.4" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="5" />
+          <entry key="java" value="8" />
           <entry key="json" value="2" />
           <entry key="xml" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="5" />
+          <entry key="JAVA" value="8" />
           <entry key="JSON" value="2" />
           <entry key="XML" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="3455" />
+          <entry key="java" value="4199" />
           <entry key="json" value="61" />
-          <entry key="xml" value="326" />
+          <entry key="xml" value="346" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="3455" />
+          <entry key="JAVA" value="4199" />
           <entry key="JSON" value="61" />
-          <entry key="XML" value="326" />
+          <entry key="XML" value="346" />
         </counts>
       </usages-collector>
     </session>
@@ -69,13 +66,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/XMLFileReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3128">
-              <caret line="184" column="52" selection-start-line="184" selection-start-column="52" selection-end-line="184" selection-end-column="52" />
+            <state relative-caret-position="-14">
+              <caret line="89" column="43" selection-start-line="89" selection-start-column="43" selection-end-line="89" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2473#2490#0" expanded="true" />
-                <element signature="e#5701#5720#0" expanded="true" />
-                <element signature="e#6246#6255#0" expanded="true" />
+                <element signature="method#readCustomersList#0;class#XMLFileReader#0" />
+                <element signature="method#writeCustomerList#0;class#XMLFileReader#0" />
               </folding>
             </state>
           </provider>
@@ -85,7 +81,7 @@
         <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/ingredients.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="67" selection-start-column="67" selection-end-column="67" />
+              <caret column="161" selection-start-column="161" selection-end-column="161" />
             </state>
           </provider>
         </entry>
@@ -93,16 +89,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/Customer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="833">
+            <state relative-caret-position="731">
               <caret line="49" column="48" selection-start-line="49" selection-start-column="48" selection-end-line="49" selection-end-column="48" />
-              <folding>
-                <element signature="e#1034#1035#0" expanded="true" />
-                <element signature="e#1070#1071#0" expanded="true" />
-                <element signature="e#1004#1005#0" expanded="true" />
-                <element signature="e#1030#1031#0" expanded="true" />
-                <element signature="e#1089#1090#0" expanded="true" />
-                <element signature="e#1131#1132#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -110,17 +98,47 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/DrinkFactoryMachine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="296" column="47" selection-start-line="296" selection-start-column="47" selection-end-line="296" selection-end-column="47" />
+            <state relative-caret-position="578">
+              <caret line="255" column="64" lean-forward="true" selection-start-line="255" selection-start-column="64" selection-end-line="255" selection-end-column="64" />
+              <folding>
+                <element signature="e#4321#4431#0" />
+                <element signature="e#4435#4683#0" />
+                <element signature="e#4687#4876#0" />
+                <element signature="e#4879#5259#0" />
+                <element signature="e#5363#5474#0" />
+                <element signature="e#5478#6103#0" />
+                <element signature="e#23918#23919#0" expanded="true" />
+                <element signature="e#23948#23949#0" expanded="true" />
+                <element signature="e#26353#26354#0" expanded="true" />
+                <element signature="e#26384#26385#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/Soup.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/clients.xml">
+        <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/Recipe.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="99" selection-start-column="99" selection-end-column="99" />
+            <state relative-caret-position="-119">
+              <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/Coffee.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="4" lean-forward="true" selection-start-line="5" selection-start-column="4" selection-end-line="8" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -144,11 +162,12 @@
         <option value="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/ressources/clients.json" />
         <option value="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/ressources/ingredients.json" />
         <option value="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/ressources/ingredients.xml" />
-        <option value="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/ingredients.xml" />
         <option value="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/Customer.java" />
         <option value="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/clients.xml" />
+        <option value="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/ingredients.xml" />
         <option value="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/XMLFileReader.java" />
         <option value="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/DrinkFactoryMachine.java" />
+        <option value="$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/Soup.java" />
       </list>
     </option>
   </component>
@@ -158,11 +177,10 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="951" />
-    <option name="y" value="-9" />
-    <option name="width" value="978" />
-    <option name="height" value="1098" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-8" />
+    <option name="width" value="977" />
+    <option name="height" value="1088" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -205,7 +223,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1605360463450" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1605527977837" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../LangageDoc/TD_Node/message-app-starter" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -256,25 +274,24 @@
       <option name="presentableId" value="Default" />
       <updated>1604656404094</updated>
       <workItem from="1604656406737" duration="13254000" />
-      <workItem from="1605095989817" duration="19128000" />
+      <workItem from="1605095989817" duration="20086000" />
+      <workItem from="1605691298449" duration="2963000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32382000" />
+    <option name="totallyTimeSpent" value="36303000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="7" />
-    <editor active="true" />
+    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19194631" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19463088" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32885906" />
       <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32885906" />
@@ -287,6 +304,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -311,43 +329,8 @@
     <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/ressources/ingredients.xml" />
     <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/Customer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
+        <state relative-caret-position="731">
           <caret line="49" column="48" selection-start-line="49" selection-start-column="48" selection-end-line="49" selection-end-column="48" />
-          <folding>
-            <element signature="e#1034#1035#0" expanded="true" />
-            <element signature="e#1070#1071#0" expanded="true" />
-            <element signature="e#1004#1005#0" expanded="true" />
-            <element signature="e#1030#1031#0" expanded="true" />
-            <element signature="e#1089#1090#0" expanded="true" />
-            <element signature="e#1131#1132#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/ingredients.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="67" selection-start-column="67" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/XMLFileReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3128">
-          <caret line="184" column="52" selection-start-line="184" selection-start-column="52" selection-end-line="184" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2473#2490#0" expanded="true" />
-            <element signature="e#5701#5720#0" expanded="true" />
-            <element signature="e#6246#6255#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/DrinkFactoryMachine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="296" column="47" selection-start-line="296" selection-start-column="47" selection-end-line="296" selection-end-column="47" />
         </state>
       </provider>
     </entry>
@@ -355,6 +338,65 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="99" selection-start-column="99" selection-end-column="99" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/ingredients.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="161" selection-start-column="161" selection-end-column="161" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/XMLFileReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-14">
+          <caret line="89" column="43" selection-start-line="89" selection-start-column="43" selection-end-line="89" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#readCustomersList#0;class#XMLFileReader#0" />
+            <element signature="method#writeCustomerList#0;class#XMLFileReader#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/DrinkFactoryMachine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="255" column="64" lean-forward="true" selection-start-line="255" selection-start-column="64" selection-end-line="255" selection-end-column="64" />
+          <folding>
+            <element signature="e#4321#4431#0" />
+            <element signature="e#4435#4683#0" />
+            <element signature="e#4687#4876#0" />
+            <element signature="e#4879#5259#0" />
+            <element signature="e#5363#5474#0" />
+            <element signature="e#5478#6103#0" />
+            <element signature="e#23918#23919#0" expanded="true" />
+            <element signature="e#23948#23949#0" expanded="true" />
+            <element signature="e#26353#26354#0" expanded="true" />
+            <element signature="e#26384#26385#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/Coffee.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="4" lean-forward="true" selection-start-line="5" selection-start-column="4" selection-end-line="8" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/Soup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fr.univcotedazur.polytech.si4.fsm.2020.project/src/fr/univcotedazur/polytech/si4/fsm/project/Recipe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-119">
+          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
         </state>
       </provider>
     </entry>

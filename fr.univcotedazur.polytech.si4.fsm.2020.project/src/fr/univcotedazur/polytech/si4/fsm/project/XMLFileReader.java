@@ -65,29 +65,35 @@ public class XMLFileReader {
         String expressoPath = "/INGREDIENTS/expresso";
         String coffeePath = "/INGREDIENTS/coffee";
         String teaPath = "/INGREDIENTS/tea";
+        String soupPath = "/INGREDIENTS/soup";
         String sugarPath = "/INGREDIENTS/sugar";
         String milkPath = "/INGREDIENTS/milk";
         String croutonsPath = "/INGREDIENTS/croutons";
         String maplePath = "/INGREDIENTS/mapleSirup";
         String vanillaPath = "/INGREDIENTS/iceCream";
+        String spicesPath = "/INGREDIENTS/spices";
 
         int expressoStock = ((Double) path.evaluate(expressoPath, ingredientsRoot, XPathConstants.NUMBER)).intValue();
         int coffeeStock = ((Double) path.evaluate(coffeePath, ingredientsRoot, XPathConstants.NUMBER)).intValue();
         int teaStock = ((Double) path.evaluate(teaPath, ingredientsRoot, XPathConstants.NUMBER)).intValue();
+        int soupStack = ((Double) path.evaluate(soupPath, ingredientsRoot, XPathConstants.NUMBER)).intValue();
         int sugarStock = ((Double) path.evaluate(sugarPath, ingredientsRoot, XPathConstants.NUMBER)).intValue();
         int milkStock = ((Double) path.evaluate(milkPath, ingredientsRoot, XPathConstants.NUMBER)).intValue();
         int croutonsStock = ((Double) path.evaluate(croutonsPath, ingredientsRoot, XPathConstants.NUMBER)).intValue();
         int mapleStock = ((Double) path.evaluate(maplePath, ingredientsRoot, XPathConstants.NUMBER)).intValue();
         int vanillaStock = ((Double) path.evaluate(vanillaPath, ingredientsRoot, XPathConstants.NUMBER)).intValue();
+        int spicesStock = ((Double) path.evaluate(spicesPath, ingredientsRoot, XPathConstants.NUMBER)).intValue();
 
         ingredients.put("expresso", expressoStock);
         ingredients.put("coffee", coffeeStock);
         ingredients.put("tea", teaStock);
+        ingredients.put("soup", soupStack);
         ingredients.put("sugar", sugarStock);
         ingredients.put("milk", milkStock);
         ingredients.put("croutons", croutonsStock);
         ingredients.put("mapleSirup", mapleStock);
         ingredients.put("iceCream", vanillaStock);
+        ingredients.put("spices", spicesStock);
         return ingredients;
     }
     
