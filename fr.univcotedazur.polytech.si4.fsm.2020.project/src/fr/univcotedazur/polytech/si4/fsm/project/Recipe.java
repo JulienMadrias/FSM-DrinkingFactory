@@ -15,30 +15,34 @@ public abstract class Recipe {
 	int time4;
 	int time5;
 	int totalTime;
+	boolean ownCup;
 	
-	public Recipe(int sugar, int size, int temperature, boolean milk, boolean crouton, boolean maple, boolean vanilla) {
+	public Recipe(int sugar, int size, int temperature, boolean ownCup, boolean milk, boolean crouton, boolean maple, boolean vanilla) {
 		this.size = size;
 		this.sugar = sugar;
 		this.temperature = temperature;
+		this.ownCup = ownCup;
 		this.milk = milk;
 		this.crouton = crouton;
 		this.maple = maple;
 		this.vanilla = vanilla;
 	}
 	
-	public Recipe(int sugar, int size, int temperature, boolean milk, boolean maple,  boolean vanilla) {
+	public Recipe(int sugar, int size, int temperature, boolean ownCup, boolean milk, boolean maple,  boolean vanilla) {
 		this.size = size;
 		this.sugar = sugar;
 		this.temperature = temperature;
+		this.ownCup = ownCup;
 		this.milk = milk;
 		this.vanilla = vanilla;
 		this.maple = maple;
 	}
 	
-	public Recipe(int sugar, int size, int temperature, boolean milk, boolean maple) {
+	public Recipe(int sugar, int size, int temperature, boolean ownCup, boolean milk, boolean maple) {
 		this.size = size;
 		this.sugar = sugar;
 		this.temperature = temperature;
+		this.ownCup = ownCup;
 		this.milk = milk;
 		this.maple = maple;
 	}

@@ -73,6 +73,7 @@ public class DrinkFactoryMachine extends JFrame {
 	private XMLFileReader fileReader;
 	private int maxSugar, maxDrinkDose, maxCoffeeDose, maxTeaDose, maxExpressoDose;
 	private double advancementTime = 0;
+	private boolean ownCup = false;
 
 	
 	/**
@@ -98,6 +99,7 @@ public class DrinkFactoryMachine extends JFrame {
 		mapleButton.setEnabled(false);
 		vanillaButton.setEnabled(false);
 		price = 0;
+		ownCup = false;
 		lblValue.setText("Price: " + price + "€");
 		System.out.println("Bienvenue, vous pouvez commander");
 	}
@@ -276,14 +278,14 @@ public class DrinkFactoryMachine extends JFrame {
 			if(milkState) {stock.put("milk", stock.get("milk")-1);}
 			if(mapleState) {stock.put("mapleSirup", stock.get("mapleSirup")-1);}
 			if(vanillaState) {stock.put("iceCream", stock.get("iceCream")-1);}
-			recette = new Coffee(sugar, size, temperature, milkState, mapleState, vanillaState);
+			recette = new Coffee(sugar, size, temperature, ownCup, milkState, mapleState, vanillaState);
 			break;
 		case TEA:
 			stock.put("tea", stock.get("tea")-(size+1));
 			stock.put("sugar", stock.get("sugar")-sugar);
 			if(milkState) {stock.put("milk", stock.get("milk")-1);}
 			if(mapleState) {stock.put("mapleSirup", stock.get("mapleSirup")-1);}
-			recette = new Tea(sugar, size, temperature, milkState, mapleState);
+			recette = new Tea(sugar, size, temperature, ownCup, milkState, mapleState);
 			break;
 		case EXPRESSO:
 			stock.put("expresso", stock.get("coffee")-(size+1));
@@ -291,7 +293,7 @@ public class DrinkFactoryMachine extends JFrame {
 			if(milkState) {stock.put("milk", stock.get("milk")-1);}
 			if(mapleState) {stock.put("mapleSirup", stock.get("mapleSirup")-1);}
 			if(vanillaState) {stock.put("iceCream", stock.get("iceCream")-1);}
-			recette = new Expresso(sugar, size, temperature, milkState, mapleState, vanillaState);
+			recette = new Expresso(sugar, size, temperature, ownCup, milkState, mapleState, vanillaState);
 			break;
 		default: 
 			break;
@@ -311,13 +313,15 @@ public class DrinkFactoryMachine extends JFrame {
 	}
 	
 	protected void doChangeImgGobelet() {
-		BufferedImage myPicture = null;
-		try {
-			myPicture = ImageIO.read(new File("./fr.univcotedazur.polytech.si4.fsm.2020.project/picts/gobeletPolluant.jpg"));
-		} catch (IOException ee) {
-			ee.printStackTrace();
+		if(!ownCup) {
+			BufferedImage myPicture = null;
+			try {
+				myPicture = ImageIO.read(new File("./fr.univcotedazur.polytech.si4.fsm.2020.project/picts/gobeletPolluant.jpg"));
+			} catch (IOException ee) {
+				ee.printStackTrace();
+			}
+			labelForPictures.setIcon(new ImageIcon(myPicture));
 		}
-		labelForPictures.setIcon(new ImageIcon(myPicture));
 	}
 	
 	protected void doChangeImgVide() {
@@ -381,7 +385,6 @@ public class DrinkFactoryMachine extends JFrame {
 	    theFSM.getDoTakeIngr().subscribe(e -> recette.TakeIngredient());
 	    theFSM.getDoStartHeated().subscribe(e -> recette.StartHeatedWater());
 	    theFSM.getDoPrepPouring().subscribe(e -> recette.PrepPouring());
-	    theFSM.getDoPrepPouring().subscribe(e -> this.doChangeImgGobelet());
 	    theFSM.getDoWaitHeated().subscribe(e -> recette.WaitHeatedWater());
 	    theFSM.getDoSugar().subscribe(e -> recette.PutSugar());
 	    theFSM.getDoPouring().subscribe(e -> recette.PouringWater());
@@ -390,6 +393,8 @@ public class DrinkFactoryMachine extends JFrame {
 	    theFSM.getDoWash().subscribe(e -> this.doChangeImgVide());
 	    theFSM.getDoWash().subscribe(e -> recette.WashingMashine());
 	    theFSM.getDoProgressBar().subscribe(e -> this.progressBarAdvancement());
+	    theFSM.getDoPrepPouring().subscribe(e -> this.doChangeImgGobelet());
+	    
 
 		theFSM.enter();
 		
@@ -808,13 +813,18 @@ public class DrinkFactoryMachine extends JFrame {
 		addCupButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				BufferedImage myPicture = null;
-				try {
-					myPicture = ImageIO.read(new File("./fr.univcotedazur.polytech.si4.fsm.2020.project/picts/ownCup.jpg"));
-				} catch (IOException ee) {
-					ee.printStackTrace();
-				}
-				labelForPictures.setIcon(new ImageIcon(myPicture));
+				if(!ownCup) {
+					BufferedImage myPicture = null;
+					try {
+						myPicture = ImageIO.read(new File("./fr.univcotedazur.polytech.si4.fsm.2020.project/picts/ownCup.jpg"));
+					} catch (IOException ee) {
+						ee.printStackTrace();
+					}
+					labelForPictures.setIcon(new ImageIcon(myPicture));
+					ownCup = true;
+					price -= 10;
+					displayValue();
+				}	
 			}
 		});
 

@@ -2,8 +2,8 @@ package fr.univcotedazur.polytech.si4.fsm.project;
 
 public class Expresso extends Recipe{
 
-	public Expresso(int sugar, int size, int temperature, boolean milk, boolean maple, boolean vanilla) {
-		super(sugar, size, temperature, milk, maple, vanilla);
+	public Expresso(int sugar, int size, int temperature, boolean ownCup, boolean milk, boolean maple, boolean vanilla) {
+		super(sugar, size, temperature, ownCup, milk, maple, vanilla);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -22,7 +22,9 @@ public class Expresso extends Recipe{
 	@Override
 	void PrepPouring() {
 		// TODO Auto-generated method stub
-		System.out.println("Positionnement du gobelet");
+		if(!ownCup) {
+			System.out.println("Positionnement du gobelet");
+		}
 		System.out.println("Tassage du café");
 	}
 

@@ -2,8 +2,8 @@ package fr.univcotedazur.polytech.si4.fsm.project;
 
 public class Tea extends Recipe {
 
-	public Tea(int sugar, int size, int temperature, boolean milk, boolean maple) {
-		super(sugar, size, temperature, milk, maple);
+	public Tea(int sugar, int size, int temperature, boolean ownCup, boolean milk, boolean maple) {
+		super(sugar, size, temperature, ownCup, milk, maple);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -23,7 +23,9 @@ public class Tea extends Recipe {
 	@Override
 	void PrepPouring() {
 		// TODO Auto-generated method stub
-		System.out.println("Positionnement du gobelet");
+		if(!ownCup) {
+			System.out.println("Positionnement du gobelet");
+		}
 	}
 
 	@Override

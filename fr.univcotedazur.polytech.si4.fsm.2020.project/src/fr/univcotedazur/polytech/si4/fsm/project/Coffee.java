@@ -3,8 +3,8 @@ package fr.univcotedazur.polytech.si4.fsm.project;
 public class Coffee extends Recipe{
 
 	
-	public Coffee(int sugar, int size, int temperature, boolean milk, boolean maple, boolean vanilla) {
-		super(sugar, size, temperature, milk, maple, vanilla);
+	public Coffee(int sugar, int size, int temperature, boolean ownCup, boolean milk, boolean maple, boolean vanilla) {
+		super(sugar, size, temperature, ownCup, milk, maple, vanilla);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -25,7 +25,9 @@ public class Coffee extends Recipe{
 	@Override
 	void PrepPouring() {
 		// TODO Auto-generated method stub
-		System.out.println("Positionnement du gobelet");
+		if(!ownCup) {
+			System.out.println("Positionnement du gobelet");
+		}
 	}
 
 	@Override
