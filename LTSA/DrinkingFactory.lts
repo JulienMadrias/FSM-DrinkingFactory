@@ -1,0 +1,12 @@
+Selection = (selectHotDrink -> HotDrink),
+HotDrink = (selectHotDrink -> HotDrink | selectParam -> HotDrink).
+
+Payment = (addCash -> Cash | payCB -> CB),
+Cash = (addCash -> Cash),
+CB = STOP.
+
+Timer = (action -> Timer).
+
+||INTERFACE = (Selection || Payment || Timer).
+
+assert Prop = [] (payCB -> !(<> addCash)) 
